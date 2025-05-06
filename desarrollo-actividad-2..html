@@ -227,15 +227,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="cargar-las-librerías-necesarias" class="section level3 hasAnchor" number="3.1.1">
 <h3><span class="header-section-number">3.1.1</span> Cargar las librerías necesarias<a href="desarrollo-actividad-2..html#cargar-las-librerías-necesarias" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="desarrollo-actividad-2..html#cb1-1" tabindex="-1"></a><span class="fu">library</span>(quantmod)   <span class="co"># Para descargar datos financieros</span></span>
-<span id="cb1-2"><a href="desarrollo-actividad-2..html#cb1-2" tabindex="-1"></a><span class="fu">library</span>(dplyr)      <span class="co"># Para manipular datos</span></span>
-<span id="cb1-3"><a href="desarrollo-actividad-2..html#cb1-3" tabindex="-1"></a><span class="fu">library</span>(zoo)        <span class="co"># Para series de tiempo basadas en fechas</span></span>
-<span id="cb1-4"><a href="desarrollo-actividad-2..html#cb1-4" tabindex="-1"></a><span class="fu">library</span>(ggplot2)    <span class="co"># Para gráficos</span></span>
-<span id="cb1-5"><a href="desarrollo-actividad-2..html#cb1-5" tabindex="-1"></a><span class="fu">library</span>(tidyr)      <span class="co"># Para transformar los datos</span></span>
-<span id="cb1-6"><a href="desarrollo-actividad-2..html#cb1-6" tabindex="-1"></a><span class="fu">library</span>(urca)</span>
-<span id="cb1-7"><a href="desarrollo-actividad-2..html#cb1-7" tabindex="-1"></a><span class="fu">library</span>(tseries)</span>
-<span id="cb1-8"><a href="desarrollo-actividad-2..html#cb1-8" tabindex="-1"></a><span class="fu">library</span>(plotly)</span>
-<span id="cb1-9"><a href="desarrollo-actividad-2..html#cb1-9" tabindex="-1"></a><span class="fu">library</span>(forecast)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="desarrollo-actividad-2..html#cb1-1" tabindex="-1"></a><span class="co"># Configuración global para los chunks</span></span>
+<span id="cb1-2"><a href="desarrollo-actividad-2..html#cb1-2" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(</span>
+<span id="cb1-3"><a href="desarrollo-actividad-2..html#cb1-3" tabindex="-1"></a>  <span class="at">fig.path =</span> <span class="st">&quot;figures/&quot;</span>,  <span class="co"># Carpeta donde se guardan los gráficos</span></span>
+<span id="cb1-4"><a href="desarrollo-actividad-2..html#cb1-4" tabindex="-1"></a>  <span class="at">echo =</span> <span class="cn">TRUE</span></span>
+<span id="cb1-5"><a href="desarrollo-actividad-2..html#cb1-5" tabindex="-1"></a>)</span>
+<span id="cb1-6"><a href="desarrollo-actividad-2..html#cb1-6" tabindex="-1"></a><span class="fu">library</span>(quantmod)   <span class="co"># Para descargar datos financieros</span></span>
+<span id="cb1-7"><a href="desarrollo-actividad-2..html#cb1-7" tabindex="-1"></a><span class="fu">library</span>(dplyr)      <span class="co"># Para manipular datos</span></span>
+<span id="cb1-8"><a href="desarrollo-actividad-2..html#cb1-8" tabindex="-1"></a><span class="fu">library</span>(zoo)        <span class="co"># Para series de tiempo basadas en fechas</span></span>
+<span id="cb1-9"><a href="desarrollo-actividad-2..html#cb1-9" tabindex="-1"></a><span class="fu">library</span>(ggplot2)    <span class="co"># Para gráficos</span></span>
+<span id="cb1-10"><a href="desarrollo-actividad-2..html#cb1-10" tabindex="-1"></a><span class="fu">library</span>(tidyr)      <span class="co"># Para transformar los datos</span></span>
+<span id="cb1-11"><a href="desarrollo-actividad-2..html#cb1-11" tabindex="-1"></a><span class="fu">library</span>(urca)</span>
+<span id="cb1-12"><a href="desarrollo-actividad-2..html#cb1-12" tabindex="-1"></a><span class="fu">library</span>(tseries)</span>
+<span id="cb1-13"><a href="desarrollo-actividad-2..html#cb1-13" tabindex="-1"></a><span class="fu">library</span>(plotly)</span>
+<span id="cb1-14"><a href="desarrollo-actividad-2..html#cb1-14" tabindex="-1"></a><span class="fu">library</span>(forecast)</span></code></pre></div>
 </details>
 </div>
 <div id="definimos-los-índices-bursátiles-de-interés-yahoo-finance-symbols." class="section level3 hasAnchor" number="3.1.2">
@@ -278,20 +283,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="desarrollo-actividad-2..html#cb7-1" tabindex="-1"></a><span class="fu">head</span>(cierres_merged)</span></code></pre></div>
 </details>
-<pre><code>##            GSPC.Close DJI.Close IXIC.Close GDAXI.Close FCHI.Close FTSE.Close
-## 2019-01-02    2510.03  23346.24    6665.94    10580.19    4689.39     6734.2
-## 2019-01-03    2447.89  22686.22    6463.50    10416.66    4611.49     6692.7
-## 2019-01-04    2531.94  23433.16    6738.86    10767.69    4737.12     6837.4
-## 2019-01-07    2549.69  23531.35    6823.47    10747.81    4719.17     6810.9
-## 2019-01-08    2574.41  23787.45    6897.00    10803.98    4773.27     6861.6
-## 2019-01-09    2584.96  23879.12    6957.08    10893.32    4813.58     6906.6
-##            N225.Close HSI.Close 000001.SS.Close
-## 2019-01-02         NA  25130.35        2465.291
-## 2019-01-03         NA  25064.36        2464.363
-## 2019-01-04   19561.96  25626.03        2514.868
-## 2019-01-07   20038.97  25835.70        2533.089
-## 2019-01-08   20204.04  25875.45        2526.462
-## 2019-01-09   20427.06  26462.32        2544.345</code></pre>
+<pre><code>##            GSPC.Close DJI.Close IXIC.Close GDAXI.Close FCHI.Close FTSE.Close N225.Close HSI.Close 000001.SS.Close
+## 2019-01-02    2510.03  23346.24    6665.94    10580.19    4689.39     6734.2         NA  25130.35        2465.291
+## 2019-01-03    2447.89  22686.22    6463.50    10416.66    4611.49     6692.7         NA  25064.36        2464.363
+## 2019-01-04    2531.94  23433.16    6738.86    10767.69    4737.12     6837.4   19561.96  25626.03        2514.868
+## 2019-01-07    2549.69  23531.35    6823.47    10747.81    4719.17     6810.9   20038.97  25835.70        2533.089
+## 2019-01-08    2574.41  23787.45    6897.00    10803.98    4773.27     6861.6   20204.04  25875.45        2526.462
+## 2019-01-09    2584.96  23879.12    6957.08    10893.32    4813.58     6906.6   20427.06  26462.32        2544.345</code></pre>
 </div>
 </div>
 <div id="gráfico-de-evolución-histórica-de-todos-los-índices." class="section level2 hasAnchor" number="3.2">
@@ -322,7 +320,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb10-8"><a href="desarrollo-actividad-2..html#cb10-8" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb10-9"><a href="desarrollo-actividad-2..html#cb10-9" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
 </details>
-<p><img src="_main_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="figures/unnamed-chunk-8-1.png" width="672" /></p>
 </div>
 </div>
 <div id="promedios-móviles" class="section level2 hasAnchor" number="3.3">
@@ -379,7 +377,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb13-18"><a href="desarrollo-actividad-2..html#cb13-18" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">graficar_promedios_moviles</span>(promedios_moviles[[indice]], indice))</span>
 <span id="cb13-19"><a href="desarrollo-actividad-2..html#cb13-19" tabindex="-1"></a>}</span></code></pre></div>
 </details>
-<p><img src="_main_files/figure-html/unnamed-chunk-11-1.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-11-2.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-11-3.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-11-4.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-11-5.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-11-6.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-11-7.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-11-8.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-11-9.png" width="672" /></p>
+<p><img src="figures/unnamed-chunk-11-1.png" width="672" /><img src="figures/unnamed-chunk-11-2.png" width="672" /><img src="figures/unnamed-chunk-11-3.png" width="672" /><img src="figures/unnamed-chunk-11-4.png" width="672" /><img src="figures/unnamed-chunk-11-5.png" width="672" /><img src="figures/unnamed-chunk-11-6.png" width="672" /><img src="figures/unnamed-chunk-11-7.png" width="672" /><img src="figures/unnamed-chunk-11-8.png" width="672" /><img src="figures/unnamed-chunk-11-9.png" width="672" /></p>
 </div>
 </div>
 <div id="autocorrelación-acf" class="section level2 hasAnchor" number="3.4">
@@ -408,7 +406,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb14-10"><a href="desarrollo-actividad-2..html#cb14-10" tabindex="-1"></a>  <span class="fu">graficar_acf</span>(cierres_zoo[[indice]], indice)</span>
 <span id="cb14-11"><a href="desarrollo-actividad-2..html#cb14-11" tabindex="-1"></a>}</span></code></pre></div>
 </details>
-<p><img src="_main_files/figure-html/unnamed-chunk-12-1.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-12-2.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-12-3.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-12-4.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-12-5.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-12-6.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-12-7.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-12-8.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-12-9.png" width="672" /></p>
+<p><img src="figures/unnamed-chunk-12-1.png" width="672" /><img src="figures/unnamed-chunk-12-2.png" width="672" /><img src="figures/unnamed-chunk-12-3.png" width="672" /><img src="figures/unnamed-chunk-12-4.png" width="672" /><img src="figures/unnamed-chunk-12-5.png" width="672" /><img src="figures/unnamed-chunk-12-6.png" width="672" /><img src="figures/unnamed-chunk-12-7.png" width="672" /><img src="figures/unnamed-chunk-12-8.png" width="672" /><img src="figures/unnamed-chunk-12-9.png" width="672" /></p>
 </div>
 </div>
 <div id="descomposición-de-serie-de-tiempo." class="section level2 hasAnchor" number="3.5">
@@ -442,7 +440,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb15-24"><a href="desarrollo-actividad-2..html#cb15-24" tabindex="-1"></a>  <span class="fu">descomponer_y_graficar</span>(cierres_zoo[[indice]], indice)</span>
 <span id="cb15-25"><a href="desarrollo-actividad-2..html#cb15-25" tabindex="-1"></a>}</span></code></pre></div>
 </details>
-<p><img src="_main_files/figure-html/unnamed-chunk-13-1.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-13-2.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-13-3.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-13-4.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-13-5.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-13-6.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-13-7.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-13-8.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-13-9.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-13-10.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-13-11.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-13-12.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-13-13.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-13-14.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-13-15.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-13-16.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-13-17.png" width="672" /><img src="_main_files/figure-html/unnamed-chunk-13-18.png" width="672" /></p>
+<p><img src="figures/unnamed-chunk-13-1.png" width="672" /><img src="figures/unnamed-chunk-13-2.png" width="672" /><img src="figures/unnamed-chunk-13-3.png" width="672" /><img src="figures/unnamed-chunk-13-4.png" width="672" /><img src="figures/unnamed-chunk-13-5.png" width="672" /><img src="figures/unnamed-chunk-13-6.png" width="672" /><img src="figures/unnamed-chunk-13-7.png" width="672" /><img src="figures/unnamed-chunk-13-8.png" width="672" /><img src="figures/unnamed-chunk-13-9.png" width="672" /><img src="figures/unnamed-chunk-13-10.png" width="672" /><img src="figures/unnamed-chunk-13-11.png" width="672" /><img src="figures/unnamed-chunk-13-12.png" width="672" /><img src="figures/unnamed-chunk-13-13.png" width="672" /><img src="figures/unnamed-chunk-13-14.png" width="672" /><img src="figures/unnamed-chunk-13-15.png" width="672" /><img src="figures/unnamed-chunk-13-16.png" width="672" /><img src="figures/unnamed-chunk-13-17.png" width="672" /><img src="figures/unnamed-chunk-13-18.png" width="672" /></p>
 </div>
 </div>
 <div id="tabla-de-resumen-con-tendencia-estacionalidad-y-ruido-para-todos-los-indices." class="section level2 hasAnchor" number="3.6">
@@ -649,7 +647,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb17-44"><a href="desarrollo-actividad-2..html#cb17-44" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
 <span id="cb17-45"><a href="desarrollo-actividad-2..html#cb17-45" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code></pre></div>
 </details>
-<p><img src="_main_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p><img src="figures/unnamed-chunk-15-1.png" width="672" /></p>
 </div>
 </div>
             </section>
