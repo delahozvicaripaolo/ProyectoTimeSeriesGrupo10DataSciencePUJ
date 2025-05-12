@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 5 Desarrollo actividad 4 Implementación Holt - Winter | Faros del Mercado: Índices Bursátiles que Guían la Economía Mundial.</title>
+  <meta name="description" content="Serie de tiempo" />
+  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 5 Desarrollo actividad 4 Implementación Holt - Winter | Faros del Mercado: Índices Bursátiles que Guían la Economía Mundial." />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Serie de tiempo" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 5 Desarrollo actividad 4 Implementación Holt - Winter | Faros del Mercado: Índices Bursátiles que Guían la Economía Mundial." />
+  
+  <meta name="twitter:description" content="Serie de tiempo" />
+  
+
+<meta name="author" content="Paolo De La Hoz Vicari, Genjis Ossa Gonzales" />
+
+
+<meta name="date" content="2025-05-12" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="desarrollo-actividad-3..html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/codefolding-lua-1.1/codefolding-lua.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Series de Tiempo Acciones Mercado de Valores</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Descripción del proceso y justificación del análisis de los valores bursátiles en los principales mercados globales: Estados Unidos, Europa y Asia.</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#descripción-del-proyecto."><i class="fa fa-check"></i><b>1.1</b> Descripción del proyecto.</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#justificación-e-importancia-del-análisis."><i class="fa fa-check"></i><b>1.2</b> Justificación e importancia del análisis.</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i><b>2</b> Referencias</a></li>
+<li class="chapter" data-level="3" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html"><i class="fa fa-check"></i><b>3</b> Desarrollo Actividad 2.</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#preprocesamiento-de-datos."><i class="fa fa-check"></i><b>3.1</b> Preprocesamiento de datos.</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#cargar-las-librerías-necesarias"><i class="fa fa-check"></i><b>3.1.1</b> Cargar las librerías necesarias</a></li>
+<li class="chapter" data-level="3.1.2" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#definimos-los-índices-bursátiles-de-interés-yahoo-finance-symbols."><i class="fa fa-check"></i><b>3.1.2</b> Definimos los índices bursátiles de interés (Yahoo Finance symbols).</a></li>
+<li class="chapter" data-level="3.1.3" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#descargamos-los-datos-de-yahoo-finance-desde-el-2019."><i class="fa fa-check"></i><b>3.1.3</b> Descargamos los datos de Yahoo Finance desde el 2019.</a></li>
+<li class="chapter" data-level="3.1.4" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#asignamos-nombres-a-cada-índice."><i class="fa fa-check"></i><b>3.1.4</b> Asignamos nombres a cada índice.</a></li>
+<li class="chapter" data-level="3.1.5" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#extraemos-solo-los-precios-de-cierre-y-convertimos-cada-serie-en-un-objeto-zoo."><i class="fa fa-check"></i><b>3.1.5</b> Extraemos solo los precios de cierre y convertimos cada serie en un objeto zoo.</a></li>
+<li class="chapter" data-level="3.1.6" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#unimos-todas-las-series-zoo-en-un-solo-objeto."><i class="fa fa-check"></i><b>3.1.6</b> Unimos todas las series zoo en un solo objeto.</a></li>
+<li class="chapter" data-level="3.1.7" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#visualizamos-la-estructura."><i class="fa fa-check"></i><b>3.1.7</b> Visualizamos la estructura.</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#gráfico-de-evolución-histórica-de-todos-los-índices."><i class="fa fa-check"></i><b>3.2</b> Gráfico de evolución histórica de todos los índices.</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#convertir-a-un-data-frame-para-ggplot-y-reestructuración-en-formato-largo-para-gráficos."><i class="fa fa-check"></i><b>3.2.1</b> Convertir a un data frame para ggplot y reestructuración en formato largo para gráficos.</a></li>
+<li class="chapter" data-level="3.2.2" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#gráfico."><i class="fa fa-check"></i><b>3.2.2</b> Gráfico.</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#promedios-móviles"><i class="fa fa-check"></i><b>3.3</b> Promedios Móviles</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#aplicamos-promedio-móvil-7-30-90-días-para-cada-índice."><i class="fa fa-check"></i><b>3.3.1</b> Aplicamos promedio móvil (7, 30, 90 días) para cada índice.</a></li>
+<li class="chapter" data-level="3.3.2" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#asignamos-los-nombres-de-los-indices"><i class="fa fa-check"></i><b>3.3.2</b> Asignamos los nombres de los indices</a></li>
+<li class="chapter" data-level="3.3.3" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#graficamos-los-promedios-móviles-en-todos-los-indices-con-7-30-90-días"><i class="fa fa-check"></i><b>3.3.3</b> Graficamos los promedios móviles en todos los indices con (7, 30, 90 días)</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#autocorrelación-acf"><i class="fa fa-check"></i><b>3.4</b> AutoCorrelación ACF</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#graficamos-la-autocorrelación-acf-en-todos-los-indices."><i class="fa fa-check"></i><b>3.4.1</b> Graficamos la autocorrelación (ACF) en todos los indices.</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#descomposición-de-serie-de-tiempo."><i class="fa fa-check"></i><b>3.5</b> Descomposición de serie de tiempo.</a>
+<ul>
+<li class="chapter" data-level="3.5.1" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#descomponemos-y-graficamos-los-indices-bursatiles-utilizando-la-forma-clasica-y-stl-con-pasos-de-limpieza-e-implementación."><i class="fa fa-check"></i><b>3.5.1</b> Descomponemos y graficamos los indices bursatiles utilizando la forma clasica y STL con pasos de limpieza e implementación.</a></li>
+</ul></li>
+<li class="chapter" data-level="3.6" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#tabla-de-resumen-con-tendencia-estacionalidad-y-ruido-para-todos-los-indices."><i class="fa fa-check"></i><b>3.6</b> Tabla de resumen con tendencia, estacionalidad y ruido; para todos los indices.</a></li>
+<li class="chapter" data-level="3.7" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#mapa-de-calor"><i class="fa fa-check"></i><b>3.7</b> Mapa de calor</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="desarrollo-actividad-3..html"><a href="desarrollo-actividad-3..html"><i class="fa fa-check"></i><b>4</b> Desarrollo Actividad 3.</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="desarrollo-actividad-3..html"><a href="desarrollo-actividad-3..html#validación-de-supuestos-e-implementación-de-transformaciones-requeridas-en-las-series."><i class="fa fa-check"></i><b>4.1</b> Validación de supuestos e implementación de transformaciones requeridas en las series.</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="desarrollo-actividad-3..html"><a href="desarrollo-actividad-3..html#procesos-implementados."><i class="fa fa-check"></i><b>4.1.1</b> Procesos implementados.</a></li>
+<li class="chapter" data-level="4.1.2" data-path="desarrollo-actividad-3..html"><a href="desarrollo-actividad-3..html#resumen-del-análisis-de-estacionariedad-por-índice-bursátil"><i class="fa fa-check"></i><b>4.1.2</b> Resumen del análisis de estacionariedad por índice bursátil</a></li>
+<li class="chapter" data-level="4.1.3" data-path="desarrollo-actividad-3..html"><a href="desarrollo-actividad-3..html#creamos-el-objeto-tabla-del-resumen-final."><i class="fa fa-check"></i><b>4.1.3</b> Creamos el objeto tabla del resumen final.</a></li>
+<li class="chapter" data-level="4.1.4" data-path="desarrollo-actividad-3..html"><a href="desarrollo-actividad-3..html#implementación-de-procesos-sobre-los-índices-bursátile-en-tres-etapas-limpieza-transformación-si-aplica-y-verificación-de-estacionariedad-con-visualizaciones-intermedias."><i class="fa fa-check"></i><b>4.1.4</b> Implementación de procesos sobre los índices bursátile en tres etapas: limpieza, transformación (si aplica), y verificación de estacionariedad, con visualizaciones intermedias.</a></li>
+<li class="chapter" data-level="4.1.5" data-path="desarrollo-actividad-3..html"><a href="desarrollo-actividad-3..html#iteramos-los-indices-bursatiles-sobre-la-función-realizada."><i class="fa fa-check"></i><b>4.1.5</b> Iteramos los indices bursatiles sobre la función realizada.</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="desarrollo-actividad-3..html"><a href="desarrollo-actividad-3..html#tabla-de-resumen."><i class="fa fa-check"></i><b>4.2</b> Tabla de resumen.</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="desarrollo-actividad-4-implementación-holt---winter.html"><a href="desarrollo-actividad-4-implementación-holt---winter.html"><i class="fa fa-check"></i><b>5</b> Desarrollo actividad 4 Implementación Holt - Winter</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="desarrollo-actividad-4-implementación-holt---winter.html"><a href="desarrollo-actividad-4-implementación-holt---winter.html#funciones-y-lógicas-implementadas"><i class="fa fa-check"></i><b>5.1</b> Funciones y lógicas implementadas</a></li>
+<li class="chapter" data-level="5.2" data-path="desarrollo-actividad-4-implementación-holt---winter.html"><a href="desarrollo-actividad-4-implementación-holt---winter.html#implementar-modelo-en-todas-las-series-de-tiempo"><i class="fa fa-check"></i><b>5.2</b> Implementar modelo en todas las series de tiempo</a></li>
+<li class="chapter" data-level="5.3" data-path="desarrollo-actividad-4-implementación-holt---winter.html"><a href="desarrollo-actividad-4-implementación-holt---winter.html#resultados-predicción"><i class="fa fa-check"></i><b>5.3</b> Resultados predicción</a></li>
+<li class="chapter" data-level="5.4" data-path="desarrollo-actividad-4-implementación-holt---winter.html"><a href="desarrollo-actividad-4-implementación-holt---winter.html#tabla-de-resumen"><i class="fa fa-check"></i><b>5.4</b> Tabla de resumen</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Faros del Mercado: Índices Bursátiles que Guían la Economía Mundial.</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="desarrollo-actividad-4-implementación-holt---winter" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">Chapter 5</span> Desarrollo actividad 4 Implementación Holt - Winter<a href="desarrollo-actividad-4-implementación-holt---winter.html#desarrollo-actividad-4-implementación-holt---winter" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="funciones-y-lógicas-implementadas" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Funciones y lógicas implementadas<a href="desarrollo-actividad-4-implementación-holt---winter.html#funciones-y-lógicas-implementadas" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-1" tabindex="-1"></a><span class="co"># Lista para guardar resultados</span></span>
+<span id="cb33-2"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-2" tabindex="-1"></a>resultados_hw <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb33-3"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-3" tabindex="-1"></a>metricas_hw <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb33-4"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-4" tabindex="-1"></a>  <span class="at">Indice =</span> <span class="fu">character</span>(),</span>
+<span id="cb33-5"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-5" tabindex="-1"></a>  <span class="at">MAE =</span> <span class="fu">numeric</span>(),</span>
+<span id="cb33-6"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-6" tabindex="-1"></a>  <span class="at">RMSE =</span> <span class="fu">numeric</span>(),</span>
+<span id="cb33-7"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-7" tabindex="-1"></a>  <span class="at">MAPE =</span> <span class="fu">numeric</span>(),</span>
+<span id="cb33-8"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-8" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb33-9"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-9" tabindex="-1"></a>)</span>
+<span id="cb33-10"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-10" tabindex="-1"></a></span>
+<span id="cb33-11"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-11" tabindex="-1"></a><span class="co"># Función para ajustar modelo Holt-Winters, graficar y guardar métricas</span></span>
+<span id="cb33-12"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-12" tabindex="-1"></a>ajustar_holt_winters <span class="ot">&lt;-</span> <span class="cf">function</span>(serie_ts, nombre_indice) {</span>
+<span id="cb33-13"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-13" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(serie_ts) <span class="sc">&lt;</span> <span class="dv">30</span>) {</span>
+<span id="cb33-14"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-14" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">&quot;Serie demasiado corta para aplicar Holt-Winters:&quot;</span>, nombre_indice, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb33-15"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-15" tabindex="-1"></a>    <span class="fu">return</span>(<span class="cn">NULL</span>)</span>
+<span id="cb33-16"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-16" tabindex="-1"></a>  }</span>
+<span id="cb33-17"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-17" tabindex="-1"></a>  </span>
+<span id="cb33-18"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-18" tabindex="-1"></a>  modelo_hw <span class="ot">&lt;-</span> <span class="fu">tryCatch</span>({</span>
+<span id="cb33-19"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-19" tabindex="-1"></a>    <span class="fu">HoltWinters</span>(serie_ts)</span>
+<span id="cb33-20"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-20" tabindex="-1"></a>  }, <span class="at">error =</span> <span class="cf">function</span>(e) {</span>
+<span id="cb33-21"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-21" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">&quot;Error en Holt-Winters para&quot;</span>, nombre_indice, <span class="st">&quot;:&quot;</span>, e<span class="sc">$</span>message, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb33-22"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-22" tabindex="-1"></a>    <span class="fu">return</span>(<span class="cn">NULL</span>)</span>
+<span id="cb33-23"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-23" tabindex="-1"></a>  })</span>
+<span id="cb33-24"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-24" tabindex="-1"></a>  </span>
+<span id="cb33-25"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-25" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(modelo_hw)) {</span>
+<span id="cb33-26"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-26" tabindex="-1"></a>    <span class="co"># Gráfico del modelo ajustado</span></span>
+<span id="cb33-27"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-27" tabindex="-1"></a>    <span class="fu">plot</span>(modelo_hw, <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">&quot;Modelo Holt-Winters -&quot;</span>, nombre_indice))</span>
+<span id="cb33-28"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-28" tabindex="-1"></a>    </span>
+<span id="cb33-29"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-29" tabindex="-1"></a>    <span class="co"># Pronóstico a 30 días</span></span>
+<span id="cb33-30"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-30" tabindex="-1"></a>    pred_hw <span class="ot">&lt;-</span> <span class="fu">forecast</span>(modelo_hw, <span class="at">h =</span> <span class="dv">30</span>)</span>
+<span id="cb33-31"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-31" tabindex="-1"></a>    <span class="fu">plot</span>(pred_hw, <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">&quot;Pronóstico Holt-Winters (30 días) -&quot;</span>, nombre_indice))</span>
+<span id="cb33-32"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-32" tabindex="-1"></a>    </span>
+<span id="cb33-33"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-33" tabindex="-1"></a>    <span class="co"># Guardar resultados</span></span>
+<span id="cb33-34"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-34" tabindex="-1"></a>    resultados_hw[[nombre_indice]] <span class="ot">&lt;&lt;-</span> <span class="fu">list</span>(<span class="at">modelo =</span> modelo_hw, <span class="at">pronostico =</span> pred_hw)</span>
+<span id="cb33-35"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-35" tabindex="-1"></a>    </span>
+<span id="cb33-36"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-36" tabindex="-1"></a>    <span class="co"># Evaluación en el ajuste (no en el forecast)</span></span>
+<span id="cb33-37"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-37" tabindex="-1"></a>    obs <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(serie_ts)</span>
+<span id="cb33-38"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-38" tabindex="-1"></a>    pred <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(modelo_hw<span class="sc">$</span>fitted[,<span class="dv">1</span>])  <span class="co"># fitted values</span></span>
+<span id="cb33-39"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-39" tabindex="-1"></a>    </span>
+<span id="cb33-40"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-40" tabindex="-1"></a>    <span class="co"># Calcular métricas</span></span>
+<span id="cb33-41"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-41" tabindex="-1"></a>    mae <span class="ot">&lt;-</span> <span class="fu">mae</span>(obs, pred)</span>
+<span id="cb33-42"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-42" tabindex="-1"></a>    rmse_val <span class="ot">&lt;-</span> <span class="fu">rmse</span>(obs, pred)</span>
+<span id="cb33-43"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-43" tabindex="-1"></a>    mape_val <span class="ot">&lt;-</span> <span class="fu">mape</span>(obs, pred) <span class="sc">*</span> <span class="dv">100</span>  <span class="co"># porcentaje</span></span>
+<span id="cb33-44"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-44" tabindex="-1"></a>    </span>
+<span id="cb33-45"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-45" tabindex="-1"></a>    metricas_hw <span class="ot">&lt;&lt;-</span> <span class="fu">rbind</span>(metricas_hw, <span class="fu">data.frame</span>(</span>
+<span id="cb33-46"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-46" tabindex="-1"></a>      <span class="at">Indice =</span> nombre_indice,</span>
+<span id="cb33-47"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-47" tabindex="-1"></a>      <span class="at">MAE =</span> <span class="fu">round</span>(mae, <span class="dv">2</span>),</span>
+<span id="cb33-48"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-48" tabindex="-1"></a>      <span class="at">RMSE =</span> <span class="fu">round</span>(rmse_val, <span class="dv">2</span>),</span>
+<span id="cb33-49"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-49" tabindex="-1"></a>      <span class="at">MAPE =</span> <span class="fu">round</span>(mape_val, <span class="dv">2</span>)</span>
+<span id="cb33-50"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-50" tabindex="-1"></a>    ))</span>
+<span id="cb33-51"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-51" tabindex="-1"></a>  }</span>
+<span id="cb33-52"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb33-52" tabindex="-1"></a>}</span></code></pre></div>
+</details>
+</div>
+<div id="implementar-modelo-en-todas-las-series-de-tiempo" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> Implementar modelo en todas las series de tiempo<a href="desarrollo-actividad-4-implementación-holt---winter.html#implementar-modelo-en-todas-las-series-de-tiempo" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb34-1" tabindex="-1"></a><span class="co"># Aplicamos Holt-Winters a cada serie de tiempo procesada</span></span>
+<span id="cb34-2"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb34-2" tabindex="-1"></a><span class="cf">for</span> (indice <span class="cf">in</span> <span class="fu">names</span>(series_preparadas)) {</span>
+<span id="cb34-3"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb34-3" tabindex="-1"></a>  <span class="fu">ajustar_holt_winters</span>(series_preparadas[[indice]], indice)</span>
+<span id="cb34-4"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb34-4" tabindex="-1"></a>}</span></code></pre></div>
+</details>
+<p><img src="figures/unnamed-chunk-21-1.png" width="672" /><img src="figures/unnamed-chunk-21-2.png" width="672" /><img src="figures/unnamed-chunk-21-3.png" width="672" /><img src="figures/unnamed-chunk-21-4.png" width="672" /><img src="figures/unnamed-chunk-21-5.png" width="672" /><img src="figures/unnamed-chunk-21-6.png" width="672" /><img src="figures/unnamed-chunk-21-7.png" width="672" /><img src="figures/unnamed-chunk-21-8.png" width="672" /><img src="figures/unnamed-chunk-21-9.png" width="672" /><img src="figures/unnamed-chunk-21-10.png" width="672" /><img src="figures/unnamed-chunk-21-11.png" width="672" /><img src="figures/unnamed-chunk-21-12.png" width="672" /><img src="figures/unnamed-chunk-21-13.png" width="672" /><img src="figures/unnamed-chunk-21-14.png" width="672" /><img src="figures/unnamed-chunk-21-15.png" width="672" /><img src="figures/unnamed-chunk-21-16.png" width="672" /><img src="figures/unnamed-chunk-21-17.png" width="672" /><img src="figures/unnamed-chunk-21-18.png" width="672" /></p>
+</div>
+<div id="resultados-predicción" class="section level2 hasAnchor" number="5.3">
+<h2><span class="header-section-number">5.3</span> Resultados predicción<a href="desarrollo-actividad-4-implementación-holt---winter.html#resultados-predicción" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>El modelo Holt-Winters permitió generar predicciones a corto plazo razonablemente precisas para la mayoría de los índices, los mejores desempeños se observaron en los mercados de EE.UU. y Japón, mientras que los índices europeos y asiáticos mostraron mayor incertidumbre.La tabla presentada muestra el pronóstico diario para los próximos 30 días de cada uno de los índices bursátiles, basado en el modelo Holt-Winters ajustado previamente. A continuación, se destacan los principales hallazgos:</p>
+<p><strong>1. SP500, Nasdaq y Nikkei225</strong></p>
+<p>Las predicciones muestran una evolución estable y creciente, en línea con la tendencia positiva observada en el ajuste histórico.Dado que estos índices fueron transformados logarítmicamente, los valores están en escala log (por ejemplo, 8.7 en SP500 ≈ exp(8.7) ≈ 6,000 puntos).La suavidad de las predicciones refleja alta confianza del modelo, coherente con su bajo error (MAPE &lt; 3%).</p>
+<p><strong>2. DowJones</strong></p>
+<p>Presenta un comportamiento consistentemente ascendente, alcanzando valores proyectados por encima de 44,000 puntos,este patrón respalda la tendencia alcista de largo plazo observada en el análisis exploratorio;sin embargo, su MAPE fue de 16.9%, lo que sugiere que las predicciones deben interpretarse con precaución moderada.</p>
+<p><strong>3. CAC40 y FTSE100</strong></p>
+<p>Exhiben una trayectoria positiva con leves oscilaciones, lo cual refleja cierta estacionalidad capturada por el modelo, las predicciones se mantienen dentro de un rango realista, entre 7,700 y 9,100 puntos.Muestra un balance entre crecimiento y estabilización tras periodos volátiles.</p>
+<p><strong>4. DAX</strong></p>
+<p>A diferencia de otros índices, muestra una gran variabilidad y valores negativos ocasionales en la proyección.Esto indica que el modelo Holt-Winters no logró capturar adecuadamente la dinámica del índice alemán, posiblemente por la forma en que se transformó y/o diferenció la serie.</p>
+<p><strong>5. HangSeng y Shanghai Composite</strong></p>
+<p>Ambos índices presentan predicciones ligeramente crecientes, lo que sugiere un posible cambio de dirección frente a la caída previa; sin embargo, las fluctuaciones son más intensas (especialmente en HangSeng), reflejando su naturaleza volátil.La precisión de estos modelos fue moderada (MAPE entre 8% y 16%).</p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb35-1" tabindex="-1"></a><span class="co"># Crear tabla con pronóstico de los próximos 30 días para cada índice</span></span>
+<span id="cb35-2"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb35-2" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb35-3" tabindex="-1"></a><span class="co"># Inicializamos la tabla vacía</span></span>
+<span id="cb35-4"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb35-4" tabindex="-1"></a>tabla_forecast_30 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Dia =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>)</span>
+<span id="cb35-5"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb35-5" tabindex="-1"></a></span>
+<span id="cb35-6"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb35-6" tabindex="-1"></a><span class="co"># Agregamos cada columna de pronóstico</span></span>
+<span id="cb35-7"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb35-7" tabindex="-1"></a><span class="cf">for</span> (indice <span class="cf">in</span> <span class="fu">names</span>(resultados_hw)) {</span>
+<span id="cb35-8"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb35-8" tabindex="-1"></a>  pred <span class="ot">&lt;-</span> resultados_hw[[indice]]<span class="sc">$</span>pronostico</span>
+<span id="cb35-9"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb35-9" tabindex="-1"></a>  tabla_forecast_30[[indice]] <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">as.numeric</span>(pred<span class="sc">$</span>mean), <span class="dv">2</span>)</span>
+<span id="cb35-10"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb35-10" tabindex="-1"></a>}</span>
+<span id="cb35-11"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb35-11" tabindex="-1"></a></span>
+<span id="cb35-12"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb35-12" tabindex="-1"></a><span class="co"># Mostrar tabla en formato limpio</span></span>
+<span id="cb35-13"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb35-13" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb35-14"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb35-14" tabindex="-1"></a>  tabla_forecast_30,</span>
+<span id="cb35-15"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb35-15" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">&quot;Predicción de los próximos 30 días por índice bursátil usando modelo Holt-Winters&quot;</span></span>
+<span id="cb35-16"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb35-16" tabindex="-1"></a>)</span></code></pre></div>
+</details>
+<table style="width:100%;">
+<caption><span id="tab:unnamed-chunk-22">Table 5.1: </span>Predicción de los próximos 30 días por índice bursátil usando modelo Holt-Winters</caption>
+<colgroup>
+<col width="4%" />
+<col width="6%" />
+<col width="10%" />
+<col width="8%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="11%" />
+<col width="10%" />
+<col width="20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">Dia</th>
+<th align="right">SP500</th>
+<th align="right">DowJones</th>
+<th align="right">Nasdaq</th>
+<th align="right">DAX</th>
+<th align="right">CAC40</th>
+<th align="right">FTSE100</th>
+<th align="right">Nikkei225</th>
+<th align="right">HangSeng</th>
+<th align="right">ShanghaiComposite</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">8.63</td>
+<td align="right">41031.52</td>
+<td align="right">9.79</td>
+<td align="right">-19.51</td>
+<td align="right">7603.13</td>
+<td align="right">8626.99</td>
+<td align="right">10.48</td>
+<td align="right">22897.18</td>
+<td align="right">3338.20</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">8.63</td>
+<td align="right">41055.50</td>
+<td align="right">9.80</td>
+<td align="right">80.46</td>
+<td align="right">7518.02</td>
+<td align="right">8608.32</td>
+<td align="right">10.45</td>
+<td align="right">22493.19</td>
+<td align="right">3276.55</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">8.64</td>
+<td align="right">41127.62</td>
+<td align="right">9.80</td>
+<td align="right">128.34</td>
+<td align="right">7462.71</td>
+<td align="right">8574.18</td>
+<td align="right">10.43</td>
+<td align="right">22739.12</td>
+<td align="right">3283.34</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">8.64</td>
+<td align="right">41136.08</td>
+<td align="right">9.82</td>
+<td align="right">-31.52</td>
+<td align="right">7495.57</td>
+<td align="right">8541.35</td>
+<td align="right">10.41</td>
+<td align="right">23385.92</td>
+<td align="right">3317.14</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="right">8.64</td>
+<td align="right">41011.44</td>
+<td align="right">9.82</td>
+<td align="right">-24.08</td>
+<td align="right">7547.75</td>
+<td align="right">8617.86</td>
+<td align="right">10.40</td>
+<td align="right">23673.12</td>
+<td align="right">3343.30</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="right">8.64</td>
+<td align="right">40870.19</td>
+<td align="right">9.81</td>
+<td align="right">-83.65</td>
+<td align="right">7596.81</td>
+<td align="right">8658.13</td>
+<td align="right">10.40</td>
+<td align="right">23815.80</td>
+<td align="right">3378.27</td>
+</tr>
+<tr class="odd">
+<td align="right">7</td>
+<td align="right">8.64</td>
+<td align="right">40789.69</td>
+<td align="right">9.82</td>
+<td align="right">-51.00</td>
+<td align="right">7603.07</td>
+<td align="right">8698.38</td>
+<td align="right">10.44</td>
+<td align="right">23722.76</td>
+<td align="right">3386.54</td>
+</tr>
+<tr class="even">
+<td align="right">8</td>
+<td align="right">8.64</td>
+<td align="right">40922.00</td>
+<td align="right">9.82</td>
+<td align="right">2.15</td>
+<td align="right">7583.25</td>
+<td align="right">8706.05</td>
+<td align="right">10.50</td>
+<td align="right">23764.82</td>
+<td align="right">3330.42</td>
+</tr>
+<tr class="odd">
+<td align="right">9</td>
+<td align="right">8.65</td>
+<td align="right">41198.21</td>
+<td align="right">9.83</td>
+<td align="right">-11.25</td>
+<td align="right">7599.07</td>
+<td align="right">8730.12</td>
+<td align="right">10.51</td>
+<td align="right">23699.32</td>
+<td align="right">3308.61</td>
+</tr>
+<tr class="even">
+<td align="right">10</td>
+<td align="right">8.65</td>
+<td align="right">41154.49</td>
+<td align="right">9.83</td>
+<td align="right">14.29</td>
+<td align="right">7540.77</td>
+<td align="right">8763.57</td>
+<td align="right">10.53</td>
+<td align="right">23751.58</td>
+<td align="right">3306.36</td>
+</tr>
+<tr class="odd">
+<td align="right">11</td>
+<td align="right">8.65</td>
+<td align="right">41271.84</td>
+<td align="right">9.84</td>
+<td align="right">-14.20</td>
+<td align="right">7516.24</td>
+<td align="right">8786.09</td>
+<td align="right">10.53</td>
+<td align="right">23660.68</td>
+<td align="right">3259.29</td>
+</tr>
+<tr class="even">
+<td align="right">12</td>
+<td align="right">8.65</td>
+<td align="right">41308.56</td>
+<td align="right">9.84</td>
+<td align="right">-13.30</td>
+<td align="right">7625.47</td>
+<td align="right">8847.66</td>
+<td align="right">10.53</td>
+<td align="right">23857.39</td>
+<td align="right">3241.82</td>
+</tr>
+<tr class="odd">
+<td align="right">13</td>
+<td align="right">8.66</td>
+<td align="right">41572.99</td>
+<td align="right">9.85</td>
+<td align="right">-96.98</td>
+<td align="right">7736.70</td>
+<td align="right">8888.02</td>
+<td align="right">10.50</td>
+<td align="right">24374.92</td>
+<td align="right">3173.70</td>
+</tr>
+<tr class="even">
+<td align="right">14</td>
+<td align="right">8.67</td>
+<td align="right">41750.97</td>
+<td align="right">9.85</td>
+<td align="right">-63.31</td>
+<td align="right">7791.85</td>
+<td align="right">8932.16</td>
+<td align="right">10.48</td>
+<td align="right">24478.32</td>
+<td align="right">3134.79</td>
+</tr>
+<tr class="odd">
+<td align="right">15</td>
+<td align="right">8.68</td>
+<td align="right">42132.25</td>
+<td align="right">9.86</td>
+<td align="right">-57.43</td>
+<td align="right">7820.92</td>
+<td align="right">8945.68</td>
+<td align="right">10.46</td>
+<td align="right">24516.10</td>
+<td align="right">3091.91</td>
+</tr>
+<tr class="even">
+<td align="right">16</td>
+<td align="right">8.69</td>
+<td align="right">42380.23</td>
+<td align="right">9.86</td>
+<td align="right">53.12</td>
+<td align="right">7820.33</td>
+<td align="right">9009.81</td>
+<td align="right">10.48</td>
+<td align="right">24706.39</td>
+<td align="right">3064.06</td>
+</tr>
+<tr class="odd">
+<td align="right">17</td>
+<td align="right">8.69</td>
+<td align="right">42682.05</td>
+<td align="right">9.86</td>
+<td align="right">-101.26</td>
+<td align="right">7799.26</td>
+<td align="right">9080.73</td>
+<td align="right">10.51</td>
+<td align="right">24690.74</td>
+<td align="right">3070.46</td>
+</tr>
+<tr class="even">
+<td align="right">18</td>
+<td align="right">8.70</td>
+<td align="right">42574.51</td>
+<td align="right">9.87</td>
+<td align="right">13.13</td>
+<td align="right">7787.33</td>
+<td align="right">9161.21</td>
+<td align="right">10.52</td>
+<td align="right">24424.95</td>
+<td align="right">3017.95</td>
+</tr>
+<tr class="odd">
+<td align="right">19</td>
+<td align="right">8.70</td>
+<td align="right">42784.66</td>
+<td align="right">9.87</td>
+<td align="right">85.63</td>
+<td align="right">7751.67</td>
+<td align="right">9195.67</td>
+<td align="right">10.53</td>
+<td align="right">24582.80</td>
+<td align="right">3030.38</td>
+</tr>
+<tr class="even">
+<td align="right">20</td>
+<td align="right">8.71</td>
+<td align="right">43008.21</td>
+<td align="right">9.88</td>
+<td align="right">5.61</td>
+<td align="right">7725.17</td>
+<td align="right">9164.23</td>
+<td align="right">10.55</td>
+<td align="right">24629.20</td>
+<td align="right">3062.26</td>
+</tr>
+<tr class="odd">
+<td align="right">21</td>
+<td align="right">8.71</td>
+<td align="right">43165.54</td>
+<td align="right">9.88</td>
+<td align="right">-12.03</td>
+<td align="right">7761.68</td>
+<td align="right">9107.52</td>
+<td align="right">10.54</td>
+<td align="right">24319.10</td>
+<td align="right">3056.98</td>
+</tr>
+<tr class="even">
+<td align="right">22</td>
+<td align="right">8.72</td>
+<td align="right">43534.69</td>
+<td align="right">9.88</td>
+<td align="right">-86.61</td>
+<td align="right">7754.87</td>
+<td align="right">9027.72</td>
+<td align="right">10.54</td>
+<td align="right">24207.51</td>
+<td align="right">3079.69</td>
+</tr>
+<tr class="odd">
+<td align="right">23</td>
+<td align="right">8.73</td>
+<td align="right">44094.86</td>
+<td align="right">9.90</td>
+<td align="right">128.57</td>
+<td align="right">7722.43</td>
+<td align="right">8945.79</td>
+<td align="right">10.55</td>
+<td align="right">24115.00</td>
+<td align="right">3077.65</td>
+</tr>
+<tr class="even">
+<td align="right">24</td>
+<td align="right">8.74</td>
+<td align="right">44193.03</td>
+<td align="right">9.90</td>
+<td align="right">-206.71</td>
+<td align="right">7737.53</td>
+<td align="right">8920.36</td>
+<td align="right">10.55</td>
+<td align="right">24260.38</td>
+<td align="right">3087.55</td>
+</tr>
+<tr class="odd">
+<td align="right">25</td>
+<td align="right">8.74</td>
+<td align="right">44097.32</td>
+<td align="right">9.91</td>
+<td align="right">-145.63</td>
+<td align="right">7705.69</td>
+<td align="right">8921.29</td>
+<td align="right">10.56</td>
+<td align="right">24469.08</td>
+<td align="right">3073.82</td>
+</tr>
+<tr class="even">
+<td align="right">26</td>
+<td align="right">8.72</td>
+<td align="right">43269.50</td>
+<td align="right">9.89</td>
+<td align="right">8.66</td>
+<td align="right">7686.02</td>
+<td align="right">8985.99</td>
+<td align="right">10.56</td>
+<td align="right">24768.07</td>
+<td align="right">3093.59</td>
+</tr>
+<tr class="odd">
+<td align="right">27</td>
+<td align="right">8.70</td>
+<td align="right">42660.85</td>
+<td align="right">9.87</td>
+<td align="right">-21.26</td>
+<td align="right">7742.96</td>
+<td align="right">9017.21</td>
+<td align="right">10.55</td>
+<td align="right">24870.81</td>
+<td align="right">3092.15</td>
+</tr>
+<tr class="even">
+<td align="right">28</td>
+<td align="right">8.70</td>
+<td align="right">42709.63</td>
+<td align="right">9.88</td>
+<td align="right">-96.12</td>
+<td align="right">7738.59</td>
+<td align="right">9068.08</td>
+<td align="right">10.54</td>
+<td align="right">24365.33</td>
+<td align="right">3120.86</td>
+</tr>
+<tr class="odd">
+<td align="right">29</td>
+<td align="right">8.70</td>
+<td align="right">42891.58</td>
+<td align="right">9.89</td>
+<td align="right">76.97</td>
+<td align="right">7728.02</td>
+<td align="right">9053.84</td>
+<td align="right">10.54</td>
+<td align="right">24231.04</td>
+<td align="right">3135.10</td>
+</tr>
+<tr class="even">
+<td align="right">30</td>
+<td align="right">8.70</td>
+<td align="right">42911.72</td>
+<td align="right">9.89</td>
+<td align="right">-28.31</td>
+<td align="right">7714.19</td>
+<td align="right">9092.65</td>
+<td align="right">10.54</td>
+<td align="right">24251.08</td>
+<td align="right">3137.74</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="tabla-de-resumen" class="section level2 hasAnchor" number="5.4">
+<h2><span class="header-section-number">5.4</span> Tabla de resumen<a href="desarrollo-actividad-4-implementación-holt---winter.html#tabla-de-resumen" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Se calcula el error absoluto medio(MAE), la raiz del error cuadratico medio(RMSE) y el error porcentual medio absoluto(MAPE).</p>
+<p><strong>1. Modelos con excelente ajuste:</strong></p>
+<p>*SP500, Nasdaq y Nikkei225 tienen errores muy bajos:</p>
+<p>*MAE y RMSE &lt; 1</p>
+<p>*MAPE menor a 3%</p>
+<p>Esto indica que el modelo Holt-Winters representa muy bien la estructura interna de estas series.</p>
+<p><strong>2. Modelos aceptables pero con errores moderados:</strong></p>
+<p>*ShanghaiComposite: MAPE de 8.68% → aceptable</p>
+<p>*FTSE100 y CAC40: alrededor del 12-16%</p>
+<p><strong>3. Modelos con alto error:</strong></p>
+<p>*DowJones y HangSeng tienen MAPE de 16.9% → error alto</p>
+<p>*DAX tiene MAPE de 392% → esto es un claro problema.</p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb36-1" tabindex="-1"></a><span class="co"># Mostrar métricas como tabla</span></span>
+<span id="cb36-2"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb36-2" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb36-3"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb36-3" tabindex="-1"></a>  metricas_hw,</span>
+<span id="cb36-4"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb36-4" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">&quot;Evaluación del modelo Holt-Winters por índice bursátil (basado en el ajuste histórico)&quot;</span></span>
+<span id="cb36-5"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb36-5" tabindex="-1"></a>)</span></code></pre></div>
+</details>
+<table>
+<caption><span id="tab:unnamed-chunk-23">Table 5.2: </span>Evaluación del modelo Holt-Winters por índice bursátil (basado en el ajuste histórico)</caption>
+<thead>
+<tr class="header">
+<th align="left">Indice</th>
+<th align="right">MAE</th>
+<th align="right">RMSE</th>
+<th align="right">MAPE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">SP500</td>
+<td align="right">0.24</td>
+<td align="right">0.29</td>
+<td align="right">2.81</td>
+</tr>
+<tr class="even">
+<td align="left">DowJones</td>
+<td align="right">5728.34</td>
+<td align="right">7501.07</td>
+<td align="right">16.90</td>
+</tr>
+<tr class="odd">
+<td align="left">Nasdaq</td>
+<td align="right">0.30</td>
+<td align="right">0.34</td>
+<td align="right">3.16</td>
+</tr>
+<tr class="even">
+<td align="left">DAX</td>
+<td align="right">99.05</td>
+<td align="right">168.12</td>
+<td align="right">392.66</td>
+</tr>
+<tr class="odd">
+<td align="left">CAC40</td>
+<td align="right">1047.58</td>
+<td align="right">1339.80</td>
+<td align="right">16.74</td>
+</tr>
+<tr class="even">
+<td align="left">FTSE100</td>
+<td align="right">898.68</td>
+<td align="right">1141.28</td>
+<td align="right">12.15</td>
+</tr>
+<tr class="odd">
+<td align="left">Nikkei225</td>
+<td align="right">0.21</td>
+<td align="right">0.27</td>
+<td align="right">2.02</td>
+</tr>
+<tr class="even">
+<td align="left">HangSeng</td>
+<td align="right">3745.14</td>
+<td align="right">4512.09</td>
+<td align="right">16.90</td>
+</tr>
+<tr class="odd">
+<td align="left">ShanghaiComposite</td>
+<td align="right">270.85</td>
+<td align="right">324.64</td>
+<td align="right">8.68</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="desarrollo-actividad-3..html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/index.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

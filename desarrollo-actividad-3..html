@@ -23,7 +23,7 @@
 <meta name="author" content="Paolo De La Hoz Vicari, Genjis Ossa Gonzales" />
 
 
-<meta name="date" content="2025-05-05" />
+<meta name="date" content="2025-05-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="desarrollo-actividad-2..html"/>
-<link rel="next" href="implementación-de-modelos..html"/>
+<link rel="next" href="desarrollo-actividad-4-implementación-holt---winter.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -193,12 +193,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4.2" data-path="desarrollo-actividad-3..html"><a href="desarrollo-actividad-3..html#tabla-de-resumen."><i class="fa fa-check"></i><b>4.2</b> Tabla de resumen.</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="implementación-de-modelos..html"><a href="implementación-de-modelos..html"><i class="fa fa-check"></i><b>5</b> Implementación de modelos.</a>
+<li class="chapter" data-level="5" data-path="desarrollo-actividad-4-implementación-holt---winter.html"><a href="desarrollo-actividad-4-implementación-holt---winter.html"><i class="fa fa-check"></i><b>5</b> Desarrollo actividad 4 Implementación Holt - Winter</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="implementación-de-modelos..html"><a href="implementación-de-modelos..html#validación-de-los-modelos-arima-diagnóstico-de-residuos."><i class="fa fa-check"></i><b>5.1</b> Validación de los Modelos ARIMA: Diagnóstico de Residuos.</a></li>
-<li class="chapter" data-level="5.2" data-path="implementación-de-modelos..html"><a href="implementación-de-modelos..html#resumen-por-índice-bursátil-diagnóstico-del-modelo-arima."><i class="fa fa-check"></i><b>5.2</b> Resumen por Índice Bursátil: Diagnóstico del Modelo ARIMA.</a></li>
-<li class="chapter" data-level="5.3" data-path="implementación-de-modelos..html"><a href="implementación-de-modelos..html#implementación-del-modelo-y-validación-de-supuestos."><i class="fa fa-check"></i><b>5.3</b> Implementación del modelo y validación de supuestos.</a></li>
-<li class="chapter" data-level="5.4" data-path="implementación-de-modelos..html"><a href="implementación-de-modelos..html#tabla-de-resumen.-1"><i class="fa fa-check"></i><b>5.4</b> Tabla de resumen.</a></li>
+<li class="chapter" data-level="5.1" data-path="desarrollo-actividad-4-implementación-holt---winter.html"><a href="desarrollo-actividad-4-implementación-holt---winter.html#funciones-y-lógicas-implementadas"><i class="fa fa-check"></i><b>5.1</b> Funciones y lógicas implementadas</a></li>
+<li class="chapter" data-level="5.2" data-path="desarrollo-actividad-4-implementación-holt---winter.html"><a href="desarrollo-actividad-4-implementación-holt---winter.html#implementar-modelo-en-todas-las-series-de-tiempo"><i class="fa fa-check"></i><b>5.2</b> Implementar modelo en todas las series de tiempo</a></li>
+<li class="chapter" data-level="5.3" data-path="desarrollo-actividad-4-implementación-holt---winter.html"><a href="desarrollo-actividad-4-implementación-holt---winter.html#resultados-predicción"><i class="fa fa-check"></i><b>5.3</b> Resultados predicción</a></li>
+<li class="chapter" data-level="5.4" data-path="desarrollo-actividad-4-implementación-holt---winter.html"><a href="desarrollo-actividad-4-implementación-holt---winter.html#tabla-de-resumen"><i class="fa fa-check"></i><b>5.4</b> Tabla de resumen</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -387,7 +387,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## ==================================================</code></pre>
 <p><img src="figures/unnamed-chunk-18-1.png" width="672" /></p>
 <pre><code>## Transformación logarítmica aplicada (CV = 0.225 )
-## p-valor Dickey-Fuller: 0.00848 
+## p-valor Dickey-Fuller: 0.00841 
 ## La serie transformada es estacionaria. No se aplica diferenciación.
 ## 
 ## 
@@ -396,7 +396,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## ==================================================</code></pre>
 <p><img src="figures/unnamed-chunk-18-2.png" width="672" /></p>
 <pre><code>## No se aplica transformación logarítmica (CV = 0.165 )
-## p-valor Dickey-Fuller: 0.00413 
+## p-valor Dickey-Fuller: 0.00406 
 ## La serie transformada es estacionaria. No se aplica diferenciación.
 ## 
 ## 
@@ -405,7 +405,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## ==================================================</code></pre>
 <p><img src="figures/unnamed-chunk-18-3.png" width="672" /></p>
 <pre><code>## Transformación logarítmica aplicada (CV = 0.263 )
-## p-valor Dickey-Fuller: 0.02449 
+## p-valor Dickey-Fuller: 0.02428 
 ## La serie transformada es estacionaria. No se aplica diferenciación.
 ## 
 ## 
@@ -413,8 +413,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## ANÁLISIS DE: DAX 
 ## ==================================================</code></pre>
 <p><img src="figures/unnamed-chunk-18-4.png" width="672" /></p>
-<pre><code>## No se aplica transformación logarítmica (CV = 0.185 )
-## p-valor Dickey-Fuller: 0.09312</code></pre>
+<pre><code>## No se aplica transformación logarítmica (CV = 0.187 )
+## p-valor Dickey-Fuller: 0.12667</code></pre>
 <p><img src="figures/unnamed-chunk-18-5.png" width="672" /></p>
 <pre><code>## Serie NO estacionaria. Se aplica diferenciación de orden: 1 
 ## p-valor Dickey-Fuller tras diferenciación: 0 
@@ -426,7 +426,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## ==================================================</code></pre>
 <p><img src="figures/unnamed-chunk-18-6.png" width="672" /></p>
 <pre><code>## No se aplica transformación logarítmica (CV = 0.156 )
-## p-valor Dickey-Fuller: 0.00247 
+## p-valor Dickey-Fuller: 0.00248 
 ## La serie transformada es estacionaria. No se aplica diferenciación.
 ## 
 ## 
@@ -435,7 +435,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## ==================================================</code></pre>
 <p><img src="figures/unnamed-chunk-18-7.png" width="672" /></p>
 <pre><code>## No se aplica transformación logarítmica (CV = 0.093 )
-## p-valor Dickey-Fuller: 0.00478 
+## p-valor Dickey-Fuller: 0.00453 
 ## La serie transformada es estacionaria. No se aplica diferenciación.
 ## 
 ## 
@@ -444,7 +444,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## ==================================================</code></pre>
 <p><img src="figures/unnamed-chunk-18-8.png" width="672" /></p>
 <pre><code>## Transformación logarítmica aplicada (CV = 0.208 )
-## p-valor Dickey-Fuller: 0.00237 
+## p-valor Dickey-Fuller: 0.00214 
 ## La serie transformada es estacionaria. No se aplica diferenciación.
 ## 
 ## 
@@ -453,7 +453,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## ==================================================</code></pre>
 <p><img src="figures/unnamed-chunk-18-9.png" width="672" /></p>
 <pre><code>## No se aplica transformación logarítmica (CV = 0.182 )
-## p-valor Dickey-Fuller: 0.01316 
+## p-valor Dickey-Fuller: 0.01609 
 ## La serie transformada es estacionaria. No se aplica diferenciación.
 ## 
 ## 
@@ -462,7 +462,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## ==================================================</code></pre>
 <p><img src="figures/unnamed-chunk-18-10.png" width="672" /></p>
 <pre><code>## No se aplica transformación logarítmica (CV = 0.078 )
-## p-valor Dickey-Fuller: 0.00048 
+## p-valor Dickey-Fuller: 0.00049 
 ## La serie transformada es estacionaria. No se aplica diferenciación.</code></pre>
 </div>
 </div>
@@ -497,63 +497,63 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td align="left">SP500</td>
 <td align="right">0.225</td>
 <td align="left">Sí</td>
-<td align="right">0.00848</td>
+<td align="right">0.00841</td>
 <td align="left">No</td>
 </tr>
 <tr class="even">
 <td align="left">DowJones</td>
 <td align="right">0.165</td>
 <td align="left">No</td>
-<td align="right">0.00413</td>
+<td align="right">0.00406</td>
 <td align="left">No</td>
 </tr>
 <tr class="odd">
 <td align="left">Nasdaq</td>
 <td align="right">0.263</td>
 <td align="left">Sí</td>
-<td align="right">0.02449</td>
+<td align="right">0.02428</td>
 <td align="left">No</td>
 </tr>
 <tr class="even">
 <td align="left">DAX</td>
-<td align="right">0.185</td>
+<td align="right">0.187</td>
 <td align="left">No</td>
-<td align="right">0.09312</td>
+<td align="right">0.12667</td>
 <td align="left">Sí, orden 1</td>
 </tr>
 <tr class="odd">
 <td align="left">CAC40</td>
 <td align="right">0.156</td>
 <td align="left">No</td>
-<td align="right">0.00247</td>
+<td align="right">0.00248</td>
 <td align="left">No</td>
 </tr>
 <tr class="even">
 <td align="left">FTSE100</td>
 <td align="right">0.093</td>
 <td align="left">No</td>
-<td align="right">0.00478</td>
+<td align="right">0.00453</td>
 <td align="left">No</td>
 </tr>
 <tr class="odd">
 <td align="left">Nikkei225</td>
 <td align="right">0.208</td>
 <td align="left">Sí</td>
-<td align="right">0.00237</td>
+<td align="right">0.00214</td>
 <td align="left">No</td>
 </tr>
 <tr class="even">
 <td align="left">HangSeng</td>
 <td align="right">0.182</td>
 <td align="left">No</td>
-<td align="right">0.01316</td>
+<td align="right">0.01609</td>
 <td align="left">No</td>
 </tr>
 <tr class="odd">
 <td align="left">ShanghaiComposite</td>
 <td align="right">0.078</td>
 <td align="left">No</td>
-<td align="right">0.00048</td>
+<td align="right">0.00049</td>
 <td align="left">No</td>
 </tr>
 </tbody>
@@ -566,7 +566,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         </div>
       </div>
 <a href="desarrollo-actividad-2..html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="implementación-de-modelos..html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="desarrollo-actividad-4-implementación-holt---winter.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

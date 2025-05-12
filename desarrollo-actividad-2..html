@@ -23,7 +23,7 @@
 <meta name="author" content="Paolo De La Hoz Vicari, Genjis Ossa Gonzales" />
 
 
-<meta name="date" content="2025-05-05" />
+<meta name="date" content="2025-05-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -193,12 +193,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4.2" data-path="desarrollo-actividad-3..html"><a href="desarrollo-actividad-3..html#tabla-de-resumen."><i class="fa fa-check"></i><b>4.2</b> Tabla de resumen.</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="implementación-de-modelos..html"><a href="implementación-de-modelos..html"><i class="fa fa-check"></i><b>5</b> Implementación de modelos.</a>
+<li class="chapter" data-level="5" data-path="desarrollo-actividad-4-implementación-holt---winter.html"><a href="desarrollo-actividad-4-implementación-holt---winter.html"><i class="fa fa-check"></i><b>5</b> Desarrollo actividad 4 Implementación Holt - Winter</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="implementación-de-modelos..html"><a href="implementación-de-modelos..html#validación-de-los-modelos-arima-diagnóstico-de-residuos."><i class="fa fa-check"></i><b>5.1</b> Validación de los Modelos ARIMA: Diagnóstico de Residuos.</a></li>
-<li class="chapter" data-level="5.2" data-path="implementación-de-modelos..html"><a href="implementación-de-modelos..html#resumen-por-índice-bursátil-diagnóstico-del-modelo-arima."><i class="fa fa-check"></i><b>5.2</b> Resumen por Índice Bursátil: Diagnóstico del Modelo ARIMA.</a></li>
-<li class="chapter" data-level="5.3" data-path="implementación-de-modelos..html"><a href="implementación-de-modelos..html#implementación-del-modelo-y-validación-de-supuestos."><i class="fa fa-check"></i><b>5.3</b> Implementación del modelo y validación de supuestos.</a></li>
-<li class="chapter" data-level="5.4" data-path="implementación-de-modelos..html"><a href="implementación-de-modelos..html#tabla-de-resumen.-1"><i class="fa fa-check"></i><b>5.4</b> Tabla de resumen.</a></li>
+<li class="chapter" data-level="5.1" data-path="desarrollo-actividad-4-implementación-holt---winter.html"><a href="desarrollo-actividad-4-implementación-holt---winter.html#funciones-y-lógicas-implementadas"><i class="fa fa-check"></i><b>5.1</b> Funciones y lógicas implementadas</a></li>
+<li class="chapter" data-level="5.2" data-path="desarrollo-actividad-4-implementación-holt---winter.html"><a href="desarrollo-actividad-4-implementación-holt---winter.html#implementar-modelo-en-todas-las-series-de-tiempo"><i class="fa fa-check"></i><b>5.2</b> Implementar modelo en todas las series de tiempo</a></li>
+<li class="chapter" data-level="5.3" data-path="desarrollo-actividad-4-implementación-holt---winter.html"><a href="desarrollo-actividad-4-implementación-holt---winter.html#resultados-predicción"><i class="fa fa-check"></i><b>5.3</b> Resultados predicción</a></li>
+<li class="chapter" data-level="5.4" data-path="desarrollo-actividad-4-implementación-holt---winter.html"><a href="desarrollo-actividad-4-implementación-holt---winter.html#tabla-de-resumen"><i class="fa fa-check"></i><b>5.4</b> Tabla de resumen</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -232,15 +232,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-3"><a href="desarrollo-actividad-2..html#cb1-3" tabindex="-1"></a>  <span class="at">fig.path =</span> <span class="st">&quot;figures/&quot;</span>,  <span class="co"># Carpeta donde se guardan los gráficos</span></span>
 <span id="cb1-4"><a href="desarrollo-actividad-2..html#cb1-4" tabindex="-1"></a>  <span class="at">echo =</span> <span class="cn">TRUE</span></span>
 <span id="cb1-5"><a href="desarrollo-actividad-2..html#cb1-5" tabindex="-1"></a>)</span>
-<span id="cb1-6"><a href="desarrollo-actividad-2..html#cb1-6" tabindex="-1"></a><span class="fu">library</span>(quantmod)   <span class="co"># Para descargar datos financieros</span></span>
-<span id="cb1-7"><a href="desarrollo-actividad-2..html#cb1-7" tabindex="-1"></a><span class="fu">library</span>(dplyr)      <span class="co"># Para manipular datos</span></span>
-<span id="cb1-8"><a href="desarrollo-actividad-2..html#cb1-8" tabindex="-1"></a><span class="fu">library</span>(zoo)        <span class="co"># Para series de tiempo basadas en fechas</span></span>
-<span id="cb1-9"><a href="desarrollo-actividad-2..html#cb1-9" tabindex="-1"></a><span class="fu">library</span>(ggplot2)    <span class="co"># Para gráficos</span></span>
-<span id="cb1-10"><a href="desarrollo-actividad-2..html#cb1-10" tabindex="-1"></a><span class="fu">library</span>(tidyr)      <span class="co"># Para transformar los datos</span></span>
-<span id="cb1-11"><a href="desarrollo-actividad-2..html#cb1-11" tabindex="-1"></a><span class="fu">library</span>(urca)</span>
-<span id="cb1-12"><a href="desarrollo-actividad-2..html#cb1-12" tabindex="-1"></a><span class="fu">library</span>(tseries)</span>
-<span id="cb1-13"><a href="desarrollo-actividad-2..html#cb1-13" tabindex="-1"></a><span class="fu">library</span>(plotly)</span>
-<span id="cb1-14"><a href="desarrollo-actividad-2..html#cb1-14" tabindex="-1"></a><span class="fu">library</span>(forecast)</span></code></pre></div>
+<span id="cb1-6"><a href="desarrollo-actividad-2..html#cb1-6" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="desarrollo-actividad-2..html#cb1-7" tabindex="-1"></a><span class="fu">library</span>(quantmod)   <span class="co"># Para descargar datos financieros</span></span>
+<span id="cb1-8"><a href="desarrollo-actividad-2..html#cb1-8" tabindex="-1"></a><span class="fu">library</span>(dplyr)      <span class="co"># Para manipular datos</span></span>
+<span id="cb1-9"><a href="desarrollo-actividad-2..html#cb1-9" tabindex="-1"></a><span class="fu">library</span>(zoo)        <span class="co"># Para series de tiempo basadas en fechas</span></span>
+<span id="cb1-10"><a href="desarrollo-actividad-2..html#cb1-10" tabindex="-1"></a><span class="fu">library</span>(ggplot2)    <span class="co"># Para gráficos</span></span>
+<span id="cb1-11"><a href="desarrollo-actividad-2..html#cb1-11" tabindex="-1"></a><span class="fu">library</span>(tidyr)      <span class="co"># Para transformar los datos</span></span>
+<span id="cb1-12"><a href="desarrollo-actividad-2..html#cb1-12" tabindex="-1"></a><span class="fu">library</span>(urca)</span>
+<span id="cb1-13"><a href="desarrollo-actividad-2..html#cb1-13" tabindex="-1"></a><span class="fu">library</span>(tseries)</span>
+<span id="cb1-14"><a href="desarrollo-actividad-2..html#cb1-14" tabindex="-1"></a><span class="fu">library</span>(plotly)</span>
+<span id="cb1-15"><a href="desarrollo-actividad-2..html#cb1-15" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
+<span id="cb1-16"><a href="desarrollo-actividad-2..html#cb1-16" tabindex="-1"></a><span class="fu">library</span>(Metrics)</span></code></pre></div>
 </details>
 </div>
 <div id="definimos-los-índices-bursátiles-de-interés-yahoo-finance-symbols." class="section level3 hasAnchor" number="3.1.2">
