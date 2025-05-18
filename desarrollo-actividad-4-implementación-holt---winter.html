@@ -23,7 +23,7 @@
 <meta name="author" content="Paolo De La Hoz Vicari, Genjis Ossa Gonzales" />
 
 
-<meta name="date" content="2025-05-12" />
+<meta name="date" content="2025-05-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="desarrollo-actividad-3..html"/>
-
+<link rel="next" href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -200,6 +200,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.3" data-path="desarrollo-actividad-4-implementación-holt---winter.html"><a href="desarrollo-actividad-4-implementación-holt---winter.html#resultados-predicción"><i class="fa fa-check"></i><b>5.3</b> Resultados predicción</a></li>
 <li class="chapter" data-level="5.4" data-path="desarrollo-actividad-4-implementación-holt---winter.html"><a href="desarrollo-actividad-4-implementación-holt---winter.html#tabla-de-resumen"><i class="fa fa-check"></i><b>5.4</b> Tabla de resumen</a></li>
 </ul></li>
+<li class="chapter" data-level="6" data-path="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html"><i class="fa fa-check"></i><b>6</b> Desarrollo Actividad 5. Implementación de la Metodología Box-Jenkins (Modelo ARIMA)</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#fundamentos-teóricos-del-modelo-arima-y-box-jenkins"><i class="fa fa-check"></i><b>6.1</b> Fundamentos teóricos del modelo ARIMA y Box-Jenkins</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#etapas-de-la-metodología-box-jenkins"><i class="fa fa-check"></i><b>6.1.1</b> Etapas de la metodología Box-Jenkins:</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#implementación-de-las-lógicas-y-modelos."><i class="fa fa-check"></i><b>6.2</b> Implementación de las lógicas y modelos.</a></li>
+<li class="chapter" data-level="6.3" data-path="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#resumen-e-interpretación-de-las-gráficas-y-resultados-de-las-funciones."><i class="fa fa-check"></i><b>6.3</b> Resumen e interpretación de las gráficas y resultados de las funciones.</a></li>
+<li class="chapter" data-level="6.4" data-path="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#tabla-con-predicciones-de-30-días."><i class="fa fa-check"></i><b>6.4</b> Tabla con predicciones de 30 días.</a></li>
+<li class="chapter" data-level="6.5" data-path="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#tabla-con-evaluación-de-modelo-arimamaermsemape"><i class="fa fa-check"></i><b>6.5</b> Tabla con evaluación de modelo Arima(MAE,RMSE,MAPE)</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -222,6 +233,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="desarrollo-actividad-4-implementación-holt---winter" class="section level1 hasAnchor" number="5">
 <h1><span class="header-section-number">Chapter 5</span> Desarrollo actividad 4 Implementación Holt - Winter<a href="desarrollo-actividad-4-implementación-holt---winter.html#desarrollo-actividad-4-implementación-holt---winter" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Teniendo en cuenta el análisis exhaustivo realizado por el grupo pudimos identificar que el método Holt - Winter del paquete Forecast está mas actualizado que en la librería TSA. Por otra parte, permite generar pronósticos y métricas de evaluación directamente con objetos tipo forecast y es el estándar moderno en modelado predictivo de series temporales en R. Por consiguiente, desarrollamos la actividad con el paquete Forecast y no con la libreria TSA.</p>
+<p>Las predicciones y mediciones de MAE, RMSE, MAPE; se encuentran por debajo de los gráficos.</p>
 <div id="funciones-y-lógicas-implementadas" class="section level2 hasAnchor" number="5.1">
 <h2><span class="header-section-number">5.1</span> Funciones y lógicas implementadas<a href="desarrollo-actividad-4-implementación-holt---winter.html#funciones-y-lógicas-implementadas" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
@@ -351,363 +364,363 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tbody>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">8.63</td>
-<td align="right">41031.52</td>
-<td align="right">9.79</td>
-<td align="right">-19.51</td>
-<td align="right">7603.13</td>
-<td align="right">8626.99</td>
-<td align="right">10.48</td>
-<td align="right">22897.18</td>
-<td align="right">3338.20</td>
+<td align="right">8.69</td>
+<td align="right">42398.45</td>
+<td align="right">9.86</td>
+<td align="right">-84.13</td>
+<td align="right">7940.96</td>
+<td align="right">8726.49</td>
+<td align="right">10.53</td>
+<td align="right">23567.28</td>
+<td align="right">3409.47</td>
 </tr>
 <tr class="even">
 <td align="right">2</td>
-<td align="right">8.63</td>
-<td align="right">41055.50</td>
-<td align="right">9.80</td>
-<td align="right">80.46</td>
-<td align="right">7518.02</td>
-<td align="right">8608.32</td>
-<td align="right">10.45</td>
-<td align="right">22493.19</td>
-<td align="right">3276.55</td>
+<td align="right">8.68</td>
+<td align="right">42317.53</td>
+<td align="right">9.86</td>
+<td align="right">-51.06</td>
+<td align="right">7948.65</td>
+<td align="right">8766.94</td>
+<td align="right">10.53</td>
+<td align="right">23470.63</td>
+<td align="right">3418.03</td>
 </tr>
 <tr class="odd">
 <td align="right">3</td>
-<td align="right">8.64</td>
-<td align="right">41127.62</td>
-<td align="right">9.80</td>
-<td align="right">128.34</td>
-<td align="right">7462.71</td>
-<td align="right">8574.18</td>
-<td align="right">10.43</td>
-<td align="right">22739.12</td>
-<td align="right">3283.34</td>
+<td align="right">8.69</td>
+<td align="right">42449.91</td>
+<td align="right">9.86</td>
+<td align="right">1.74</td>
+<td align="right">7930.10</td>
+<td align="right">8775.17</td>
+<td align="right">10.57</td>
+<td align="right">23516.00</td>
+<td align="right">3362.24</td>
 </tr>
 <tr class="even">
 <td align="right">4</td>
-<td align="right">8.64</td>
-<td align="right">41136.08</td>
-<td align="right">9.82</td>
-<td align="right">-31.52</td>
-<td align="right">7495.57</td>
-<td align="right">8541.35</td>
-<td align="right">10.41</td>
-<td align="right">23385.92</td>
-<td align="right">3317.14</td>
+<td align="right">8.70</td>
+<td align="right">42724.90</td>
+<td align="right">9.88</td>
+<td align="right">-11.33</td>
+<td align="right">7946.88</td>
+<td align="right">8800.06</td>
+<td align="right">10.63</td>
+<td align="right">23446.71</td>
+<td align="right">3340.05</td>
 </tr>
 <tr class="odd">
 <td align="right">5</td>
-<td align="right">8.64</td>
-<td align="right">41011.44</td>
-<td align="right">9.82</td>
-<td align="right">-24.08</td>
-<td align="right">7547.75</td>
-<td align="right">8617.86</td>
-<td align="right">10.40</td>
-<td align="right">23673.12</td>
-<td align="right">3343.30</td>
+<td align="right">8.70</td>
+<td align="right">42681.27</td>
+<td align="right">9.87</td>
+<td align="right">14.40</td>
+<td align="right">7890.18</td>
+<td align="right">8834.01</td>
+<td align="right">10.64</td>
+<td align="right">23498.84</td>
+<td align="right">3337.81</td>
 </tr>
 <tr class="even">
 <td align="right">6</td>
-<td align="right">8.64</td>
-<td align="right">40870.19</td>
-<td align="right">9.81</td>
-<td align="right">-83.65</td>
-<td align="right">7596.81</td>
-<td align="right">8658.13</td>
-<td align="right">10.40</td>
-<td align="right">23815.80</td>
-<td align="right">3378.27</td>
+<td align="right">8.70</td>
+<td align="right">42798.01</td>
+<td align="right">9.88</td>
+<td align="right">-14.07</td>
+<td align="right">7866.66</td>
+<td align="right">8856.49</td>
+<td align="right">10.66</td>
+<td align="right">23408.73</td>
+<td align="right">3290.75</td>
 </tr>
 <tr class="odd">
 <td align="right">7</td>
-<td align="right">8.64</td>
-<td align="right">40789.69</td>
-<td align="right">9.82</td>
-<td align="right">-51.00</td>
-<td align="right">7603.07</td>
-<td align="right">8698.38</td>
-<td align="right">10.44</td>
-<td align="right">23722.76</td>
-<td align="right">3386.54</td>
+<td align="right">8.70</td>
+<td align="right">42834.65</td>
+<td align="right">9.89</td>
+<td align="right">-13.06</td>
+<td align="right">7976.04</td>
+<td align="right">8918.13</td>
+<td align="right">10.66</td>
+<td align="right">23609.60</td>
+<td align="right">3273.38</td>
 </tr>
 <tr class="even">
 <td align="right">8</td>
-<td align="right">8.64</td>
-<td align="right">40922.00</td>
-<td align="right">9.82</td>
-<td align="right">2.15</td>
-<td align="right">7583.25</td>
-<td align="right">8706.05</td>
-<td align="right">10.50</td>
-<td align="right">23764.82</td>
-<td align="right">3330.42</td>
+<td align="right">8.71</td>
+<td align="right">43099.85</td>
+<td align="right">9.90</td>
+<td align="right">-96.79</td>
+<td align="right">8088.35</td>
+<td align="right">8959.82</td>
+<td align="right">10.65</td>
+<td align="right">24128.62</td>
+<td align="right">3205.58</td>
 </tr>
 <tr class="odd">
 <td align="right">9</td>
-<td align="right">8.65</td>
-<td align="right">41198.21</td>
-<td align="right">9.83</td>
-<td align="right">-11.25</td>
-<td align="right">7599.07</td>
-<td align="right">8730.12</td>
-<td align="right">10.51</td>
-<td align="right">23699.32</td>
-<td align="right">3308.61</td>
+<td align="right">8.72</td>
+<td align="right">43277.68</td>
+<td align="right">9.90</td>
+<td align="right">-63.57</td>
+<td align="right">8145.18</td>
+<td align="right">9004.62</td>
+<td align="right">10.63</td>
+<td align="right">24227.46</td>
+<td align="right">3166.56</td>
 </tr>
 <tr class="even">
 <td align="right">10</td>
-<td align="right">8.65</td>
-<td align="right">41154.49</td>
-<td align="right">9.83</td>
-<td align="right">14.29</td>
-<td align="right">7540.77</td>
-<td align="right">8763.57</td>
-<td align="right">10.53</td>
-<td align="right">23751.58</td>
-<td align="right">3306.36</td>
+<td align="right">8.73</td>
+<td align="right">43658.34</td>
+<td align="right">9.90</td>
+<td align="right">-57.85</td>
+<td align="right">8176.01</td>
+<td align="right">9018.30</td>
+<td align="right">10.61</td>
+<td align="right">24266.70</td>
+<td align="right">3123.71</td>
 </tr>
 <tr class="odd">
 <td align="right">11</td>
-<td align="right">8.65</td>
-<td align="right">41271.84</td>
-<td align="right">9.84</td>
-<td align="right">-14.20</td>
-<td align="right">7516.24</td>
-<td align="right">8786.09</td>
-<td align="right">10.53</td>
-<td align="right">23660.68</td>
-<td align="right">3259.29</td>
+<td align="right">8.73</td>
+<td align="right">43906.71</td>
+<td align="right">9.90</td>
+<td align="right">53.14</td>
+<td align="right">8177.05</td>
+<td align="right">9082.16</td>
+<td align="right">10.59</td>
+<td align="right">24457.99</td>
+<td align="right">3095.86</td>
 </tr>
 <tr class="even">
 <td align="right">12</td>
-<td align="right">8.65</td>
-<td align="right">41308.56</td>
-<td align="right">9.84</td>
-<td align="right">-13.30</td>
-<td align="right">7625.47</td>
-<td align="right">8847.66</td>
-<td align="right">10.53</td>
-<td align="right">23857.39</td>
-<td align="right">3241.82</td>
+<td align="right">8.74</td>
+<td align="right">44209.71</td>
+<td align="right">9.91</td>
+<td align="right">-101.15</td>
+<td align="right">8157.34</td>
+<td align="right">9153.64</td>
+<td align="right">10.61</td>
+<td align="right">24438.14</td>
+<td align="right">3101.98</td>
 </tr>
 <tr class="odd">
 <td align="right">13</td>
-<td align="right">8.66</td>
-<td align="right">41572.99</td>
-<td align="right">9.85</td>
-<td align="right">-96.98</td>
-<td align="right">7736.70</td>
-<td align="right">8888.02</td>
-<td align="right">10.50</td>
-<td align="right">24374.92</td>
-<td align="right">3173.70</td>
+<td align="right">8.75</td>
+<td align="right">44102.25</td>
+<td align="right">9.92</td>
+<td align="right">12.49</td>
+<td align="right">8146.57</td>
+<td align="right">9234.42</td>
+<td align="right">10.64</td>
+<td align="right">24172.28</td>
+<td align="right">3049.59</td>
 </tr>
 <tr class="even">
 <td align="right">14</td>
-<td align="right">8.67</td>
-<td align="right">41750.97</td>
-<td align="right">9.85</td>
-<td align="right">-63.31</td>
-<td align="right">7791.85</td>
-<td align="right">8932.16</td>
-<td align="right">10.48</td>
-<td align="right">24478.32</td>
-<td align="right">3134.79</td>
+<td align="right">8.75</td>
+<td align="right">44312.30</td>
+<td align="right">9.92</td>
+<td align="right">85.49</td>
+<td align="right">8112.09</td>
+<td align="right">9269.34</td>
+<td align="right">10.65</td>
+<td align="right">24333.07</td>
+<td align="right">3061.76</td>
 </tr>
 <tr class="odd">
 <td align="right">15</td>
-<td align="right">8.68</td>
-<td align="right">42132.25</td>
-<td align="right">9.86</td>
-<td align="right">-57.43</td>
-<td align="right">7820.92</td>
-<td align="right">8945.68</td>
-<td align="right">10.46</td>
-<td align="right">24516.10</td>
-<td align="right">3091.91</td>
+<td align="right">8.76</td>
+<td align="right">44535.12</td>
+<td align="right">9.93</td>
+<td align="right">6.04</td>
+<td align="right">8086.54</td>
+<td align="right">9239.03</td>
+<td align="right">10.66</td>
+<td align="right">24379.09</td>
+<td align="right">3093.30</td>
 </tr>
 <tr class="even">
 <td align="right">16</td>
-<td align="right">8.69</td>
-<td align="right">42380.23</td>
-<td align="right">9.86</td>
-<td align="right">53.12</td>
-<td align="right">7820.33</td>
-<td align="right">9009.81</td>
-<td align="right">10.48</td>
-<td align="right">24706.39</td>
-<td align="right">3064.06</td>
+<td align="right">8.76</td>
+<td align="right">44692.36</td>
+<td align="right">9.92</td>
+<td align="right">-11.84</td>
+<td align="right">8124.46</td>
+<td align="right">9182.78</td>
+<td align="right">10.67</td>
+<td align="right">24066.55</td>
+<td align="right">3088.03</td>
 </tr>
 <tr class="odd">
 <td align="right">17</td>
-<td align="right">8.69</td>
-<td align="right">42682.05</td>
-<td align="right">9.86</td>
-<td align="right">-101.26</td>
-<td align="right">7799.26</td>
-<td align="right">9080.73</td>
-<td align="right">10.51</td>
-<td align="right">24690.74</td>
-<td align="right">3070.46</td>
+<td align="right">8.77</td>
+<td align="right">45060.68</td>
+<td align="right">9.93</td>
+<td align="right">-86.42</td>
+<td align="right">8118.53</td>
+<td align="right">9104.32</td>
+<td align="right">10.67</td>
+<td align="right">23956.09</td>
+<td align="right">3110.85</td>
 </tr>
 <tr class="even">
 <td align="right">18</td>
-<td align="right">8.70</td>
-<td align="right">42574.51</td>
-<td align="right">9.87</td>
-<td align="right">13.13</td>
-<td align="right">7787.33</td>
-<td align="right">9161.21</td>
-<td align="right">10.52</td>
-<td align="right">24424.95</td>
-<td align="right">3017.95</td>
+<td align="right">8.78</td>
+<td align="right">45620.57</td>
+<td align="right">9.94</td>
+<td align="right">128.13</td>
+<td align="right">8087.37</td>
+<td align="right">9022.61</td>
+<td align="right">10.67</td>
+<td align="right">23866.25</td>
+<td align="right">3108.97</td>
 </tr>
 <tr class="odd">
 <td align="right">19</td>
-<td align="right">8.70</td>
-<td align="right">42784.66</td>
-<td align="right">9.87</td>
-<td align="right">85.63</td>
-<td align="right">7751.67</td>
-<td align="right">9195.67</td>
-<td align="right">10.53</td>
-<td align="right">24582.80</td>
-<td align="right">3030.38</td>
+<td align="right">8.79</td>
+<td align="right">45719.46</td>
+<td align="right">9.95</td>
+<td align="right">-205.87</td>
+<td align="right">8104.15</td>
+<td align="right">8997.47</td>
+<td align="right">10.68</td>
+<td align="right">24009.67</td>
+<td align="right">3119.01</td>
 </tr>
 <tr class="even">
 <td align="right">20</td>
-<td align="right">8.71</td>
-<td align="right">43008.21</td>
-<td align="right">9.88</td>
-<td align="right">5.61</td>
-<td align="right">7725.17</td>
-<td align="right">9164.23</td>
-<td align="right">10.55</td>
-<td align="right">24629.20</td>
-<td align="right">3062.26</td>
+<td align="right">8.79</td>
+<td align="right">45624.61</td>
+<td align="right">9.96</td>
+<td align="right">-144.94</td>
+<td align="right">8073.46</td>
+<td align="right">8997.90</td>
+<td align="right">10.68</td>
+<td align="right">24219.34</td>
+<td align="right">3105.34</td>
 </tr>
 <tr class="odd">
 <td align="right">21</td>
-<td align="right">8.71</td>
-<td align="right">43165.54</td>
-<td align="right">9.88</td>
-<td align="right">-12.03</td>
-<td align="right">7761.68</td>
-<td align="right">9107.52</td>
-<td align="right">10.54</td>
-<td align="right">24319.10</td>
-<td align="right">3056.98</td>
+<td align="right">8.77</td>
+<td align="right">44799.14</td>
+<td align="right">9.94</td>
+<td align="right">8.44</td>
+<td align="right">8054.70</td>
+<td align="right">9062.64</td>
+<td align="right">10.69</td>
+<td align="right">24519.87</td>
+<td align="right">3124.95</td>
 </tr>
 <tr class="even">
 <td align="right">22</td>
-<td align="right">8.72</td>
-<td align="right">43534.69</td>
-<td align="right">9.88</td>
-<td align="right">-86.61</td>
-<td align="right">7754.87</td>
-<td align="right">9027.72</td>
-<td align="right">10.54</td>
-<td align="right">24207.51</td>
-<td align="right">3079.69</td>
+<td align="right">8.75</td>
+<td align="right">44189.86</td>
+<td align="right">9.92</td>
+<td align="right">-21.69</td>
+<td align="right">8112.95</td>
+<td align="right">9094.50</td>
+<td align="right">10.69</td>
+<td align="right">24622.02</td>
+<td align="right">3123.56</td>
 </tr>
 <tr class="odd">
 <td align="right">23</td>
-<td align="right">8.73</td>
-<td align="right">44094.86</td>
-<td align="right">9.90</td>
-<td align="right">128.57</td>
-<td align="right">7722.43</td>
-<td align="right">8945.79</td>
-<td align="right">10.55</td>
-<td align="right">24115.00</td>
-<td align="right">3077.65</td>
+<td align="right">8.75</td>
+<td align="right">44237.68</td>
+<td align="right">9.92</td>
+<td align="right">-96.11</td>
+<td align="right">8109.81</td>
+<td align="right">9145.83</td>
+<td align="right">10.68</td>
+<td align="right">24109.59</td>
+<td align="right">3152.12</td>
 </tr>
 <tr class="even">
 <td align="right">24</td>
-<td align="right">8.74</td>
-<td align="right">44193.03</td>
-<td align="right">9.90</td>
-<td align="right">-206.71</td>
-<td align="right">7737.53</td>
-<td align="right">8920.36</td>
-<td align="right">10.55</td>
-<td align="right">24260.38</td>
-<td align="right">3087.55</td>
+<td align="right">8.75</td>
+<td align="right">44418.51</td>
+<td align="right">9.93</td>
+<td align="right">76.44</td>
+<td align="right">8100.73</td>
+<td align="right">9132.10</td>
+<td align="right">10.67</td>
+<td align="right">23977.42</td>
+<td align="right">3166.41</td>
 </tr>
 <tr class="odd">
 <td align="right">25</td>
-<td align="right">8.74</td>
-<td align="right">44097.32</td>
-<td align="right">9.91</td>
-<td align="right">-145.63</td>
-<td align="right">7705.69</td>
-<td align="right">8921.29</td>
-<td align="right">10.56</td>
-<td align="right">24469.08</td>
-<td align="right">3073.82</td>
+<td align="right">8.75</td>
+<td align="right">44438.61</td>
+<td align="right">9.93</td>
+<td align="right">-27.98</td>
+<td align="right">8087.91</td>
+<td align="right">9171.28</td>
+<td align="right">10.67</td>
+<td align="right">24002.00</td>
+<td align="right">3169.05</td>
 </tr>
 <tr class="even">
 <td align="right">26</td>
-<td align="right">8.72</td>
-<td align="right">43269.50</td>
-<td align="right">9.89</td>
-<td align="right">8.66</td>
-<td align="right">7686.02</td>
-<td align="right">8985.99</td>
-<td align="right">10.56</td>
-<td align="right">24768.07</td>
-<td align="right">3093.59</td>
+<td align="right">8.75</td>
+<td align="right">44404.50</td>
+<td align="right">9.94</td>
+<td align="right">61.48</td>
+<td align="right">8096.32</td>
+<td align="right">9151.25</td>
+<td align="right">10.67</td>
+<td align="right">23939.95</td>
+<td align="right">3157.83</td>
 </tr>
 <tr class="odd">
 <td align="right">27</td>
-<td align="right">8.70</td>
-<td align="right">42660.85</td>
-<td align="right">9.87</td>
-<td align="right">-21.26</td>
-<td align="right">7742.96</td>
-<td align="right">9017.21</td>
-<td align="right">10.55</td>
-<td align="right">24870.81</td>
-<td align="right">3092.15</td>
+<td align="right">8.76</td>
+<td align="right">44600.70</td>
+<td align="right">9.95</td>
+<td align="right">-49.06</td>
+<td align="right">8017.17</td>
+<td align="right">9125.58</td>
+<td align="right">10.68</td>
+<td align="right">24294.82</td>
+<td align="right">3142.80</td>
 </tr>
 <tr class="even">
 <td align="right">28</td>
-<td align="right">8.70</td>
-<td align="right">42709.63</td>
-<td align="right">9.88</td>
-<td align="right">-96.12</td>
-<td align="right">7738.59</td>
-<td align="right">9068.08</td>
-<td align="right">10.54</td>
-<td align="right">24365.33</td>
-<td align="right">3120.86</td>
+<td align="right">8.76</td>
+<td align="right">44452.12</td>
+<td align="right">9.96</td>
+<td align="right">63.96</td>
+<td align="right">7987.99</td>
+<td align="right">9090.44</td>
+<td align="right">10.69</td>
+<td align="right">24486.33</td>
+<td align="right">3163.45</td>
 </tr>
 <tr class="odd">
 <td align="right">29</td>
-<td align="right">8.70</td>
-<td align="right">42891.58</td>
-<td align="right">9.89</td>
-<td align="right">76.97</td>
-<td align="right">7728.02</td>
-<td align="right">9053.84</td>
-<td align="right">10.54</td>
-<td align="right">24231.04</td>
-<td align="right">3135.10</td>
+<td align="right">8.76</td>
+<td align="right">44560.15</td>
+<td align="right">9.96</td>
+<td align="right">17.29</td>
+<td align="right">8026.40</td>
+<td align="right">9121.25</td>
+<td align="right">10.70</td>
+<td align="right">24526.38</td>
+<td align="right">3168.39</td>
 </tr>
 <tr class="even">
 <td align="right">30</td>
-<td align="right">8.70</td>
-<td align="right">42911.72</td>
-<td align="right">9.89</td>
-<td align="right">-28.31</td>
-<td align="right">7714.19</td>
-<td align="right">9092.65</td>
-<td align="right">10.54</td>
-<td align="right">24251.08</td>
-<td align="right">3137.74</td>
+<td align="right">8.76</td>
+<td align="right">44535.59</td>
+<td align="right">9.97</td>
+<td align="right">-29.36</td>
+<td align="right">7906.80</td>
+<td align="right">9097.98</td>
+<td align="right">10.69</td>
+<td align="right">24421.17</td>
+<td align="right">3172.24</td>
 </tr>
 </tbody>
 </table>
@@ -752,33 +765,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 <tr class="even">
 <td align="left">DowJones</td>
-<td align="right">5728.34</td>
-<td align="right">7501.07</td>
-<td align="right">16.90</td>
+<td align="right">5727.47</td>
+<td align="right">7509.93</td>
+<td align="right">16.88</td>
 </tr>
 <tr class="odd">
 <td align="left">Nasdaq</td>
 <td align="right">0.30</td>
 <td align="right">0.34</td>
-<td align="right">3.16</td>
+<td align="right">3.15</td>
 </tr>
 <tr class="even">
 <td align="left">DAX</td>
-<td align="right">99.05</td>
-<td align="right">168.12</td>
-<td align="right">392.66</td>
+<td align="right">99.23</td>
+<td align="right">168.93</td>
+<td align="right">393.35</td>
 </tr>
 <tr class="odd">
 <td align="left">CAC40</td>
-<td align="right">1047.58</td>
-<td align="right">1339.80</td>
-<td align="right">16.74</td>
+<td align="right">1044.99</td>
+<td align="right">1337.07</td>
+<td align="right">16.70</td>
 </tr>
 <tr class="even">
 <td align="left">FTSE100</td>
-<td align="right">898.68</td>
-<td align="right">1141.28</td>
-<td align="right">12.15</td>
+<td align="right">897.20</td>
+<td align="right">1141.98</td>
+<td align="right">12.12</td>
 </tr>
 <tr class="odd">
 <td align="left">Nikkei225</td>
@@ -788,19 +801,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 <tr class="even">
 <td align="left">HangSeng</td>
-<td align="right">3745.14</td>
-<td align="right">4512.09</td>
-<td align="right">16.90</td>
+<td align="right">3733.39</td>
+<td align="right">4498.58</td>
+<td align="right">16.84</td>
 </tr>
 <tr class="odd">
 <td align="left">ShanghaiComposite</td>
-<td align="right">270.85</td>
-<td align="right">324.64</td>
-<td align="right">8.68</td>
+<td align="right">270.68</td>
+<td align="right">324.50</td>
+<td align="right">8.67</td>
 </tr>
 </tbody>
 </table>
-
 </div>
 </div>
             </section>
@@ -808,8 +820,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="desarrollo-actividad-3..html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="desarrollo-actividad-3..html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

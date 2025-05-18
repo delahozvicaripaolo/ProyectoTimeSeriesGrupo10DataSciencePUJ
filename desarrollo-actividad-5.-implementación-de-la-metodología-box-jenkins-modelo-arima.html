@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 6 Desarrollo Actividad 5. Implementación de la Metodología Box-Jenkins (Modelo ARIMA) | Faros del Mercado: Índices Bursátiles que Guían la Economía Mundial.</title>
+  <meta name="description" content="Serie de tiempo" />
+  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 6 Desarrollo Actividad 5. Implementación de la Metodología Box-Jenkins (Modelo ARIMA) | Faros del Mercado: Índices Bursátiles que Guían la Economía Mundial." />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Serie de tiempo" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 6 Desarrollo Actividad 5. Implementación de la Metodología Box-Jenkins (Modelo ARIMA) | Faros del Mercado: Índices Bursátiles que Guían la Economía Mundial." />
+  
+  <meta name="twitter:description" content="Serie de tiempo" />
+  
+
+<meta name="author" content="Paolo De La Hoz Vicari, Genjis Ossa Gonzales" />
+
+
+<meta name="date" content="2025-05-18" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="desarrollo-actividad-4-implementación-holt---winter.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/codefolding-lua-1.1/codefolding-lua.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Series de Tiempo Acciones Mercado de Valores</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Descripción del proceso y justificación del análisis de los valores bursátiles en los principales mercados globales: Estados Unidos, Europa y Asia.</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#descripción-del-proyecto."><i class="fa fa-check"></i><b>1.1</b> Descripción del proyecto.</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#justificación-e-importancia-del-análisis."><i class="fa fa-check"></i><b>1.2</b> Justificación e importancia del análisis.</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i><b>2</b> Referencias</a></li>
+<li class="chapter" data-level="3" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html"><i class="fa fa-check"></i><b>3</b> Desarrollo Actividad 2.</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#preprocesamiento-de-datos."><i class="fa fa-check"></i><b>3.1</b> Preprocesamiento de datos.</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#cargar-las-librerías-necesarias"><i class="fa fa-check"></i><b>3.1.1</b> Cargar las librerías necesarias</a></li>
+<li class="chapter" data-level="3.1.2" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#definimos-los-índices-bursátiles-de-interés-yahoo-finance-symbols."><i class="fa fa-check"></i><b>3.1.2</b> Definimos los índices bursátiles de interés (Yahoo Finance symbols).</a></li>
+<li class="chapter" data-level="3.1.3" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#descargamos-los-datos-de-yahoo-finance-desde-el-2019."><i class="fa fa-check"></i><b>3.1.3</b> Descargamos los datos de Yahoo Finance desde el 2019.</a></li>
+<li class="chapter" data-level="3.1.4" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#asignamos-nombres-a-cada-índice."><i class="fa fa-check"></i><b>3.1.4</b> Asignamos nombres a cada índice.</a></li>
+<li class="chapter" data-level="3.1.5" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#extraemos-solo-los-precios-de-cierre-y-convertimos-cada-serie-en-un-objeto-zoo."><i class="fa fa-check"></i><b>3.1.5</b> Extraemos solo los precios de cierre y convertimos cada serie en un objeto zoo.</a></li>
+<li class="chapter" data-level="3.1.6" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#unimos-todas-las-series-zoo-en-un-solo-objeto."><i class="fa fa-check"></i><b>3.1.6</b> Unimos todas las series zoo en un solo objeto.</a></li>
+<li class="chapter" data-level="3.1.7" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#visualizamos-la-estructura."><i class="fa fa-check"></i><b>3.1.7</b> Visualizamos la estructura.</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#gráfico-de-evolución-histórica-de-todos-los-índices."><i class="fa fa-check"></i><b>3.2</b> Gráfico de evolución histórica de todos los índices.</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#convertir-a-un-data-frame-para-ggplot-y-reestructuración-en-formato-largo-para-gráficos."><i class="fa fa-check"></i><b>3.2.1</b> Convertir a un data frame para ggplot y reestructuración en formato largo para gráficos.</a></li>
+<li class="chapter" data-level="3.2.2" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#gráfico."><i class="fa fa-check"></i><b>3.2.2</b> Gráfico.</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#promedios-móviles"><i class="fa fa-check"></i><b>3.3</b> Promedios Móviles</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#aplicamos-promedio-móvil-7-30-90-días-para-cada-índice."><i class="fa fa-check"></i><b>3.3.1</b> Aplicamos promedio móvil (7, 30, 90 días) para cada índice.</a></li>
+<li class="chapter" data-level="3.3.2" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#asignamos-los-nombres-de-los-indices"><i class="fa fa-check"></i><b>3.3.2</b> Asignamos los nombres de los indices</a></li>
+<li class="chapter" data-level="3.3.3" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#graficamos-los-promedios-móviles-en-todos-los-indices-con-7-30-90-días"><i class="fa fa-check"></i><b>3.3.3</b> Graficamos los promedios móviles en todos los indices con (7, 30, 90 días)</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#autocorrelación-acf"><i class="fa fa-check"></i><b>3.4</b> AutoCorrelación ACF</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#graficamos-la-autocorrelación-acf-en-todos-los-indices."><i class="fa fa-check"></i><b>3.4.1</b> Graficamos la autocorrelación (ACF) en todos los indices.</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#descomposición-de-serie-de-tiempo."><i class="fa fa-check"></i><b>3.5</b> Descomposición de serie de tiempo.</a>
+<ul>
+<li class="chapter" data-level="3.5.1" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#descomponemos-y-graficamos-los-indices-bursatiles-utilizando-la-forma-clasica-y-stl-con-pasos-de-limpieza-e-implementación."><i class="fa fa-check"></i><b>3.5.1</b> Descomponemos y graficamos los indices bursatiles utilizando la forma clasica y STL con pasos de limpieza e implementación.</a></li>
+</ul></li>
+<li class="chapter" data-level="3.6" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#tabla-de-resumen-con-tendencia-estacionalidad-y-ruido-para-todos-los-indices."><i class="fa fa-check"></i><b>3.6</b> Tabla de resumen con tendencia, estacionalidad y ruido; para todos los indices.</a></li>
+<li class="chapter" data-level="3.7" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#mapa-de-calor"><i class="fa fa-check"></i><b>3.7</b> Mapa de calor</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="desarrollo-actividad-3..html"><a href="desarrollo-actividad-3..html"><i class="fa fa-check"></i><b>4</b> Desarrollo Actividad 3.</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="desarrollo-actividad-3..html"><a href="desarrollo-actividad-3..html#validación-de-supuestos-e-implementación-de-transformaciones-requeridas-en-las-series."><i class="fa fa-check"></i><b>4.1</b> Validación de supuestos e implementación de transformaciones requeridas en las series.</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="desarrollo-actividad-3..html"><a href="desarrollo-actividad-3..html#procesos-implementados."><i class="fa fa-check"></i><b>4.1.1</b> Procesos implementados.</a></li>
+<li class="chapter" data-level="4.1.2" data-path="desarrollo-actividad-3..html"><a href="desarrollo-actividad-3..html#resumen-del-análisis-de-estacionariedad-por-índice-bursátil"><i class="fa fa-check"></i><b>4.1.2</b> Resumen del análisis de estacionariedad por índice bursátil</a></li>
+<li class="chapter" data-level="4.1.3" data-path="desarrollo-actividad-3..html"><a href="desarrollo-actividad-3..html#creamos-el-objeto-tabla-del-resumen-final."><i class="fa fa-check"></i><b>4.1.3</b> Creamos el objeto tabla del resumen final.</a></li>
+<li class="chapter" data-level="4.1.4" data-path="desarrollo-actividad-3..html"><a href="desarrollo-actividad-3..html#implementación-de-procesos-sobre-los-índices-bursátile-en-tres-etapas-limpieza-transformación-si-aplica-y-verificación-de-estacionariedad-con-visualizaciones-intermedias."><i class="fa fa-check"></i><b>4.1.4</b> Implementación de procesos sobre los índices bursátile en tres etapas: limpieza, transformación (si aplica), y verificación de estacionariedad, con visualizaciones intermedias.</a></li>
+<li class="chapter" data-level="4.1.5" data-path="desarrollo-actividad-3..html"><a href="desarrollo-actividad-3..html#iteramos-los-indices-bursatiles-sobre-la-función-realizada."><i class="fa fa-check"></i><b>4.1.5</b> Iteramos los indices bursatiles sobre la función realizada.</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="desarrollo-actividad-3..html"><a href="desarrollo-actividad-3..html#tabla-de-resumen."><i class="fa fa-check"></i><b>4.2</b> Tabla de resumen.</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="desarrollo-actividad-4-implementación-holt---winter.html"><a href="desarrollo-actividad-4-implementación-holt---winter.html"><i class="fa fa-check"></i><b>5</b> Desarrollo actividad 4 Implementación Holt - Winter</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="desarrollo-actividad-4-implementación-holt---winter.html"><a href="desarrollo-actividad-4-implementación-holt---winter.html#funciones-y-lógicas-implementadas"><i class="fa fa-check"></i><b>5.1</b> Funciones y lógicas implementadas</a></li>
+<li class="chapter" data-level="5.2" data-path="desarrollo-actividad-4-implementación-holt---winter.html"><a href="desarrollo-actividad-4-implementación-holt---winter.html#implementar-modelo-en-todas-las-series-de-tiempo"><i class="fa fa-check"></i><b>5.2</b> Implementar modelo en todas las series de tiempo</a></li>
+<li class="chapter" data-level="5.3" data-path="desarrollo-actividad-4-implementación-holt---winter.html"><a href="desarrollo-actividad-4-implementación-holt---winter.html#resultados-predicción"><i class="fa fa-check"></i><b>5.3</b> Resultados predicción</a></li>
+<li class="chapter" data-level="5.4" data-path="desarrollo-actividad-4-implementación-holt---winter.html"><a href="desarrollo-actividad-4-implementación-holt---winter.html#tabla-de-resumen"><i class="fa fa-check"></i><b>5.4</b> Tabla de resumen</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html"><i class="fa fa-check"></i><b>6</b> Desarrollo Actividad 5. Implementación de la Metodología Box-Jenkins (Modelo ARIMA)</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#fundamentos-teóricos-del-modelo-arima-y-box-jenkins"><i class="fa fa-check"></i><b>6.1</b> Fundamentos teóricos del modelo ARIMA y Box-Jenkins</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#etapas-de-la-metodología-box-jenkins"><i class="fa fa-check"></i><b>6.1.1</b> Etapas de la metodología Box-Jenkins:</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#implementación-de-las-lógicas-y-modelos."><i class="fa fa-check"></i><b>6.2</b> Implementación de las lógicas y modelos.</a></li>
+<li class="chapter" data-level="6.3" data-path="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#resumen-e-interpretación-de-las-gráficas-y-resultados-de-las-funciones."><i class="fa fa-check"></i><b>6.3</b> Resumen e interpretación de las gráficas y resultados de las funciones.</a></li>
+<li class="chapter" data-level="6.4" data-path="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#tabla-con-predicciones-de-30-días."><i class="fa fa-check"></i><b>6.4</b> Tabla con predicciones de 30 días.</a></li>
+<li class="chapter" data-level="6.5" data-path="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#tabla-con-evaluación-de-modelo-arimamaermsemape"><i class="fa fa-check"></i><b>6.5</b> Tabla con evaluación de modelo Arima(MAE,RMSE,MAPE)</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Faros del Mercado: Índices Bursátiles que Guían la Economía Mundial.</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">Chapter 6</span> Desarrollo Actividad 5. Implementación de la Metodología Box-Jenkins (Modelo ARIMA)<a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="fundamentos-teóricos-del-modelo-arima-y-box-jenkins" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> Fundamentos teóricos del modelo ARIMA y Box-Jenkins<a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#fundamentos-teóricos-del-modelo-arima-y-box-jenkins" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>La metodología <strong>Box-Jenkins</strong>, base del modelo <strong>ARIMA (Autoregressive Integrated Moving Average)</strong>, es uno de los enfoques más robustos y utilizados en el análisis de series de tiempo. Se centra en modelar la dependencia temporal de los datos y consta de tres componentes:</p>
+<ul>
+<li><strong>AR (autoregresivo):</strong> Utiliza valores pasados de la serie para predecir el valor actual.</li>
+<li><strong>I (integrado):</strong> Representa la diferenciación necesaria para hacer la serie estacionaria.</li>
+<li><strong>MA (media móvil):</strong> Usa los residuos (errores pasados) para mejorar la predicción.</li>
+</ul>
+<div id="etapas-de-la-metodología-box-jenkins" class="section level3 hasAnchor" number="6.1.1">
+<h3><span class="header-section-number">6.1.1</span> Etapas de la metodología Box-Jenkins:<a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#etapas-de-la-metodología-box-jenkins" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ol style="list-style-type: decimal">
+<li><strong>Identificación:</strong> Determinar si la serie necesita diferenciación y establecer los valores iniciales de <code>p</code>, <code>d</code>, <code>q</code>.</li>
+<li><strong>Estimación:</strong> Ajustar los parámetros del modelo y validar su significancia.</li>
+<li><strong>Diagnóstico:</strong> Verificar si los residuos se comportan como ruido blanco.</li>
+<li><strong>Pronóstico:</strong> Usar el modelo ajustado para proyectar valores futuros.</li>
+</ol>
+<p>El paquete <code>forecast</code> en R proporciona la función <code>auto.arima()</code> que automatiza este proceso, seleccionando el mejor modelo según el criterio AICc (Akaike Information Criterion corregido).</p>
+</div>
+</div>
+<div id="implementación-de-las-lógicas-y-modelos." class="section level2 hasAnchor" number="6.2">
+<h2><span class="header-section-number">6.2</span> Implementación de las lógicas y modelos.<a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#implementación-de-las-lógicas-y-modelos." class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Es importante resaltar que como se tienen múltiples series de tiempo, es necesario implementar ciclos que iteren sobres las funciones para poder trabajaro con todos los indices bursatiles, las fases del presente punto son las siguientes:</p>
+<p><strong>1. Inicializamos las estructuras de almacenamiento donde se guardarán los pronosticos individuales y las métricas.</strong></p>
+<p><strong>2. Definimos la función que se aplicará donde se realiza la estimación automática del modelo y los diagnosticos de residuos.</strong></p>
+<p><strong>3. Realizamos los pronosticos y visualizaciones.</strong></p>
+<p><strong>4. Almacenamos las predicciones y evaluamos las métricas de error.</strong></p>
+<p><strong>5. Aplicamos la función a todos los indices mediante ciclos itarativos, en este caso el ciclo for.</strong></p>
+</div>
+<div id="resumen-e-interpretación-de-las-gráficas-y-resultados-de-las-funciones." class="section level2 hasAnchor" number="6.3">
+<h2><span class="header-section-number">6.3</span> Resumen e interpretación de las gráficas y resultados de las funciones.<a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#resumen-e-interpretación-de-las-gráficas-y-resultados-de-las-funciones." class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><strong>1. SP500 – ARIMA(2,1,2) con drift</strong></p>
+<p><strong>Modelo:</strong> El modelo ARIMA(2,1,2) con drift muestra significancia en todos los coeficientes, lo cual sugiere una estructura bien ajustada a los datos.</p>
+<p><strong>Bondad de ajuste:</strong> Métricas muy bajas (MAE = 0.0084, RMSE = 0.0124) y un MAPE de 0.10 indican una excelente capacidad predictiva.</p>
+<p><strong>Residuos:</strong> Son estacionarios y centrados en cero. El gráfico ACF de residuos muestra autocorrelaciones insignificantes, reforzado por la prueba Ljung-Box (p = 0.9982), lo que indica que el modelo ha capturado correctamente la estructura temporal.</p>
+<p><strong>Distribución:</strong> Los residuos siguen aproximadamente una distribución normal.</p>
+<p><strong>Pronóstico:</strong> La proyección para 30 días mantiene la tendencia alcista histórica con bandas de confianza estrechas, lo cual indica alta precisión en la predicción.</p>
+<p><strong>2. Dow Jones – ARIMA(5,1,3) con drift</strong></p>
+<p><strong>Modelo:</strong> Se utiliza un modelo de orden relativamente alto, lo cual puede reflejar una dinámica compleja en esta serie.</p>
+<p><strong>Bondad de ajuste:</strong> Aunque el MAE (245.21) y el RMSE (355.49) son elevados debido a la escala del índice, el MAPE de 0.77 confirma un buen desempeño porcentual.</p>
+<p><strong>Residuos:</strong> No se observan patrones significativos ni autocorrelación, confirmado por la prueba de Ljung-Box (p = 1). La distribución de los residuos es simétrica y normal.</p>
+<p><strong>Pronóstico:</strong> Se observa una continuación de la tendencia creciente reciente, con un intervalo de confianza relativamente estrecho para un índice con tanta variabilidad histórica.</p>
+<p><strong>3. Nasdaq – ARIMA(4,1,3) con drift</strong></p>
+<p><strong>Modelo:</strong> Buena capacidad explicativa con parámetros significativos. Incluye una combinación de términos AR y MA que captura la dinámica del Nasdaq.</p>
+<p><strong>Bondad de ajuste:</strong> Muy buen ajuste (MAE = 0.0108, RMSE = 0.0152, MAPE = 0.12).</p>
+<p><strong>Residuos:</strong> Los residuos son ruido blanco y normalmente distribuidos. Ljung-Box (p = 0.992) indica independencia serial.</p>
+<p><strong>Pronóstico:</strong> Predice estabilidad y una continuación de la tendencia alcista. Las bandas de confianza ajustadas indican una buena capacidad de generalización.</p>
+<p><strong>4. DAX – ARIMA(4,0,3) con media distinta de cero</strong></p>
+<p><strong>Modelo:</strong> Se aplicó sin diferenciación (d = 0), lo cual puede deberse a estacionariedad tras transformaciones previas. Incluye una media distinta de cero.</p>
+<p><strong>Bondad de ajuste:</strong> MAE (121.65) y RMSE (174.54) elevados en términos absolutos, pero el MAPE de 150.74% es una señal de sobreajuste o mal ajuste.</p>
+<p><strong>Residuos:</strong> Aunque visualmente parecen normales, el alto MAPE y la varianza sugieren que el modelo no captura adecuadamente la variabilidad relativa del índice.</p>
+<p><strong>Pronóstico:</strong> El comportamiento futuro proyectado presenta alta incertidumbre, reflejada en las amplias bandas. Precaución al interpretar.</p>
+<p><strong>5. CAC 40 – ARIMA(0,1,0)</strong></p>
+<p><strong>Modelo:</strong> Es un modelo puramente aleatorio con diferenciación (una caminata aleatoria). No incluye ningún componente AR o MA.</p>
+<p><strong>Bondad de ajuste:</strong> Pese a su simpleza, el modelo muestra métricas aceptables (MAE = 51.4, RMSE = 72.68, MAPE = 0.83).</p>
+<p><strong>Residuos:</strong> El comportamiento de los residuos es ruido blanco, confirmado por Ljung-Box (p = 0.056). La distribución es aproximadamente normal.</p>
+<p><strong>Pronóstico:</strong> Debido a la naturaleza del modelo, el pronóstico proyecta una continuidad de la tendencia reciente sin componente estructural. Las bandas son más amplias que en modelos complejos.</p>
+<p><strong>6. FTSE 100 – ARIMA(0,1,0)</strong></p>
+<p><strong>Modelo:</strong> Mismo planteamiento que el CAC 40, es decir, una caminata aleatoria sin términos AR o MA.</p>
+<p><strong>Bondad de ajuste:</strong> MAE = 48.43, RMSE = 70.81, y MAPE = 0.69, lo cual representa un rendimiento moderado aceptable.</p>
+<p><strong>Residuos:</strong> No hay autocorrelación significativa (Ljung-Box p = 0.1141), y la distribución es normal.</p>
+<p><strong>Pronóstico:</strong> Proyección continua de la tendencia, con incertidumbre moderada. Adecuado para horizontes de corto plazo dada su simplicidad.</p>
+<p><strong>7. Nikkei 225 – ARIMA(1,1,2)</strong></p>
+<p><strong>Modelo:</strong> Estructura razonable para datos financieros, permite capturar choques y componentes transitorios.</p>
+<p><strong>Bondad de ajuste:</strong> Muy buenos indicadores de ajuste (MAE = 0.0093, RMSE = 0.0138, MAPE = 0.09).</p>
+<p><strong>Residuos:</strong> Distribución normal, sin autocorrelación significativa (p = 0.8749). El modelo cumple con los supuestos de ruido blanco.</p>
+<p><strong>Pronóstico:</strong> Muestra un comportamiento alcista y confiable, con estrechas bandas de predicción que reflejan confianza del modelo.</p>
+<p><strong>8. Hang Seng – ARIMA(0,1,0)</strong></p>
+<p><strong>Modelo:</strong> Igual que CAC 40 y FTSE 100, una caminata aleatoria sin componente estructural.</p>
+<p><strong>Bondad de ajuste:</strong> MAE elevado (244.97) y MAPE de 1.10, lo cual refleja dificultades para predecir movimientos relativos del índice.</p>
+<p><strong>Residuos:</strong> Aunque la distribución es normal y el p-valor de Ljung-Box (0.9091) es alto, la magnitud del error indica que el modelo es poco explicativo en términos relativos.</p>
+<p><strong>Pronóstico:</strong> Pese a la estructura simple, el comportamiento errático reciente del índice hace que las predicciones deban tomarse con cautela.</p>
+<p><strong>9. Shanghai Composite – ARIMA(0,1,0)</strong></p>
+<p><strong>Modelo:</strong> Nuevamente una caminata aleatoria, posiblemente porque los datos no muestran patrones fuertes tras diferenciación.</p>
+<p><strong>Bondad de ajuste:</strong> Métricas aceptables (MAE = 23.92, RMSE = 34.58, MAPE = 0.75).</p>
+<p><strong>Residuos:</strong> Están bien comportados; Ljung-Box p = 0.6892 indica que no hay autocorrelación residual.</p>
+<p><strong>Pronóstico:</strong> Se proyecta una continuación de la tendencia moderada con baja varianza, aunque limitada capacidad explicativa del modelo.</p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-1" tabindex="-1"></a><span class="co"># Inicializar estructuras para almacenar resultados</span></span>
+<span id="cb37-2"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-2" tabindex="-1"></a>resultados_arima <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb37-3"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-3" tabindex="-1"></a>metricas_arima <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb37-4"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-4" tabindex="-1"></a>  <span class="at">Indice =</span> <span class="fu">character</span>(),</span>
+<span id="cb37-5"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-5" tabindex="-1"></a>  <span class="at">MAE =</span> <span class="fu">numeric</span>(),</span>
+<span id="cb37-6"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-6" tabindex="-1"></a>  <span class="at">RMSE =</span> <span class="fu">numeric</span>(),</span>
+<span id="cb37-7"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-7" tabindex="-1"></a>  <span class="at">MAPE =</span> <span class="fu">numeric</span>(),</span>
+<span id="cb37-8"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-8" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb37-9"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-9" tabindex="-1"></a>)</span>
+<span id="cb37-10"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-10" tabindex="-1"></a></span>
+<span id="cb37-11"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-11" tabindex="-1"></a><span class="co"># Función para ajustar ARIMA, graficar y evaluar</span></span>
+<span id="cb37-12"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-12" tabindex="-1"></a>ajustar_modelo_arima <span class="ot">&lt;-</span> <span class="cf">function</span>(serie_ts, nombre_indice) {</span>
+<span id="cb37-13"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-13" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n\n</span><span class="st">==============================</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb37-14"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-14" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Modelo ARIMA -&quot;</span>, nombre_indice, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb37-15"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-15" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;==============================</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb37-16"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-16" tabindex="-1"></a>  </span>
+<span id="cb37-17"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-17" tabindex="-1"></a>  modelo <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(serie_ts, <span class="at">seasonal =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb37-18"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-18" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">summary</span>(modelo))</span>
+<span id="cb37-19"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-19" tabindex="-1"></a>  </span>
+<span id="cb37-20"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-20" tabindex="-1"></a>  <span class="co"># Diagnóstico de residuos</span></span>
+<span id="cb37-21"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-21" tabindex="-1"></a>  <span class="fu">checkresiduals</span>(modelo)</span>
+<span id="cb37-22"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-22" tabindex="-1"></a>  </span>
+<span id="cb37-23"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-23" tabindex="-1"></a>  <span class="co"># Pronóstico a 30 días</span></span>
+<span id="cb37-24"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-24" tabindex="-1"></a>  forecast_arima <span class="ot">&lt;-</span> <span class="fu">forecast</span>(modelo, <span class="at">h =</span> <span class="dv">30</span>)</span>
+<span id="cb37-25"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-25" tabindex="-1"></a>  <span class="fu">plot</span>(forecast_arima, <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">&quot;Pronóstico ARIMA (30 días) -&quot;</span>, nombre_indice))</span>
+<span id="cb37-26"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-26" tabindex="-1"></a>  </span>
+<span id="cb37-27"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-27" tabindex="-1"></a>  <span class="co"># Guardar resultados</span></span>
+<span id="cb37-28"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-28" tabindex="-1"></a>  resultados_arima[[nombre_indice]] <span class="ot">&lt;&lt;-</span> <span class="fu">list</span>(<span class="at">modelo =</span> modelo, <span class="at">pronostico =</span> forecast_arima)</span>
+<span id="cb37-29"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-29" tabindex="-1"></a>  </span>
+<span id="cb37-30"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-30" tabindex="-1"></a>  <span class="co"># Métricas de ajuste</span></span>
+<span id="cb37-31"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-31" tabindex="-1"></a>  obs <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(serie_ts)</span>
+<span id="cb37-32"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-32" tabindex="-1"></a>  pred <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">fitted</span>(modelo))</span>
+<span id="cb37-33"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-33" tabindex="-1"></a>  mae_val <span class="ot">&lt;-</span> <span class="fu">mae</span>(obs, pred)</span>
+<span id="cb37-34"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-34" tabindex="-1"></a>  rmse_val <span class="ot">&lt;-</span> <span class="fu">rmse</span>(obs, pred)</span>
+<span id="cb37-35"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-35" tabindex="-1"></a>  mape_val <span class="ot">&lt;-</span> <span class="fu">mape</span>(obs, pred) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb37-36"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-36" tabindex="-1"></a>  </span>
+<span id="cb37-37"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-37" tabindex="-1"></a>  metricas_arima <span class="ot">&lt;&lt;-</span> <span class="fu">rbind</span>(metricas_arima, <span class="fu">data.frame</span>(</span>
+<span id="cb37-38"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-38" tabindex="-1"></a>    <span class="at">Indice =</span> nombre_indice,</span>
+<span id="cb37-39"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-39" tabindex="-1"></a>    <span class="at">MAE =</span> <span class="fu">round</span>(mae_val, <span class="dv">2</span>),</span>
+<span id="cb37-40"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-40" tabindex="-1"></a>    <span class="at">RMSE =</span> <span class="fu">round</span>(rmse_val, <span class="dv">2</span>),</span>
+<span id="cb37-41"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-41" tabindex="-1"></a>    <span class="at">MAPE =</span> <span class="fu">round</span>(mape_val, <span class="dv">2</span>)</span>
+<span id="cb37-42"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-42" tabindex="-1"></a>  ))</span>
+<span id="cb37-43"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-43" tabindex="-1"></a>}</span>
+<span id="cb37-44"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-44" tabindex="-1"></a></span>
+<span id="cb37-45"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-45" tabindex="-1"></a><span class="co"># Aplicar modelo a cada índice preparado</span></span>
+<span id="cb37-46"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-46" tabindex="-1"></a><span class="cf">for</span> (indice <span class="cf">in</span> <span class="fu">names</span>(series_preparadas)) {</span>
+<span id="cb37-47"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-47" tabindex="-1"></a>  <span class="fu">ajustar_modelo_arima</span>(series_preparadas[[indice]], indice)</span>
+<span id="cb37-48"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-48" tabindex="-1"></a>}</span></code></pre></div>
+</details>
+<pre><code>## 
+## 
+## ==============================
+## Modelo ARIMA - SP500 
+## ==============================
+## Series: serie_ts 
+## ARIMA(2,1,2) with drift 
+## 
+## Coefficients:
+##           ar1      ar2     ma1     ma2  drift
+##       -1.7368  -0.8779  1.6144  0.7360  5e-04
+## s.e.   0.0277   0.0267  0.0390  0.0372  3e-04
+## 
+## sigma^2 = 0.0001559:  log likelihood = 4751.13
+## AIC=-9490.25   AICc=-9490.2   BIC=-9457.98
+## 
+## Training set error measures:
+##                         ME       RMSE         MAE           MPE      MAPE       MASE       ACF1
+## Training set -9.908145e-08 0.01246296 0.008438731 -8.650333e-05 0.1021471 0.04901293 0.01710082</code></pre>
+<p><img src="figures/unnamed-chunk-24-1.png" width="672" /></p>
+<pre><code>## 
+##  Ljung-Box test
+## 
+## data:  Residuals from ARIMA(2,1,2) with drift
+## Q* = 248.61, df = 317, p-value = 0.9982
+## 
+## Model df: 4.   Total lags used: 321</code></pre>
+<p><img src="figures/unnamed-chunk-24-2.png" width="672" /></p>
+<pre><code>## 
+## 
+## ==============================
+## Modelo ARIMA - DowJones 
+## ==============================
+## Series: serie_ts 
+## ARIMA(5,1,3) with drift 
+## 
+## Coefficients:
+##           ar1     ar2     ar3      ar4      ar5     ma1      ma2      ma3    drift
+##       -0.6429  0.8822  0.7611  -0.0796  -0.0068  0.5896  -0.8460  -0.6964  11.8126
+## s.e.   0.1063  0.0598  0.1037   0.0335   0.0387  0.1033   0.0521   0.0817   4.9821
+## 
+## sigma^2 = 127167:  log likelihood = -11683.17
+## AIC=23386.33   AICc=23386.47   BIC=23440.12
+## 
+## Training set error measures:
+##                    ME     RMSE      MAE          MPE      MAPE       MASE         ACF1
+## Training set 0.313198 355.4912 245.2132 -0.009403962 0.7735555 0.06068523 8.529064e-06</code></pre>
+<p><img src="figures/unnamed-chunk-24-3.png" width="672" /></p>
+<pre><code>## 
+##  Ljung-Box test
+## 
+## data:  Residuals from ARIMA(5,1,3) with drift
+## Q* = 221.19, df = 313, p-value = 1
+## 
+## Model df: 8.   Total lags used: 321</code></pre>
+<p><img src="figures/unnamed-chunk-24-4.png" width="672" /></p>
+<pre><code>## 
+## 
+## ==============================
+## Modelo ARIMA - Nasdaq 
+## ==============================
+## Series: serie_ts 
+## ARIMA(4,1,3) with drift 
+## 
+## Coefficients:
+##           ar1     ar2     ar3      ar4     ma1      ma2      ma3  drift
+##       -1.2159  0.0015  0.4032  -0.0276  1.1134  -0.0741  -0.3822  7e-04
+## s.e.   0.4486  0.7805  0.3984   0.0315  0.4483   0.7341   0.3451  3e-04
+## 
+## sigma^2 = 0.0002336:  log likelihood = 4428.82
+## AIC=-8839.63   AICc=-8839.52   BIC=-8791.22
+## 
+## Training set error measures:
+##                        ME       RMSE        MAE           MPE      MAPE       MASE          ACF1
+## Training set 5.098193e-07 0.01524067 0.01084301 -6.084696e-05 0.1153627 0.04441269 -0.0005195652</code></pre>
+<p><img src="figures/unnamed-chunk-24-5.png" width="672" /></p>
+<pre><code>## 
+##  Ljung-Box test
+## 
+## data:  Residuals from ARIMA(4,1,3) with drift
+## Q* = 256.8, df = 314, p-value = 0.992
+## 
+## Model df: 7.   Total lags used: 321</code></pre>
+<p><img src="figures/unnamed-chunk-24-6.png" width="672" /></p>
+<pre><code>## 
+## 
+## ==============================
+## Modelo ARIMA - DAX 
+## ==============================
+## Series: serie_ts 
+## ARIMA(4,0,3) with non-zero mean 
+## 
+## Coefficients:
+##           ar1      ar2     ar3      ar4     ma1     ma2     ma3    mean
+##       -1.5534  -0.7389  0.0347  -0.0214  1.5489  0.7829  0.0043  8.1317
+## s.e.   1.3823   2.2599  1.1454   0.0620  1.3839  2.2326  1.1674  4.4133
+## 
+## sigma^2 = 30615:  log likelihood = -10654.83
+## AIC=21327.66   AICc=21327.78   BIC=21376.17
+## 
+## Training set error measures:
+##                      ME     RMSE      MAE      MPE     MAPE      MASE         ACF1
+## Training set 0.02142431 174.5376 121.6544 89.18682 150.7447 0.6762608 0.0003149745</code></pre>
+<p><img src="figures/unnamed-chunk-24-7.png" width="672" /></p>
+<pre><code>## 
+##  Ljung-Box test
+## 
+## data:  Residuals from ARIMA(4,0,3) with non-zero mean
+## Q* = 300.49, df = 317, p-value = 0.7392
+## 
+## Model df: 7.   Total lags used: 324</code></pre>
+<p><img src="figures/unnamed-chunk-24-8.png" width="672" /></p>
+<pre><code>## 
+## 
+## ==============================
+## Modelo ARIMA - CAC40 
+## ==============================
+## Series: serie_ts 
+## ARIMA(0,1,0) 
+## 
+## sigma^2 = 5286:  log likelihood = -9305.44
+## AIC=18612.88   AICc=18612.88   BIC=18618.27
+## 
+## Training set error measures:
+##                    ME     RMSE     MAE        MPE      MAPE       MASE        ACF1
+## Training set 1.962003 72.68344 51.3964 0.02425373 0.8275969 0.06625433 -0.01181491</code></pre>
+<p><img src="figures/unnamed-chunk-24-9.png" width="672" /></p>
+<pre><code>## 
+##  Ljung-Box test
+## 
+## data:  Residuals from ARIMA(0,1,0)
+## Q* = 367.5, df = 326, p-value = 0.05629
+## 
+## Model df: 0.   Total lags used: 326</code></pre>
+<p><img src="figures/unnamed-chunk-24-10.png" width="672" /></p>
+<pre><code>## 
+## 
+## ==============================
+## Modelo ARIMA - FTSE100 
+## ==============================
+## Series: serie_ts 
+## ARIMA(0,1,0) 
+## 
+## sigma^2 = 5017:  log likelihood = -9126.45
+## AIC=18254.9   AICc=18254.91   BIC=18260.29
+## 
+## Training set error measures:
+##                    ME     RMSE      MAE        MPE      MAPE       MASE        ACF1
+## Training set 1.217123 70.80567 48.42981 0.01033157 0.6852205 0.07134838 0.002022395</code></pre>
+<p><img src="figures/unnamed-chunk-24-11.png" width="672" /></p>
+<pre><code>## 
+##  Ljung-Box test
+## 
+## data:  Residuals from ARIMA(0,1,0)
+## Q* = 352.85, df = 322, p-value = 0.1141
+## 
+## Model df: 0.   Total lags used: 322</code></pre>
+<p><img src="figures/unnamed-chunk-24-12.png" width="672" /></p>
+<pre><code>## 
+## 
+## ==============================
+## Modelo ARIMA - Nikkei225 
+## ==============================
+## Series: serie_ts 
+## ARIMA(1,1,2) 
+## 
+## Coefficients:
+##           ar1     ma1    ma2
+##       -0.6085  0.5716  0.059
+## s.e.   0.1368  0.1374  0.029
+## 
+## sigma^2 = 0.0001794:  log likelihood = 4487.51
+## AIC=-8967.01   AICc=-8966.98   BIC=-8945.63
+## 
+## Training set error measures:
+##                        ME       RMSE        MAE         MPE       MAPE       MASE          ACF1
+## Training set 0.0004243883 0.01337647 0.00930477 0.004075859 0.09087872 0.06226645 -0.0008220273</code></pre>
+<p><img src="figures/unnamed-chunk-24-13.png" width="672" /></p>
+<pre><code>## 
+##  Ljung-Box test
+## 
+## data:  Residuals from ARIMA(1,1,2)
+## Q* = 278.75, df = 307, p-value = 0.8749
+## 
+## Model df: 3.   Total lags used: 310</code></pre>
+<p><img src="figures/unnamed-chunk-24-14.png" width="672" /></p>
+<pre><code>## 
+## 
+## ==============================
+## Modelo ARIMA - HangSeng 
+## ==============================
+## Series: serie_ts 
+## ARIMA(0,1,0) 
+## 
+## sigma^2 = 114316:  log likelihood = -11326.95
+## AIC=22655.9   AICc=22655.9   BIC=22661.26
+## 
+## Training set error measures:
+##                     ME     RMSE      MAE         MPE     MAPE      MASE         ACF1
+## Training set -1.124708 337.9977 244.9722 -0.01656225 1.103525 0.0716382 0.0008864909</code></pre>
+<p><img src="figures/unnamed-chunk-24-15.png" width="672" /></p>
+<pre><code>## 
+##  Ljung-Box test
+## 
+## data:  Residuals from ARIMA(0,1,0)
+## Q* = 280.14, df = 313, p-value = 0.9091
+## 
+## Model df: 0.   Total lags used: 313</code></pre>
+<p><img src="figures/unnamed-chunk-24-16.png" width="672" /></p>
+<pre><code>## 
+## 
+## ==============================
+## Modelo ARIMA - ShanghaiComposite 
+## ==============================
+## Series: serie_ts 
+## ARIMA(0,1,0) 
+## 
+## sigma^2 = 1197:  log likelihood = -7642.44
+## AIC=15286.87   AICc=15286.87   BIC=15292.21
+## 
+## Training set error measures:
+##                     ME     RMSE      MAE        MPE      MAPE       MASE       ACF1
+## Training set 0.5870449 34.58288 23.91841 0.01427247 0.7555159 0.07922569 0.02859062</code></pre>
+<p><img src="figures/unnamed-chunk-24-17.png" width="672" /></p>
+<pre><code>## 
+##  Ljung-Box test
+## 
+## data:  Residuals from ARIMA(0,1,0)
+## Q* = 295.26, df = 308, p-value = 0.6892
+## 
+## Model df: 0.   Total lags used: 308</code></pre>
+<p><img src="figures/unnamed-chunk-24-18.png" width="672" /></p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb56-1" tabindex="-1"></a><span class="co"># Tabla de pronóstico a 30 días</span></span>
+<span id="cb56-2"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb56-2" tabindex="-1"></a>tabla_forecast_arima <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Dia =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>)</span>
+<span id="cb56-3"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb56-3" tabindex="-1"></a><span class="cf">for</span> (indice <span class="cf">in</span> <span class="fu">names</span>(resultados_arima)) {</span>
+<span id="cb56-4"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb56-4" tabindex="-1"></a>  pred <span class="ot">&lt;-</span> resultados_arima[[indice]]<span class="sc">$</span>pronostico</span>
+<span id="cb56-5"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb56-5" tabindex="-1"></a>  tabla_forecast_arima[[indice]] <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">as.numeric</span>(pred<span class="sc">$</span>mean), <span class="dv">2</span>)</span>
+<span id="cb56-6"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb56-6" tabindex="-1"></a>}</span></code></pre></div>
+</details>
+</div>
+<div id="tabla-con-predicciones-de-30-días." class="section level2 hasAnchor" number="6.4">
+<h2><span class="header-section-number">6.4</span> Tabla con predicciones de 30 días.<a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#tabla-con-predicciones-de-30-días." class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><strong>1. S&amp;P 500</strong></p>
+<p><strong>Valores estimados:</strong> Estables entre 8.69 y 8.71 (escala logarítmica).</p>
+<p><strong>Interpretación:</strong> El modelo proyecta un crecimiento moderado y sostenido. Al tratarse de valores log-transformados, este pequeño incremento diario implica un crecimiento exponencial lento pero constante en el índice real.</p>
+<p><strong>Observación relevante:</strong> Alta estabilidad en la predicción sugiere que el ARIMA(2,1,2) capta muy bien la dinámica interna del índice, sin anticipar cambios abruptos.</p>
+<p><strong>2. Dow Jones</strong></p>
+<p><strong>Rango proyectado:</strong> De 42,687 a 43,058 puntos.</p>
+<p><strong>Tendencia:</strong> Claramente creciente, con una pendiente constante de entre 50 y 100 puntos por día.</p>
+<p><strong>Observación relevante:</strong> Aunque el modelo ARIMA(5,1,3) muestra una buena trayectoria, la dispersión en la tabla (por ejemplo, ligera caída en el día 2) indica cierta inestabilidad en los coeficientes de corto plazo. No obstante, la evolución general es positiva.</p>
+<p><strong>3. Nasdaq</strong></p>
+<p><strong>Valores estimados:</strong> Totalmente estables entre 9.86 y 9.88 (escala logarítmica).</p>
+<p><strong>Comentario:</strong> La predicción proyecta un comportamiento plano. Esto puede interpretarse como una pausa en el crecimiento explosivo observado históricamente, o una sobrecorrección del modelo tras las diferenciaciones.</p>
+<p><strong>Observación relevante:</strong>: Interpretar la predicción con precaución, ya que los cambios mínimos en la escala log pueden ocultar variabilidad significativa en precios reales.</p>
+<p><strong>4. DAX</strong></p>
+<p><strong>Predicciones:</strong> Muy irregulares (desde -5.32 hasta 31.45).</p>
+<p><strong>Diagnóstico:</strong> Esta inestabilidad sugiere problemas con el ajuste del modelo ARIMA(4,0,3), que no logra capturar adecuadamente la serie. La aparición de valores negativos (día 2 y 5) es un indicador crítico de mal ajuste o necesidad de transformación logarítmica.</p>
+<p><strong>Observación relevante:</strong> El modelo no es fiable en este caso y debe ser revisado o sustituido por alternativas como SARIMA o modelos con intervención.</p>
+<p><strong>5. CAC 40</strong></p>
+<p><strong>Valor constante:</strong> 7,886.69 durante los 30 días.</p>
+<p><strong>Implicación técnica:</strong> El modelo ARIMA(0,1,0) predice una caminata aleatoria sin tendencia, y la salida es un valor plano.</p>
+<p><strong>Observación relevante:</strong> Aunque estadísticamente válido, no proporciona información predictiva útil; simplemente extiende el último valor conocido.</p>
+<p><strong>6. FTSE 100</strong></p>
+<p><strong>Valor constante:</strong> 8,684.60.</p>
+<p><strong>Observación relevante:</strong> La falta de componentes AR o MA hace que el modelo no proyecte cambios y se limite a replicar el último valor. Esto es inútil para decisiones estratégicas.</p>
+<p><strong>7. Nikkei 225</strong></p>
+<p><strong>Valor proyectado:</strong> 10.54 (escala logarítmica).</p>
+<p><strong>Análisis:</strong> Predicción totalmente constante, lo que puede deberse a un modelo con alto ajuste histórico pero sin capacidad de capturar variaciones futuras.</p>
+<p><strong>Observación relevante:</strong> A pesar de un buen ajuste, el modelo subestima la variabilidad esperada del mercado japonés.</p>
+<p><strong>8. Hang Seng</strong></p>
+<p><strong>Valor proyectado:</strong> 23,345.05 (constante).</p>
+<p><strong>Comentario:</strong> El modelo ARIMA(0,1,0) asigna una caminata aleatoria sin dirección, pero aquí incluso elimina la variabilidad. Puede haber una sobreajuste plano, indicando que el modelo no está aprendiendo nada nuevo del patrón.</p>
+<p><strong>Observación relevante:</strong> Pobre capacidad predictiva en este caso.</p>
+<p><strong>9. Shanghai Composite</strong></p>
+<p><strong>Valor proyectado:</strong> 3,367.46 (constante).</p>
+<p><strong>Observación relevante:</strong> Sin cambios proyectados, el modelo se limita a la prolongación inercial del valor actual.</p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb57-1" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb57-2"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb57-2" tabindex="-1"></a>  tabla_forecast_arima,</span>
+<span id="cb57-3"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb57-3" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">&quot;Predicción de los próximos 30 días por índice bursátil usando modelo ARIMA&quot;</span></span>
+<span id="cb57-4"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb57-4" tabindex="-1"></a>)</span></code></pre></div>
+</details>
+<table>
+<caption><span id="tab:unnamed-chunk-25">Table 6.1: </span>Predicción de los próximos 30 días por índice bursátil usando modelo ARIMA</caption>
+<colgroup>
+<col width="4%" />
+<col width="7%" />
+<col width="10%" />
+<col width="8%" />
+<col width="7%" />
+<col width="9%" />
+<col width="9%" />
+<col width="11%" />
+<col width="10%" />
+<col width="21%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">Dia</th>
+<th align="right">SP500</th>
+<th align="right">DowJones</th>
+<th align="right">Nasdaq</th>
+<th align="right">DAX</th>
+<th align="right">CAC40</th>
+<th align="right">FTSE100</th>
+<th align="right">Nikkei225</th>
+<th align="right">HangSeng</th>
+<th align="right">ShanghaiComposite</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">8.70</td>
+<td align="right">42762.23</td>
+<td align="right">9.87</td>
+<td align="right">31.45</td>
+<td align="right">7886.69</td>
+<td align="right">8684.6</td>
+<td align="right">10.54</td>
+<td align="right">23345.05</td>
+<td align="right">3367.46</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">8.69</td>
+<td align="right">42687.33</td>
+<td align="right">9.86</td>
+<td align="right">-5.32</td>
+<td align="right">7886.69</td>
+<td align="right">8684.6</td>
+<td align="right">10.54</td>
+<td align="right">23345.05</td>
+<td align="right">3367.46</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">8.70</td>
+<td align="right">42801.27</td>
+<td align="right">9.87</td>
+<td align="right">10.91</td>
+<td align="right">7886.69</td>
+<td align="right">8684.6</td>
+<td align="right">10.54</td>
+<td align="right">23345.05</td>
+<td align="right">3367.46</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">8.69</td>
+<td align="right">42716.50</td>
+<td align="right">9.86</td>
+<td align="right">13.20</td>
+<td align="right">7886.69</td>
+<td align="right">8684.6</td>
+<td align="right">10.54</td>
+<td align="right">23345.05</td>
+<td align="right">3367.46</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="right">8.70</td>
+<td align="right">42804.71</td>
+<td align="right">9.87</td>
+<td align="right">-2.76</td>
+<td align="right">7886.69</td>
+<td align="right">8684.6</td>
+<td align="right">10.54</td>
+<td align="right">23345.05</td>
+<td align="right">3367.46</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="right">8.70</td>
+<td align="right">42766.19</td>
+<td align="right">9.87</td>
+<td align="right">21.69</td>
+<td align="right">7886.69</td>
+<td align="right">8684.6</td>
+<td align="right">10.54</td>
+<td align="right">23345.05</td>
+<td align="right">3367.46</td>
+</tr>
+<tr class="odd">
+<td align="right">7</td>
+<td align="right">8.70</td>
+<td align="right">42796.71</td>
+<td align="right">9.87</td>
+<td align="right">-4.77</td>
+<td align="right">7886.69</td>
+<td align="right">8684.6</td>
+<td align="right">10.54</td>
+<td align="right">23345.05</td>
+<td align="right">3367.46</td>
+</tr>
+<tr class="even">
+<td align="right">8</td>
+<td align="right">8.70</td>
+<td align="right">42817.24</td>
+<td align="right">9.87</td>
+<td align="right">17.66</td>
+<td align="right">7886.69</td>
+<td align="right">8684.6</td>
+<td align="right">10.54</td>
+<td align="right">23345.05</td>
+<td align="right">3367.46</td>
+</tr>
+<tr class="odd">
+<td align="right">9</td>
+<td align="right">8.70</td>
+<td align="right">42796.22</td>
+<td align="right">9.87</td>
+<td align="right">3.56</td>
+<td align="right">7886.69</td>
+<td align="right">8684.6</td>
+<td align="right">10.54</td>
+<td align="right">23345.05</td>
+<td align="right">3367.46</td>
+</tr>
+<tr class="even">
+<td align="right">10</td>
+<td align="right">8.70</td>
+<td align="right">42854.55</td>
+<td align="right">9.87</td>
+<td align="right">7.45</td>
+<td align="right">7886.69</td>
+<td align="right">8684.6</td>
+<td align="right">10.54</td>
+<td align="right">23345.05</td>
+<td align="right">3367.46</td>
+</tr>
+<tr class="odd">
+<td align="right">11</td>
+<td align="right">8.70</td>
+<td align="right">42812.98</td>
+<td align="right">9.87</td>
+<td align="right">13.17</td>
+<td align="right">7886.69</td>
+<td align="right">8684.6</td>
+<td align="right">10.54</td>
+<td align="right">23345.05</td>
+<td align="right">3367.46</td>
+</tr>
+<tr class="even">
+<td align="right">12</td>
+<td align="right">8.70</td>
+<td align="right">42874.34</td>
+<td align="right">9.87</td>
+<td align="right">0.44</td>
+<td align="right">7886.69</td>
+<td align="right">8684.6</td>
+<td align="right">10.54</td>
+<td align="right">23345.05</td>
+<td align="right">3367.46</td>
+</tr>
+<tr class="odd">
+<td align="right">13</td>
+<td align="right">8.70</td>
+<td align="right">42845.16</td>
+<td align="right">9.87</td>
+<td align="right">16.43</td>
+<td align="right">7886.69</td>
+<td align="right">8684.6</td>
+<td align="right">10.54</td>
+<td align="right">23345.05</td>
+<td align="right">3367.46</td>
+</tr>
+<tr class="even">
+<td align="right">14</td>
+<td align="right">8.70</td>
+<td align="right">42882.93</td>
+<td align="right">9.87</td>
+<td align="right">1.12</td>
+<td align="right">7886.69</td>
+<td align="right">8684.6</td>
+<td align="right">10.54</td>
+<td align="right">23345.05</td>
+<td align="right">3367.46</td>
+</tr>
+<tr class="odd">
+<td align="right">15</td>
+<td align="right">8.70</td>
+<td align="right">42883.54</td>
+<td align="right">9.87</td>
+<td align="right">12.52</td>
+<td align="right">7886.69</td>
+<td align="right">8684.6</td>
+<td align="right">10.54</td>
+<td align="right">23345.05</td>
+<td align="right">3367.46</td>
+</tr>
+<tr class="even">
+<td align="right">16</td>
+<td align="right">8.70</td>
+<td align="right">42890.67</td>
+<td align="right">9.87</td>
+<td align="right">6.95</td>
+<td align="right">7886.69</td>
+<td align="right">8684.6</td>
+<td align="right">10.54</td>
+<td align="right">23345.05</td>
+<td align="right">3367.46</td>
+</tr>
+<tr class="odd">
+<td align="right">17</td>
+<td align="right">8.70</td>
+<td align="right">42918.29</td>
+<td align="right">9.87</td>
+<td align="right">6.31</td>
+<td align="right">7886.69</td>
+<td align="right">8684.6</td>
+<td align="right">10.54</td>
+<td align="right">23345.05</td>
+<td align="right">3367.46</td>
+</tr>
+<tr class="even">
+<td align="right">18</td>
+<td align="right">8.70</td>
+<td align="right">42905.49</td>
+<td align="right">9.87</td>
+<td align="right">12.14</td>
+<td align="right">7886.69</td>
+<td align="right">8684.6</td>
+<td align="right">10.54</td>
+<td align="right">23345.05</td>
+<td align="right">3367.46</td>
+</tr>
+<tr class="odd">
+<td align="right">19</td>
+<td align="right">8.70</td>
+<td align="right">42944.22</td>
+<td align="right">9.88</td>
+<td align="right">3.11</td>
+<td align="right">7886.69</td>
+<td align="right">8684.6</td>
+<td align="right">10.54</td>
+<td align="right">23345.05</td>
+<td align="right">3367.46</td>
+</tr>
+<tr class="even">
+<td align="right">20</td>
+<td align="right">8.70</td>
+<td align="right">42929.50</td>
+<td align="right">9.88</td>
+<td align="right">12.93</td>
+<td align="right">7886.69</td>
+<td align="right">8684.6</td>
+<td align="right">10.54</td>
+<td align="right">23345.05</td>
+<td align="right">3367.46</td>
+</tr>
+<tr class="odd">
+<td align="right">21</td>
+<td align="right">8.71</td>
+<td align="right">42962.17</td>
+<td align="right">9.88</td>
+<td align="right">4.57</td>
+<td align="right">7886.69</td>
+<td align="right">8684.6</td>
+<td align="right">10.54</td>
+<td align="right">23345.05</td>
+<td align="right">3367.46</td>
+</tr>
+<tr class="even">
+<td align="right">22</td>
+<td align="right">8.71</td>
+<td align="right">42959.50</td>
+<td align="right">9.88</td>
+<td align="right">9.86</td>
+<td align="right">7886.69</td>
+<td align="right">8684.6</td>
+<td align="right">10.54</td>
+<td align="right">23345.05</td>
+<td align="right">3367.46</td>
+</tr>
+<tr class="odd">
+<td align="right">23</td>
+<td align="right">8.71</td>
+<td align="right">42976.85</td>
+<td align="right">9.88</td>
+<td align="right">8.35</td>
+<td align="right">7886.69</td>
+<td align="right">8684.6</td>
+<td align="right">10.54</td>
+<td align="right">23345.05</td>
+<td align="right">3367.46</td>
+</tr>
+<tr class="even">
+<td align="right">24</td>
+<td align="right">8.71</td>
+<td align="right">42990.13</td>
+<td align="right">9.88</td>
+<td align="right">6.29</td>
+<td align="right">7886.69</td>
+<td align="right">8684.6</td>
+<td align="right">10.54</td>
+<td align="right">23345.05</td>
+<td align="right">3367.46</td>
+</tr>
+<tr class="odd">
+<td align="right">25</td>
+<td align="right">8.71</td>
+<td align="right">42993.38</td>
+<td align="right">9.88</td>
+<td align="right">10.97</td>
+<td align="right">7886.69</td>
+<td align="right">8684.6</td>
+<td align="right">10.54</td>
+<td align="right">23345.05</td>
+<td align="right">3367.46</td>
+</tr>
+<tr class="even">
+<td align="right">26</td>
+<td align="right">8.71</td>
+<td align="right">43017.22</td>
+<td align="right">9.88</td>
+<td align="right">5.05</td>
+<td align="right">7886.69</td>
+<td align="right">8684.6</td>
+<td align="right">10.54</td>
+<td align="right">23345.05</td>
+<td align="right">3367.46</td>
+</tr>
+<tr class="odd">
+<td align="right">27</td>
+<td align="right">8.71</td>
+<td align="right">43014.52</td>
+<td align="right">9.88</td>
+<td align="right">10.74</td>
+<td align="right">7886.69</td>
+<td align="right">8684.6</td>
+<td align="right">10.54</td>
+<td align="right">23345.05</td>
+<td align="right">3367.46</td>
+</tr>
+<tr class="even">
+<td align="right">28</td>
+<td align="right">8.71</td>
+<td align="right">43039.60</td>
+<td align="right">9.88</td>
+<td align="right">6.48</td>
+<td align="right">7886.69</td>
+<td align="right">8684.6</td>
+<td align="right">10.54</td>
+<td align="right">23345.05</td>
+<td align="right">3367.46</td>
+</tr>
+<tr class="odd">
+<td align="right">29</td>
+<td align="right">8.71</td>
+<td align="right">43039.91</td>
+<td align="right">9.88</td>
+<td align="right">8.59</td>
+<td align="right">7886.69</td>
+<td align="right">8684.6</td>
+<td align="right">10.54</td>
+<td align="right">23345.05</td>
+<td align="right">3367.46</td>
+</tr>
+<tr class="even">
+<td align="right">30</td>
+<td align="right">8.71</td>
+<td align="right">43058.87</td>
+<td align="right">9.88</td>
+<td align="right">8.79</td>
+<td align="right">7886.69</td>
+<td align="right">8684.6</td>
+<td align="right">10.54</td>
+<td align="right">23345.05</td>
+<td align="right">3367.46</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="tabla-con-evaluación-de-modelo-arimamaermsemape" class="section level2 hasAnchor" number="6.5">
+<h2><span class="header-section-number">6.5</span> Tabla con evaluación de modelo Arima(MAE,RMSE,MAPE)<a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#tabla-con-evaluación-de-modelo-arimamaermsemape" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>La siguiente tablarecoge los principales indicadores de error para cada uno de los modelos ARIMA ajustados a los distintos índices bursátiles. Se analizaron tres métricas clave para evaluar el rendimiento del ajuste histórico:</p>
+<p>MAE (Mean Absolute Error): Promedio del valor absoluto de los errores.</p>
+<p>RMSE (Root Mean Squared Error): Raíz cuadrada del error cuadrático medio.</p>
+<p>MAPE (Mean Absolute Percentage Error): Error porcentual medio absoluto.</p>
+<p>Estas métricas permiten evaluar tanto la precisión absoluta (MAE, RMSE) como la proporcionalidad del error en relación con los niveles reales de los índices (MAPE).</p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb58-1" tabindex="-1"></a><span class="co"># Tabla de evaluación del modelo ARIMA</span></span>
+<span id="cb58-2"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb58-2" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb58-3"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb58-3" tabindex="-1"></a>  metricas_arima,</span>
+<span id="cb58-4"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb58-4" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">&quot;Evaluación del modelo ARIMA por índice bursátil (basado en el ajuste histórico)&quot;</span></span>
+<span id="cb58-5"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb58-5" tabindex="-1"></a>)</span></code></pre></div>
+</details>
+<table>
+<caption><span id="tab:unnamed-chunk-26">Table 6.2: </span>Evaluación del modelo ARIMA por índice bursátil (basado en el ajuste histórico)</caption>
+<thead>
+<tr class="header">
+<th align="left">Indice</th>
+<th align="right">MAE</th>
+<th align="right">RMSE</th>
+<th align="right">MAPE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">SP500</td>
+<td align="right">0.01</td>
+<td align="right">0.01</td>
+<td align="right">0.10</td>
+</tr>
+<tr class="even">
+<td align="left">DowJones</td>
+<td align="right">245.21</td>
+<td align="right">355.49</td>
+<td align="right">0.77</td>
+</tr>
+<tr class="odd">
+<td align="left">Nasdaq</td>
+<td align="right">0.01</td>
+<td align="right">0.02</td>
+<td align="right">0.12</td>
+</tr>
+<tr class="even">
+<td align="left">DAX</td>
+<td align="right">121.65</td>
+<td align="right">174.54</td>
+<td align="right">150.74</td>
+</tr>
+<tr class="odd">
+<td align="left">CAC40</td>
+<td align="right">51.40</td>
+<td align="right">72.68</td>
+<td align="right">0.83</td>
+</tr>
+<tr class="even">
+<td align="left">FTSE100</td>
+<td align="right">48.43</td>
+<td align="right">70.81</td>
+<td align="right">0.69</td>
+</tr>
+<tr class="odd">
+<td align="left">Nikkei225</td>
+<td align="right">0.01</td>
+<td align="right">0.01</td>
+<td align="right">0.09</td>
+</tr>
+<tr class="even">
+<td align="left">HangSeng</td>
+<td align="right">244.97</td>
+<td align="right">338.00</td>
+<td align="right">1.10</td>
+</tr>
+<tr class="odd">
+<td align="left">ShanghaiComposite</td>
+<td align="right">23.92</td>
+<td align="right">34.58</td>
+<td align="right">0.76</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="desarrollo-actividad-4-implementación-holt---winter.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/index.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

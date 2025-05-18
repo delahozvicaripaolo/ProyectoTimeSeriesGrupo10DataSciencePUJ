@@ -2,6 +2,8 @@ tab:unnamed-chunk-14
 tab:unnamed-chunk-19
 tab:unnamed-chunk-22
 tab:unnamed-chunk-23
+tab:unnamed-chunk-25
+tab:unnamed-chunk-26
 descripción-del-proceso-y-justificación-del-análisis-de-los-valores-bursátiles-en-los-principales-mercados-globales-estados-unidos-europa-y-asia.
 descripción-del-proyecto.
 justificación-e-importancia-del-análisis.
@@ -41,3 +43,10 @@ funciones-y-lógicas-implementadas
 implementar-modelo-en-todas-las-series-de-tiempo
 resultados-predicción
 tabla-de-resumen
+desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima
+fundamentos-teóricos-del-modelo-arima-y-box-jenkins
+etapas-de-la-metodología-box-jenkins
+implementación-de-las-lógicas-y-modelos.
+resumen-e-interpretación-de-las-gráficas-y-resultados-de-las-funciones.
+tabla-con-predicciones-de-30-días.
+tabla-con-evaluación-de-modelo-arimamaermsemape
