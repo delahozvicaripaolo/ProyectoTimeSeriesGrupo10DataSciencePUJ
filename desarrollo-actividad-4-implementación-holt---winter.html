@@ -23,7 +23,7 @@
 <meta name="author" content="Paolo De La Hoz Vicari, Genjis Ossa Gonzales" />
 
 
-<meta name="date" content="2025-05-18" />
+<meta name="date" content="2025-05-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -211,6 +211,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.4" data-path="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#tabla-con-predicciones-de-30-días."><i class="fa fa-check"></i><b>6.4</b> Tabla con predicciones de 30 días.</a></li>
 <li class="chapter" data-level="6.5" data-path="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#tabla-con-evaluación-de-modelo-arimamaermsemape"><i class="fa fa-check"></i><b>6.5</b> Tabla con evaluación de modelo Arima(MAE,RMSE,MAPE)</a></li>
 </ul></li>
+<li class="chapter" data-level="7" data-path="modelo-prophet.html"><a href="modelo-prophet.html"><i class="fa fa-check"></i><b>7</b> Modelo Prophet</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="modelo-prophet.html"><a href="modelo-prophet.html#análisis-de-modelo-prophet."><i class="fa fa-check"></i><b>7.1</b> Análisis de modelo Prophet.</a></li>
+<li class="chapter" data-level="7.2" data-path="modelo-prophet.html"><a href="modelo-prophet.html#implementación-de-lógicas-y-funciones-para-prophet."><i class="fa fa-check"></i><b>7.2</b> Implementación de lógicas y funciones para Prophet.</a></li>
+<li class="chapter" data-level="7.3" data-path="modelo-prophet.html"><a href="modelo-prophet.html#implementación-a-todas-las-series-de-tiempo-mediante-ciclos-iterativos"><i class="fa fa-check"></i><b>7.3</b> Implementación a todas las series de tiempo mediante ciclos iterativos</a></li>
+<li class="chapter" data-level="7.4" data-path="modelo-prophet.html"><a href="modelo-prophet.html#tabla-de-resumen-1"><i class="fa fa-check"></i><b>7.4</b> Tabla de resumen</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -300,7 +307,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb34-3"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb34-3" tabindex="-1"></a>  <span class="fu">ajustar_holt_winters</span>(series_preparadas[[indice]], indice)</span>
 <span id="cb34-4"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb34-4" tabindex="-1"></a>}</span></code></pre></div>
 </details>
-<p><img src="figures/unnamed-chunk-21-1.png" width="672" /><img src="figures/unnamed-chunk-21-2.png" width="672" /><img src="figures/unnamed-chunk-21-3.png" width="672" /><img src="figures/unnamed-chunk-21-4.png" width="672" /><img src="figures/unnamed-chunk-21-5.png" width="672" /><img src="figures/unnamed-chunk-21-6.png" width="672" /><img src="figures/unnamed-chunk-21-7.png" width="672" /><img src="figures/unnamed-chunk-21-8.png" width="672" /><img src="figures/unnamed-chunk-21-9.png" width="672" /><img src="figures/unnamed-chunk-21-10.png" width="672" /><img src="figures/unnamed-chunk-21-11.png" width="672" /><img src="figures/unnamed-chunk-21-12.png" width="672" /><img src="figures/unnamed-chunk-21-13.png" width="672" /><img src="figures/unnamed-chunk-21-14.png" width="672" /><img src="figures/unnamed-chunk-21-15.png" width="672" /><img src="figures/unnamed-chunk-21-16.png" width="672" /><img src="figures/unnamed-chunk-21-17.png" width="672" /><img src="figures/unnamed-chunk-21-18.png" width="672" /></p>
+<pre><code>## Error en Holt-Winters para SP500 : fallo de optimización</code></pre>
+<p><img src="figures/unnamed-chunk-21-1.png" width="672" /><img src="figures/unnamed-chunk-21-2.png" width="672" /><img src="figures/unnamed-chunk-21-3.png" width="672" /><img src="figures/unnamed-chunk-21-4.png" width="672" /><img src="figures/unnamed-chunk-21-5.png" width="672" /><img src="figures/unnamed-chunk-21-6.png" width="672" /><img src="figures/unnamed-chunk-21-7.png" width="672" /><img src="figures/unnamed-chunk-21-8.png" width="672" /><img src="figures/unnamed-chunk-21-9.png" width="672" /><img src="figures/unnamed-chunk-21-10.png" width="672" /><img src="figures/unnamed-chunk-21-11.png" width="672" /><img src="figures/unnamed-chunk-21-12.png" width="672" /><img src="figures/unnamed-chunk-21-13.png" width="672" /><img src="figures/unnamed-chunk-21-14.png" width="672" /><img src="figures/unnamed-chunk-21-15.png" width="672" /><img src="figures/unnamed-chunk-21-16.png" width="672" /></p>
 </div>
 <div id="resultados-predicción" class="section level2 hasAnchor" number="5.3">
 <h2><span class="header-section-number">5.3</span> Resultados predicción<a href="desarrollo-actividad-4-implementación-holt---winter.html#resultados-predicción" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -316,41 +324,39 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><strong>5. HangSeng y Shanghai Composite</strong></p>
 <p>Ambos índices presentan predicciones ligeramente crecientes, lo que sugiere un posible cambio de dirección frente a la caída previa; sin embargo, las fluctuaciones son más intensas (especialmente en HangSeng), reflejando su naturaleza volátil.La precisión de estos modelos fue moderada (MAPE entre 8% y 16%).</p>
 <details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb35-1" tabindex="-1"></a><span class="co"># Crear tabla con pronóstico de los próximos 30 días para cada índice</span></span>
-<span id="cb35-2"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb35-2" tabindex="-1"></a></span>
-<span id="cb35-3"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb35-3" tabindex="-1"></a><span class="co"># Inicializamos la tabla vacía</span></span>
-<span id="cb35-4"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb35-4" tabindex="-1"></a>tabla_forecast_30 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Dia =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>)</span>
-<span id="cb35-5"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb35-5" tabindex="-1"></a></span>
-<span id="cb35-6"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb35-6" tabindex="-1"></a><span class="co"># Agregamos cada columna de pronóstico</span></span>
-<span id="cb35-7"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb35-7" tabindex="-1"></a><span class="cf">for</span> (indice <span class="cf">in</span> <span class="fu">names</span>(resultados_hw)) {</span>
-<span id="cb35-8"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb35-8" tabindex="-1"></a>  pred <span class="ot">&lt;-</span> resultados_hw[[indice]]<span class="sc">$</span>pronostico</span>
-<span id="cb35-9"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb35-9" tabindex="-1"></a>  tabla_forecast_30[[indice]] <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">as.numeric</span>(pred<span class="sc">$</span>mean), <span class="dv">2</span>)</span>
-<span id="cb35-10"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb35-10" tabindex="-1"></a>}</span>
-<span id="cb35-11"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb35-11" tabindex="-1"></a></span>
-<span id="cb35-12"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb35-12" tabindex="-1"></a><span class="co"># Mostrar tabla en formato limpio</span></span>
-<span id="cb35-13"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb35-13" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
-<span id="cb35-14"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb35-14" tabindex="-1"></a>  tabla_forecast_30,</span>
-<span id="cb35-15"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb35-15" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">&quot;Predicción de los próximos 30 días por índice bursátil usando modelo Holt-Winters&quot;</span></span>
-<span id="cb35-16"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb35-16" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb36-1" tabindex="-1"></a><span class="co"># Crear tabla con pronóstico de los próximos 30 días para cada índice</span></span>
+<span id="cb36-2"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb36-2" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb36-3" tabindex="-1"></a><span class="co"># Inicializamos la tabla vacía</span></span>
+<span id="cb36-4"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb36-4" tabindex="-1"></a>tabla_forecast_30 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Dia =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>)</span>
+<span id="cb36-5"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb36-5" tabindex="-1"></a></span>
+<span id="cb36-6"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb36-6" tabindex="-1"></a><span class="co"># Agregamos cada columna de pronóstico</span></span>
+<span id="cb36-7"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb36-7" tabindex="-1"></a><span class="cf">for</span> (indice <span class="cf">in</span> <span class="fu">names</span>(resultados_hw)) {</span>
+<span id="cb36-8"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb36-8" tabindex="-1"></a>  pred <span class="ot">&lt;-</span> resultados_hw[[indice]]<span class="sc">$</span>pronostico</span>
+<span id="cb36-9"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb36-9" tabindex="-1"></a>  tabla_forecast_30[[indice]] <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">as.numeric</span>(pred<span class="sc">$</span>mean), <span class="dv">2</span>)</span>
+<span id="cb36-10"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb36-10" tabindex="-1"></a>}</span>
+<span id="cb36-11"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb36-11" tabindex="-1"></a></span>
+<span id="cb36-12"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb36-12" tabindex="-1"></a><span class="co"># Mostrar tabla en formato limpio</span></span>
+<span id="cb36-13"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb36-13" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb36-14"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb36-14" tabindex="-1"></a>  tabla_forecast_30,</span>
+<span id="cb36-15"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb36-15" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">&quot;Predicción de los próximos 30 días por índice bursátil usando modelo Holt-Winters&quot;</span></span>
+<span id="cb36-16"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb36-16" tabindex="-1"></a>)</span></code></pre></div>
 </details>
 <table style="width:100%;">
 <caption><span id="tab:unnamed-chunk-22">Table 5.1: </span>Predicción de los próximos 30 días por índice bursátil usando modelo Holt-Winters</caption>
 <colgroup>
 <col width="4%" />
-<col width="6%" />
-<col width="10%" />
+<col width="11%" />
 <col width="8%" />
 <col width="9%" />
 <col width="9%" />
 <col width="9%" />
+<col width="12%" />
 <col width="11%" />
-<col width="10%" />
-<col width="20%" />
+<col width="22%" />
 </colgroup>
 <thead>
 <tr class="header">
 <th align="right">Dia</th>
-<th align="right">SP500</th>
 <th align="right">DowJones</th>
 <th align="right">Nasdaq</th>
 <th align="right">DAX</th>
@@ -364,363 +370,333 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tbody>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">8.69</td>
-<td align="right">42398.45</td>
-<td align="right">9.86</td>
-<td align="right">-84.13</td>
-<td align="right">7940.96</td>
-<td align="right">8726.49</td>
-<td align="right">10.53</td>
-<td align="right">23567.28</td>
-<td align="right">3409.47</td>
+<td align="right">41793.54</td>
+<td align="right">9.85</td>
+<td align="right">-14.17</td>
+<td align="right">7724.12</td>
+<td align="right">8756.11</td>
+<td align="right">10.54</td>
+<td align="right">23515.06</td>
+<td align="right">3305.26</td>
 </tr>
 <tr class="even">
 <td align="right">2</td>
-<td align="right">8.68</td>
-<td align="right">42317.53</td>
-<td align="right">9.86</td>
-<td align="right">-51.06</td>
-<td align="right">7948.65</td>
-<td align="right">8766.94</td>
+<td align="right">41830.11</td>
+<td align="right">9.85</td>
+<td align="right">-13.25</td>
+<td align="right">7834.47</td>
+<td align="right">8817.70</td>
 <td align="right">10.53</td>
-<td align="right">23470.63</td>
-<td align="right">3418.03</td>
+<td align="right">23716.00</td>
+<td align="right">3288.00</td>
 </tr>
 <tr class="odd">
 <td align="right">3</td>
-<td align="right">8.69</td>
-<td align="right">42449.91</td>
+<td align="right">42096.02</td>
 <td align="right">9.86</td>
-<td align="right">1.74</td>
-<td align="right">7930.10</td>
-<td align="right">8775.17</td>
-<td align="right">10.57</td>
-<td align="right">23516.00</td>
-<td align="right">3362.24</td>
+<td align="right">-96.94</td>
+<td align="right">7946.59</td>
+<td align="right">8858.04</td>
+<td align="right">10.50</td>
+<td align="right">24235.03</td>
+<td align="right">3220.53</td>
 </tr>
 <tr class="even">
 <td align="right">4</td>
-<td align="right">8.70</td>
-<td align="right">42724.90</td>
-<td align="right">9.88</td>
-<td align="right">-11.33</td>
-<td align="right">7946.88</td>
-<td align="right">8800.06</td>
-<td align="right">10.63</td>
-<td align="right">23446.71</td>
-<td align="right">3340.05</td>
+<td align="right">42273.71</td>
+<td align="right">9.86</td>
+<td align="right">-63.36</td>
+<td align="right">8002.45</td>
+<td align="right">8902.18</td>
+<td align="right">10.48</td>
+<td align="right">24333.81</td>
+<td align="right">3181.39</td>
 </tr>
 <tr class="odd">
 <td align="right">5</td>
-<td align="right">8.70</td>
-<td align="right">42681.27</td>
+<td align="right">42653.79</td>
 <td align="right">9.87</td>
-<td align="right">14.40</td>
-<td align="right">7890.18</td>
-<td align="right">8834.01</td>
-<td align="right">10.64</td>
-<td align="right">23498.84</td>
-<td align="right">3337.81</td>
+<td align="right">-57.51</td>
+<td align="right">8032.20</td>
+<td align="right">8915.71</td>
+<td align="right">10.47</td>
+<td align="right">24373.07</td>
+<td align="right">3138.58</td>
 </tr>
 <tr class="even">
 <td align="right">6</td>
-<td align="right">8.70</td>
-<td align="right">42798.01</td>
-<td align="right">9.88</td>
-<td align="right">-14.07</td>
-<td align="right">7866.66</td>
-<td align="right">8856.49</td>
-<td align="right">10.66</td>
-<td align="right">23408.73</td>
-<td align="right">3290.75</td>
+<td align="right">42902.53</td>
+<td align="right">9.87</td>
+<td align="right">53.12</td>
+<td align="right">8032.31</td>
+<td align="right">8979.87</td>
+<td align="right">10.49</td>
+<td align="right">24564.37</td>
+<td align="right">3110.72</td>
 </tr>
 <tr class="odd">
 <td align="right">7</td>
-<td align="right">8.70</td>
-<td align="right">42834.65</td>
-<td align="right">9.89</td>
-<td align="right">-13.06</td>
-<td align="right">7976.04</td>
-<td align="right">8918.13</td>
-<td align="right">10.66</td>
-<td align="right">23609.60</td>
-<td align="right">3273.38</td>
+<td align="right">43206.61</td>
+<td align="right">9.88</td>
+<td align="right">-101.24</td>
+<td align="right">8012.02</td>
+<td align="right">9050.79</td>
+<td align="right">10.51</td>
+<td align="right">24544.46</td>
+<td align="right">3116.56</td>
 </tr>
 <tr class="even">
 <td align="right">8</td>
-<td align="right">8.71</td>
-<td align="right">43099.85</td>
-<td align="right">9.90</td>
-<td align="right">-96.79</td>
-<td align="right">8088.35</td>
-<td align="right">8959.82</td>
-<td align="right">10.65</td>
-<td align="right">24128.62</td>
-<td align="right">3205.58</td>
+<td align="right">43099.21</td>
+<td align="right">9.88</td>
+<td align="right">13.00</td>
+<td align="right">8000.91</td>
+<td align="right">9131.28</td>
+<td align="right">10.53</td>
+<td align="right">24278.60</td>
+<td align="right">3064.30</td>
 </tr>
 <tr class="odd">
 <td align="right">9</td>
-<td align="right">8.72</td>
-<td align="right">43277.68</td>
-<td align="right">9.90</td>
-<td align="right">-63.57</td>
-<td align="right">8145.18</td>
-<td align="right">9004.62</td>
-<td align="right">10.63</td>
-<td align="right">24227.46</td>
-<td align="right">3166.56</td>
+<td align="right">43309.18</td>
+<td align="right">9.89</td>
+<td align="right">85.60</td>
+<td align="right">7966.07</td>
+<td align="right">9165.75</td>
+<td align="right">10.54</td>
+<td align="right">24439.44</td>
+<td align="right">3076.19</td>
 </tr>
 <tr class="even">
 <td align="right">10</td>
-<td align="right">8.73</td>
-<td align="right">43658.34</td>
+<td align="right">43531.33</td>
 <td align="right">9.90</td>
-<td align="right">-57.85</td>
-<td align="right">8176.01</td>
-<td align="right">9018.30</td>
-<td align="right">10.61</td>
-<td align="right">24266.70</td>
-<td align="right">3123.71</td>
+<td align="right">5.70</td>
+<td align="right">7940.46</td>
+<td align="right">9134.30</td>
+<td align="right">10.55</td>
+<td align="right">24485.45</td>
+<td align="right">3107.35</td>
 </tr>
 <tr class="odd">
 <td align="right">11</td>
-<td align="right">8.73</td>
-<td align="right">43906.71</td>
-<td align="right">9.90</td>
-<td align="right">53.14</td>
-<td align="right">8177.05</td>
-<td align="right">9082.16</td>
-<td align="right">10.59</td>
-<td align="right">24457.99</td>
-<td align="right">3095.86</td>
+<td align="right">43688.48</td>
+<td align="right">9.89</td>
+<td align="right">-11.99</td>
+<td align="right">7977.74</td>
+<td align="right">9077.59</td>
+<td align="right">10.54</td>
+<td align="right">24172.87</td>
+<td align="right">3102.10</td>
 </tr>
 <tr class="even">
 <td align="right">12</td>
-<td align="right">8.74</td>
-<td align="right">44209.71</td>
-<td align="right">9.91</td>
-<td align="right">-101.15</td>
-<td align="right">8157.34</td>
-<td align="right">9153.64</td>
-<td align="right">10.61</td>
-<td align="right">24438.14</td>
-<td align="right">3101.98</td>
+<td align="right">44056.06</td>
+<td align="right">9.89</td>
+<td align="right">-86.57</td>
+<td align="right">7971.84</td>
+<td align="right">8997.77</td>
+<td align="right">10.55</td>
+<td align="right">24062.43</td>
+<td align="right">3125.04</td>
 </tr>
 <tr class="odd">
 <td align="right">13</td>
-<td align="right">8.75</td>
-<td align="right">44102.25</td>
-<td align="right">9.92</td>
-<td align="right">12.49</td>
-<td align="right">8146.57</td>
-<td align="right">9234.42</td>
-<td align="right">10.64</td>
-<td align="right">24172.28</td>
-<td align="right">3049.59</td>
+<td align="right">44615.68</td>
+<td align="right">9.91</td>
+<td align="right">128.48</td>
+<td align="right">7940.20</td>
+<td align="right">8915.85</td>
+<td align="right">10.56</td>
+<td align="right">23972.63</td>
+<td align="right">3123.33</td>
 </tr>
 <tr class="even">
 <td align="right">14</td>
-<td align="right">8.75</td>
-<td align="right">44312.30</td>
+<td align="right">44715.23</td>
 <td align="right">9.92</td>
-<td align="right">85.49</td>
-<td align="right">8112.09</td>
-<td align="right">9269.34</td>
-<td align="right">10.65</td>
-<td align="right">24333.07</td>
-<td align="right">3061.76</td>
+<td align="right">-206.53</td>
+<td align="right">7955.99</td>
+<td align="right">8890.43</td>
+<td align="right">10.55</td>
+<td align="right">24116.02</td>
+<td align="right">3133.53</td>
 </tr>
 <tr class="odd">
 <td align="right">15</td>
-<td align="right">8.76</td>
-<td align="right">44535.12</td>
-<td align="right">9.93</td>
-<td align="right">6.04</td>
-<td align="right">8086.54</td>
-<td align="right">9239.03</td>
-<td align="right">10.66</td>
-<td align="right">24379.09</td>
-<td align="right">3093.30</td>
+<td align="right">44621.17</td>
+<td align="right">9.92</td>
+<td align="right">-145.48</td>
+<td align="right">7924.98</td>
+<td align="right">8891.40</td>
+<td align="right">10.56</td>
+<td align="right">24325.71</td>
+<td align="right">3119.91</td>
 </tr>
 <tr class="even">
 <td align="right">16</td>
-<td align="right">8.76</td>
-<td align="right">44692.36</td>
-<td align="right">9.92</td>
-<td align="right">-11.84</td>
-<td align="right">8124.46</td>
-<td align="right">9182.78</td>
-<td align="right">10.67</td>
-<td align="right">24066.55</td>
-<td align="right">3088.03</td>
+<td align="right">43797.83</td>
+<td align="right">9.90</td>
+<td align="right">8.62</td>
+<td align="right">7906.21</td>
+<td align="right">8956.11</td>
+<td align="right">10.56</td>
+<td align="right">24626.26</td>
+<td align="right">3139.36</td>
 </tr>
 <tr class="odd">
 <td align="right">17</td>
-<td align="right">8.77</td>
-<td align="right">45060.68</td>
-<td align="right">9.93</td>
-<td align="right">-86.42</td>
-<td align="right">8118.53</td>
-<td align="right">9104.32</td>
-<td align="right">10.67</td>
-<td align="right">23956.09</td>
-<td align="right">3110.85</td>
+<td align="right">43187.99</td>
+<td align="right">9.89</td>
+<td align="right">-21.35</td>
+<td align="right">7963.94</td>
+<td align="right">8987.34</td>
+<td align="right">10.55</td>
+<td align="right">24728.40</td>
+<td align="right">3138.01</td>
 </tr>
 <tr class="even">
 <td align="right">18</td>
-<td align="right">8.78</td>
-<td align="right">45620.57</td>
-<td align="right">9.94</td>
-<td align="right">128.13</td>
-<td align="right">8087.37</td>
-<td align="right">9022.61</td>
-<td align="right">10.67</td>
-<td align="right">23866.25</td>
-<td align="right">3108.97</td>
+<td align="right">43234.93</td>
+<td align="right">9.89</td>
+<td align="right">-96.12</td>
+<td align="right">7960.38</td>
+<td align="right">9038.21</td>
+<td align="right">10.54</td>
+<td align="right">24215.86</td>
+<td align="right">3166.40</td>
 </tr>
 <tr class="odd">
 <td align="right">19</td>
-<td align="right">8.79</td>
-<td align="right">45719.46</td>
-<td align="right">9.95</td>
-<td align="right">-205.87</td>
-<td align="right">8104.15</td>
-<td align="right">8997.47</td>
-<td align="right">10.68</td>
-<td align="right">24009.67</td>
-<td align="right">3119.01</td>
+<td align="right">43414.74</td>
+<td align="right">9.90</td>
+<td align="right">76.86</td>
+<td align="right">7950.55</td>
+<td align="right">9023.97</td>
+<td align="right">10.54</td>
+<td align="right">24083.73</td>
+<td align="right">3180.75</td>
 </tr>
 <tr class="even">
 <td align="right">20</td>
-<td align="right">8.79</td>
-<td align="right">45624.61</td>
-<td align="right">9.96</td>
-<td align="right">-144.94</td>
-<td align="right">8073.46</td>
-<td align="right">8997.90</td>
-<td align="right">10.68</td>
-<td align="right">24219.34</td>
-<td align="right">3105.34</td>
+<td align="right">43434.81</td>
+<td align="right">9.90</td>
+<td align="right">-28.24</td>
+<td align="right">7937.59</td>
+<td align="right">9062.80</td>
+<td align="right">10.54</td>
+<td align="right">24108.38</td>
+<td align="right">3183.39</td>
 </tr>
 <tr class="odd">
 <td align="right">21</td>
-<td align="right">8.77</td>
-<td align="right">44799.14</td>
-<td align="right">9.94</td>
-<td align="right">8.44</td>
-<td align="right">8054.70</td>
-<td align="right">9062.64</td>
-<td align="right">10.69</td>
-<td align="right">24519.87</td>
-<td align="right">3124.95</td>
+<td align="right">43400.63</td>
+<td align="right">9.91</td>
+<td align="right">61.92</td>
+<td align="right">7945.55</td>
+<td align="right">9041.66</td>
+<td align="right">10.55</td>
+<td align="right">24046.32</td>
+<td align="right">3172.31</td>
 </tr>
 <tr class="even">
 <td align="right">22</td>
-<td align="right">8.75</td>
-<td align="right">44189.86</td>
+<td align="right">43597.41</td>
 <td align="right">9.92</td>
-<td align="right">-21.69</td>
-<td align="right">8112.95</td>
-<td align="right">9094.50</td>
-<td align="right">10.69</td>
-<td align="right">24622.02</td>
-<td align="right">3123.56</td>
+<td align="right">-49.49</td>
+<td align="right">7865.79</td>
+<td align="right">9015.26</td>
+<td align="right">10.56</td>
+<td align="right">24401.18</td>
+<td align="right">3157.32</td>
 </tr>
 <tr class="odd">
 <td align="right">23</td>
-<td align="right">8.75</td>
-<td align="right">44237.68</td>
+<td align="right">43448.83</td>
 <td align="right">9.92</td>
-<td align="right">-96.11</td>
-<td align="right">8109.81</td>
-<td align="right">9145.83</td>
-<td align="right">10.68</td>
-<td align="right">24109.59</td>
-<td align="right">3152.12</td>
+<td align="right">63.81</td>
+<td align="right">7836.43</td>
+<td align="right">8979.95</td>
+<td align="right">10.58</td>
+<td align="right">24592.71</td>
+<td align="right">3177.83</td>
 </tr>
 <tr class="even">
 <td align="right">24</td>
-<td align="right">8.75</td>
-<td align="right">44418.51</td>
+<td align="right">43556.84</td>
 <td align="right">9.93</td>
-<td align="right">76.44</td>
-<td align="right">8100.73</td>
-<td align="right">9132.10</td>
-<td align="right">10.67</td>
-<td align="right">23977.42</td>
-<td align="right">3166.41</td>
+<td align="right">17.42</td>
+<td align="right">7874.47</td>
+<td align="right">9010.77</td>
+<td align="right">10.57</td>
+<td align="right">24632.69</td>
+<td align="right">3182.84</td>
 </tr>
 <tr class="odd">
 <td align="right">25</td>
-<td align="right">8.75</td>
-<td align="right">44438.61</td>
+<td align="right">43533.29</td>
 <td align="right">9.93</td>
-<td align="right">-27.98</td>
-<td align="right">8087.91</td>
-<td align="right">9171.28</td>
-<td align="right">10.67</td>
-<td align="right">24002.00</td>
-<td align="right">3169.05</td>
+<td align="right">-29.17</td>
+<td align="right">7753.95</td>
+<td align="right">8987.12</td>
+<td align="right">10.56</td>
+<td align="right">24527.46</td>
+<td align="right">3186.71</td>
 </tr>
 <tr class="even">
 <td align="right">26</td>
-<td align="right">8.75</td>
-<td align="right">44404.50</td>
-<td align="right">9.94</td>
-<td align="right">61.48</td>
-<td align="right">8096.32</td>
-<td align="right">9151.25</td>
-<td align="right">10.67</td>
-<td align="right">23939.95</td>
-<td align="right">3157.83</td>
+<td align="right">43348.77</td>
+<td align="right">9.93</td>
+<td align="right">-12.31</td>
+<td align="right">7670.21</td>
+<td align="right">9112.56</td>
+<td align="right">10.58</td>
+<td align="right">24346.74</td>
+<td align="right">3189.50</td>
 </tr>
 <tr class="odd">
 <td align="right">27</td>
-<td align="right">8.76</td>
-<td align="right">44600.70</td>
-<td align="right">9.95</td>
-<td align="right">-49.06</td>
-<td align="right">8017.17</td>
-<td align="right">9125.58</td>
-<td align="right">10.68</td>
-<td align="right">24294.82</td>
-<td align="right">3142.80</td>
+<td align="right">42981.38</td>
+<td align="right">9.91</td>
+<td align="right">-186.25</td>
+<td align="right">7611.59</td>
+<td align="right">9277.18</td>
+<td align="right">10.59</td>
+<td align="right">24055.99</td>
+<td align="right">3213.62</td>
 </tr>
 <tr class="even">
 <td align="right">28</td>
-<td align="right">8.76</td>
-<td align="right">44452.12</td>
-<td align="right">9.96</td>
-<td align="right">63.96</td>
-<td align="right">7987.99</td>
-<td align="right">9090.44</td>
-<td align="right">10.69</td>
-<td align="right">24486.33</td>
-<td align="right">3163.45</td>
+<td align="right">42992.19</td>
+<td align="right">9.91</td>
+<td align="right">111.17</td>
+<td align="right">7587.34</td>
+<td align="right">9309.82</td>
+<td align="right">10.60</td>
+<td align="right">24017.72</td>
+<td align="right">3203.08</td>
 </tr>
 <tr class="odd">
 <td align="right">29</td>
-<td align="right">8.76</td>
-<td align="right">44560.15</td>
-<td align="right">9.96</td>
-<td align="right">17.29</td>
-<td align="right">8026.40</td>
-<td align="right">9121.25</td>
-<td align="right">10.70</td>
-<td align="right">24526.38</td>
-<td align="right">3168.39</td>
+<td align="right">43037.39</td>
+<td align="right">9.91</td>
+<td align="right">92.42</td>
+<td align="right">7648.56</td>
+<td align="right">9348.72</td>
+<td align="right">10.60</td>
+<td align="right">24397.97</td>
+<td align="right">3195.50</td>
 </tr>
 <tr class="even">
 <td align="right">30</td>
-<td align="right">8.76</td>
-<td align="right">44535.59</td>
-<td align="right">9.97</td>
-<td align="right">-29.36</td>
-<td align="right">7906.80</td>
-<td align="right">9097.98</td>
-<td align="right">10.69</td>
-<td align="right">24421.17</td>
-<td align="right">3172.24</td>
+<td align="right">43159.96</td>
+<td align="right">9.92</td>
+<td align="right">53.82</td>
+<td align="right">7631.27</td>
+<td align="right">9381.61</td>
+<td align="right">10.59</td>
+<td align="right">24466.80</td>
+<td align="right">3200.22</td>
 </tr>
 </tbody>
 </table>
@@ -740,11 +716,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>*DowJones y HangSeng tienen MAPE de 16.9% → error alto</p>
 <p>*DAX tiene MAPE de 392% → esto es un claro problema.</p>
 <details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb36-1" tabindex="-1"></a><span class="co"># Mostrar métricas como tabla</span></span>
-<span id="cb36-2"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb36-2" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
-<span id="cb36-3"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb36-3" tabindex="-1"></a>  metricas_hw,</span>
-<span id="cb36-4"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb36-4" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">&quot;Evaluación del modelo Holt-Winters por índice bursátil (basado en el ajuste histórico)&quot;</span></span>
-<span id="cb36-5"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb36-5" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb37-1" tabindex="-1"></a><span class="co"># Mostrar métricas como tabla</span></span>
+<span id="cb37-2"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb37-2" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb37-3"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb37-3" tabindex="-1"></a>  metricas_hw,</span>
+<span id="cb37-4"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb37-4" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">&quot;Evaluación del modelo Holt-Winters por índice bursátil (basado en el ajuste histórico)&quot;</span></span>
+<span id="cb37-5"><a href="desarrollo-actividad-4-implementación-holt---winter.html#cb37-5" tabindex="-1"></a>)</span></code></pre></div>
 </details>
 <table>
 <caption><span id="tab:unnamed-chunk-23">Table 5.2: </span>Evaluación del modelo Holt-Winters por índice bursátil (basado en el ajuste histórico)</caption>
@@ -758,57 +734,51 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">SP500</td>
-<td align="right">0.24</td>
-<td align="right">0.29</td>
-<td align="right">2.81</td>
+<td align="left">DowJones</td>
+<td align="right">5724.54</td>
+<td align="right">7515.53</td>
+<td align="right">16.86</td>
 </tr>
 <tr class="even">
-<td align="left">DowJones</td>
-<td align="right">5727.47</td>
-<td align="right">7509.93</td>
-<td align="right">16.88</td>
-</tr>
-<tr class="odd">
 <td align="left">Nasdaq</td>
 <td align="right">0.30</td>
-<td align="right">0.34</td>
+<td align="right">0.35</td>
 <td align="right">3.15</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">DAX</td>
-<td align="right">99.23</td>
-<td align="right">168.93</td>
-<td align="right">393.35</td>
-</tr>
-<tr class="odd">
-<td align="left">CAC40</td>
-<td align="right">1044.99</td>
-<td align="right">1337.07</td>
-<td align="right">16.70</td>
+<td align="right">99.59</td>
+<td align="right">168.53</td>
+<td align="right">386.74</td>
 </tr>
 <tr class="even">
-<td align="left">FTSE100</td>
-<td align="right">897.20</td>
-<td align="right">1141.98</td>
-<td align="right">12.12</td>
+<td align="left">CAC40</td>
+<td align="right">1041.58</td>
+<td align="right">1334.47</td>
+<td align="right">16.64</td>
 </tr>
 <tr class="odd">
+<td align="left">FTSE100</td>
+<td align="right">896.66</td>
+<td align="right">1143.28</td>
+<td align="right">12.11</td>
+</tr>
+<tr class="even">
 <td align="left">Nikkei225</td>
 <td align="right">0.21</td>
 <td align="right">0.27</td>
-<td align="right">2.02</td>
-</tr>
-<tr class="even">
-<td align="left">HangSeng</td>
-<td align="right">3733.39</td>
-<td align="right">4498.58</td>
-<td align="right">16.84</td>
+<td align="right">2.01</td>
 </tr>
 <tr class="odd">
+<td align="left">HangSeng</td>
+<td align="right">3721.47</td>
+<td align="right">4491.59</td>
+<td align="right">16.78</td>
+</tr>
+<tr class="even">
 <td align="left">ShanghaiComposite</td>
-<td align="right">270.68</td>
-<td align="right">324.50</td>
+<td align="right">270.83</td>
+<td align="right">324.22</td>
 <td align="right">8.67</td>
 </tr>
 </tbody>
