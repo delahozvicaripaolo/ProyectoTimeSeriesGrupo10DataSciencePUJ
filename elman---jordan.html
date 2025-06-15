@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 8 ELMAN - JORDAN | Faros del Mercado: Índices Bursátiles que Guían la Economía Mundial.</title>
+  <meta name="description" content="Serie de tiempo" />
+  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 8 ELMAN - JORDAN | Faros del Mercado: Índices Bursátiles que Guían la Economía Mundial." />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Serie de tiempo" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 8 ELMAN - JORDAN | Faros del Mercado: Índices Bursátiles que Guían la Economía Mundial." />
+  
+  <meta name="twitter:description" content="Serie de tiempo" />
+  
+
+<meta name="author" content="Paolo De La Hoz Vicari, Genjis Ossa Gonzales" />
+
+
+<meta name="date" content="2025-06-15" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="modelo-prophet.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/codefolding-lua-1.1/codefolding-lua.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Series de Tiempo Acciones Mercado de Valores</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Descripción del proceso y justificación del análisis de los valores bursátiles en los principales mercados globales: Estados Unidos, Europa y Asia.</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#descripción-del-proyecto."><i class="fa fa-check"></i><b>1.1</b> Descripción del proyecto.</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#justificación-e-importancia-del-análisis."><i class="fa fa-check"></i><b>1.2</b> Justificación e importancia del análisis.</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i><b>2</b> Referencias</a></li>
+<li class="chapter" data-level="3" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html"><i class="fa fa-check"></i><b>3</b> Desarrollo Actividad 2.</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#preprocesamiento-de-datos."><i class="fa fa-check"></i><b>3.1</b> Preprocesamiento de datos.</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#cargar-las-librerías-necesarias"><i class="fa fa-check"></i><b>3.1.1</b> Cargar las librerías necesarias</a></li>
+<li class="chapter" data-level="3.1.2" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#definimos-los-índices-bursátiles-de-interés-yahoo-finance-symbols."><i class="fa fa-check"></i><b>3.1.2</b> Definimos los índices bursátiles de interés (Yahoo Finance symbols).</a></li>
+<li class="chapter" data-level="3.1.3" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#descargamos-los-datos-de-yahoo-finance-desde-el-2019."><i class="fa fa-check"></i><b>3.1.3</b> Descargamos los datos de Yahoo Finance desde el 2019.</a></li>
+<li class="chapter" data-level="3.1.4" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#asignamos-nombres-a-cada-índice."><i class="fa fa-check"></i><b>3.1.4</b> Asignamos nombres a cada índice.</a></li>
+<li class="chapter" data-level="3.1.5" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#extraemos-solo-los-precios-de-cierre-y-convertimos-cada-serie-en-un-objeto-zoo."><i class="fa fa-check"></i><b>3.1.5</b> Extraemos solo los precios de cierre y convertimos cada serie en un objeto zoo.</a></li>
+<li class="chapter" data-level="3.1.6" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#unimos-todas-las-series-zoo-en-un-solo-objeto."><i class="fa fa-check"></i><b>3.1.6</b> Unimos todas las series zoo en un solo objeto.</a></li>
+<li class="chapter" data-level="3.1.7" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#visualizamos-la-estructura."><i class="fa fa-check"></i><b>3.1.7</b> Visualizamos la estructura.</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#gráfico-de-evolución-histórica-de-todos-los-índices."><i class="fa fa-check"></i><b>3.2</b> Gráfico de evolución histórica de todos los índices.</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#convertir-a-un-data-frame-para-ggplot-y-reestructuración-en-formato-largo-para-gráficos."><i class="fa fa-check"></i><b>3.2.1</b> Convertir a un data frame para ggplot y reestructuración en formato largo para gráficos.</a></li>
+<li class="chapter" data-level="3.2.2" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#gráfico."><i class="fa fa-check"></i><b>3.2.2</b> Gráfico.</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#promedios-móviles"><i class="fa fa-check"></i><b>3.3</b> Promedios Móviles</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#aplicamos-promedio-móvil-7-30-90-días-para-cada-índice."><i class="fa fa-check"></i><b>3.3.1</b> Aplicamos promedio móvil (7, 30, 90 días) para cada índice.</a></li>
+<li class="chapter" data-level="3.3.2" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#asignamos-los-nombres-de-los-indices"><i class="fa fa-check"></i><b>3.3.2</b> Asignamos los nombres de los indices</a></li>
+<li class="chapter" data-level="3.3.3" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#graficamos-los-promedios-móviles-en-todos-los-indices-con-7-30-90-días"><i class="fa fa-check"></i><b>3.3.3</b> Graficamos los promedios móviles en todos los indices con (7, 30, 90 días)</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#autocorrelación-acf"><i class="fa fa-check"></i><b>3.4</b> AutoCorrelación ACF</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#graficamos-la-autocorrelación-acf-en-todos-los-indices."><i class="fa fa-check"></i><b>3.4.1</b> Graficamos la autocorrelación (ACF) en todos los indices.</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#descomposición-de-serie-de-tiempo."><i class="fa fa-check"></i><b>3.5</b> Descomposición de serie de tiempo.</a>
+<ul>
+<li class="chapter" data-level="3.5.1" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#descomponemos-y-graficamos-los-indices-bursatiles-utilizando-la-forma-clasica-y-stl-con-pasos-de-limpieza-e-implementación."><i class="fa fa-check"></i><b>3.5.1</b> Descomponemos y graficamos los indices bursatiles utilizando la forma clasica y STL con pasos de limpieza e implementación.</a></li>
+</ul></li>
+<li class="chapter" data-level="3.6" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#tabla-de-resumen-con-tendencia-estacionalidad-y-ruido-para-todos-los-indices."><i class="fa fa-check"></i><b>3.6</b> Tabla de resumen con tendencia, estacionalidad y ruido; para todos los indices.</a></li>
+<li class="chapter" data-level="3.7" data-path="desarrollo-actividad-2..html"><a href="desarrollo-actividad-2..html#mapa-de-calor"><i class="fa fa-check"></i><b>3.7</b> Mapa de calor</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="desarrollo-actividad-3..html"><a href="desarrollo-actividad-3..html"><i class="fa fa-check"></i><b>4</b> Desarrollo Actividad 3.</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="desarrollo-actividad-3..html"><a href="desarrollo-actividad-3..html#validación-de-supuestos-e-implementación-de-transformaciones-requeridas-en-las-series."><i class="fa fa-check"></i><b>4.1</b> Validación de supuestos e implementación de transformaciones requeridas en las series.</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="desarrollo-actividad-3..html"><a href="desarrollo-actividad-3..html#procesos-implementados."><i class="fa fa-check"></i><b>4.1.1</b> Procesos implementados.</a></li>
+<li class="chapter" data-level="4.1.2" data-path="desarrollo-actividad-3..html"><a href="desarrollo-actividad-3..html#resumen-del-análisis-de-estacionariedad-por-índice-bursátil"><i class="fa fa-check"></i><b>4.1.2</b> Resumen del análisis de estacionariedad por índice bursátil</a></li>
+<li class="chapter" data-level="4.1.3" data-path="desarrollo-actividad-3..html"><a href="desarrollo-actividad-3..html#creamos-el-objeto-tabla-del-resumen-final."><i class="fa fa-check"></i><b>4.1.3</b> Creamos el objeto tabla del resumen final.</a></li>
+<li class="chapter" data-level="4.1.4" data-path="desarrollo-actividad-3..html"><a href="desarrollo-actividad-3..html#implementación-de-procesos-sobre-los-índices-bursátile-en-tres-etapas-limpieza-transformación-si-aplica-y-verificación-de-estacionariedad-con-visualizaciones-intermedias."><i class="fa fa-check"></i><b>4.1.4</b> Implementación de procesos sobre los índices bursátile en tres etapas: limpieza, transformación (si aplica), y verificación de estacionariedad, con visualizaciones intermedias.</a></li>
+<li class="chapter" data-level="4.1.5" data-path="desarrollo-actividad-3..html"><a href="desarrollo-actividad-3..html#iteramos-los-indices-bursatiles-sobre-la-función-realizada."><i class="fa fa-check"></i><b>4.1.5</b> Iteramos los indices bursatiles sobre la función realizada.</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="desarrollo-actividad-3..html"><a href="desarrollo-actividad-3..html#tabla-de-resumen."><i class="fa fa-check"></i><b>4.2</b> Tabla de resumen.</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="desarrollo-actividad-4-implementación-holt---winter.html"><a href="desarrollo-actividad-4-implementación-holt---winter.html"><i class="fa fa-check"></i><b>5</b> Desarrollo actividad 4 Implementación Holt - Winter</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="desarrollo-actividad-4-implementación-holt---winter.html"><a href="desarrollo-actividad-4-implementación-holt---winter.html#funciones-y-lógicas-implementadas"><i class="fa fa-check"></i><b>5.1</b> Funciones y lógicas implementadas</a></li>
+<li class="chapter" data-level="5.2" data-path="desarrollo-actividad-4-implementación-holt---winter.html"><a href="desarrollo-actividad-4-implementación-holt---winter.html#implementar-modelo-en-todas-las-series-de-tiempo"><i class="fa fa-check"></i><b>5.2</b> Implementar modelo en todas las series de tiempo</a></li>
+<li class="chapter" data-level="5.3" data-path="desarrollo-actividad-4-implementación-holt---winter.html"><a href="desarrollo-actividad-4-implementación-holt---winter.html#resultados-predicción"><i class="fa fa-check"></i><b>5.3</b> Resultados predicción</a></li>
+<li class="chapter" data-level="5.4" data-path="desarrollo-actividad-4-implementación-holt---winter.html"><a href="desarrollo-actividad-4-implementación-holt---winter.html#tabla-de-resumen"><i class="fa fa-check"></i><b>5.4</b> Tabla de resumen</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html"><i class="fa fa-check"></i><b>6</b> Desarrollo Actividad 5. Implementación de la Metodología Box-Jenkins (Modelo ARIMA)</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#fundamentos-teóricos-del-modelo-arima-y-box-jenkins"><i class="fa fa-check"></i><b>6.1</b> Fundamentos teóricos del modelo ARIMA y Box-Jenkins</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#etapas-de-la-metodología-box-jenkins"><i class="fa fa-check"></i><b>6.1.1</b> Etapas de la metodología Box-Jenkins:</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#implementación-de-las-lógicas-y-modelos."><i class="fa fa-check"></i><b>6.2</b> Implementación de las lógicas y modelos.</a></li>
+<li class="chapter" data-level="6.3" data-path="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#resumen-e-interpretación-de-las-gráficas-y-resultados-de-las-funciones."><i class="fa fa-check"></i><b>6.3</b> Resumen e interpretación de las gráficas y resultados de las funciones.</a></li>
+<li class="chapter" data-level="6.4" data-path="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#tabla-con-predicciones-de-30-días."><i class="fa fa-check"></i><b>6.4</b> Tabla con predicciones de 30 días.</a></li>
+<li class="chapter" data-level="6.5" data-path="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#tabla-con-evaluación-de-modelo-arimamaermsemape"><i class="fa fa-check"></i><b>6.5</b> Tabla con evaluación de modelo Arima(MAE,RMSE,MAPE)</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="modelo-prophet.html"><a href="modelo-prophet.html"><i class="fa fa-check"></i><b>7</b> Modelo Prophet</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="modelo-prophet.html"><a href="modelo-prophet.html#análisis-de-modelo-prophet."><i class="fa fa-check"></i><b>7.1</b> Análisis de modelo Prophet.</a></li>
+<li class="chapter" data-level="7.2" data-path="modelo-prophet.html"><a href="modelo-prophet.html#implementación-de-lógicas-y-funciones-para-prophet."><i class="fa fa-check"></i><b>7.2</b> Implementación de lógicas y funciones para Prophet.</a></li>
+<li class="chapter" data-level="7.3" data-path="modelo-prophet.html"><a href="modelo-prophet.html#implementación-a-todas-las-series-de-tiempo-mediante-ciclos-iterativos"><i class="fa fa-check"></i><b>7.3</b> Implementación a todas las series de tiempo mediante ciclos iterativos</a></li>
+<li class="chapter" data-level="7.4" data-path="modelo-prophet.html"><a href="modelo-prophet.html#tabla-de-resumen-1"><i class="fa fa-check"></i><b>7.4</b> Tabla de resumen</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="elman---jordan.html"><a href="elman---jordan.html"><i class="fa fa-check"></i><b>8</b> ELMAN - JORDAN</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="elman---jordan.html"><a href="elman---jordan.html#implementación"><i class="fa fa-check"></i><b>8.1</b> Implementación</a></li>
+<li class="chapter" data-level="8.2" data-path="elman---jordan.html"><a href="elman---jordan.html#resumen-e-interpretación-de-las-gráficas-y-resultados-de-las-funciones.-1"><i class="fa fa-check"></i><b>8.2</b> Resumen e interpretación de las gráficas y resultados de las funciones.</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Faros del Mercado: Índices Bursátiles que Guían la Economía Mundial.</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="elman---jordan" class="section level1 hasAnchor" number="8">
+<h1><span class="header-section-number">Chapter 8</span> ELMAN - JORDAN<a href="elman---jordan.html#elman---jordan" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="implementación" class="section level2 hasAnchor" number="8.1">
+<h2><span class="header-section-number">8.1</span> Implementación<a href="elman---jordan.html#implementación" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Se utiliza RSNNS para las redes recurrentes clásicas (Elman y Jordan), Metrics para errores, ggplot2 para visualización, dplyr / tibble para manipulación de tablas y zoo para las series temporales de cierres diarios.</p>
+<p>El particionamiento se realizó de la siguiente forma: 70% entrenamiento, 15% validación temprana y 15% prueba. Para el escalado de utilizó Z-score.</p>
+<p>Se realizó la validación de hiperparametros de forma independiente con el resultado que la mejor combinación es:</p>
+<p><strong>Size (Numero de neuronas entrenadas):</strong> 25.
+<strong>lr (Learning rate):</strong>0.01
+<strong>Maxix(Épocas máximas):</strong>400.</p>
+<p>Se implementó un Lag de 12 observaciones y para las métricas de medición se utilizáron las siguientes: MAE, RMSE y MAPE.</p>
+</div>
+<div id="resumen-e-interpretación-de-las-gráficas-y-resultados-de-las-funciones.-1" class="section level2 hasAnchor" number="8.2">
+<h2><span class="header-section-number">8.2</span> Resumen e interpretación de las gráficas y resultados de las funciones.<a href="elman---jordan.html#resumen-e-interpretación-de-las-gráficas-y-resultados-de-las-funciones.-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><strong>1. S&amp;P 500</strong></p>
+<p><strong>Predicción:</strong>
+Ambas redes proyectan un ligero descenso en los próximos 30 días, pero con trayectorias distintas. La red Elman sugiere una pendiente negativa más marcada, mientras que Jordan predice una meseta con una leve inclinación bajista. Esta diferencia refleja el modo en que cada red captura la reciente desaceleración tras el máximo histórico. El pronóstico de Jordan parece más conservador y suavizado, en línea con el comportamiento oscilante reciente del índice.</p>
+<p><strong>Métricas:</strong>
+El modelo Jordan obtiene mejores resultados con un MAE de 0.0114 frente a 0.0127 en Elman, y un RMSE de 0.0163 frente a 0.0201. La reducción del error cuadrático medio en un 19% indica que Jordan logra ajustarse con mayor precisión a los cambios leves del S&amp;P 500. Sin embargo, el MAPE es superior en Jordan (749%) frente a 507% en Elman, probablemente por retornos muy cercanos a cero en ciertos días, lo que distorsiona este indicador.</p>
+<p><strong>2. Dow Jones</strong></p>
+<p><strong>Predicción:</strong>
+Elman muestra una corrección moderada con un descenso progresivo, en línea con la estructura de máximos descendentes observada en semanas recientes. Jordan, en cambio, proyecta una recuperación más agresiva, que resulta menos coherente con la pérdida de momentum del índice. Visualmente, Elman ofrece una curva más realista y anclada a la tendencia reciente.</p>
+<p><strong>Métricas:</strong>
+Pese a que Elman genera una curva más plausible, también obtiene mejores métricas: MAE de 0.0115 frente a 0.0210 de Jordan, y RMSE de 0.0187 frente a 0.0273. El MAPE de Jordan (1905%) sugiere que el modelo amplificó variaciones pequeñas generando valores extremos. Elman, con un MAPE de 395%, demuestra mayor estabilidad. Aquí Elman es el claro ganador.</p>
+<p><strong>3. Nasdaq-100</strong></p>
+<p><strong>Predicción:</strong>
+Elman proyecta una continuidad alcista, coherente con el impulso en empresas tecnológicas, aunque con cierta exageración en el ritmo. Jordan suaviza esta proyección, planteando una oscilación lateral con leve tendencia positiva. Visualmente, el pronóstico de Jordan luce más robusto al evitar sobreestimaciones.</p>
+<p><strong>Métricas:</strong>
+Ambos modelos están muy cercanos. Elman obtiene un MAE de 0.0177 y RMSE de 0.0261, mientras que Jordan muestra un MAE de 0.0190 y RMSE de 0.0248. Aunque Jordan logra un mejor RMSE, Elman tiene un menor MAE. El MAPE favorece ligeramente a Elman (533%) frente a 908% en Jordan. En conjunto, se trata de un escenario de rendimiento comparable, con ligera ventaja para Elman si se prioriza ajuste fino.</p>
+<p><strong>4. DAX</strong></p>
+<p><strong>Predicción:</strong>
+Ambas redes pronostican una caída moderada. Elman muestra una curva más articulada, con pendiente suave y variabilidad que respeta el patrón histórico. Jordan presenta una proyección más lineal, aunque algo desfasada respecto al ritmo real de corrección. La predicción de Elman se alinea mejor con la reciente toma de utilidades tras los máximos.</p>
+<p><strong>Métricas:</strong>
+Elman supera a Jordan con MAE de 0.0108 vs 0.0152 y RMSE de 0.0152 vs 0.0208, reflejando una mejor aproximación al comportamiento diario. El MAPE de Elman (289%) es considerablemente inferior al de Jordan (568%), confirmando su superioridad en precisión relativa. Aquí Elman demuestra clara eficiencia.</p>
+<p><strong>5. CAC 40 (Francia)</strong>
+Predicción:
+Jordan genera una trayectoria más contenida, con una leve pendiente bajista que sigue el rango lateral de las últimas semanas. Elman en cambio, anticipa una corrección más pronunciada, que podría interpretarse como un sesgo pesimista. Visualmente, Jordan se adapta mejor al comportamiento estacionario del índice.</p>
+<p><strong>Métricas:</strong>
+Pese a que Elman tiene un MAE ligeramente menor (0.0117 vs 0.0123), Jordan muestra un RMSE más bajo (0.0158 vs 0.0167). El MAPE de Elman (837%) es mejor que el de Jordan (1 048%), aunque ambos son elevados. La diferencia es leve; se puede argumentar que Jordan ofrece una proyección más estable, mientras Elman responde con mayor sensibilidad.</p>
+<p><strong>6. FTSE 100 (Reino Unido)</strong></p>
+<p><strong>Predicción:</strong>
+Ambos modelos anticipan una fase de estabilización con leve descenso, aunque Elman lo representa con mayor suavidad. Las curvas son casi paralelas, sin saltos abruptos, lo cual es razonable dado que este índice tiende a tener baja volatilidad. Jordan, sin embargo, introduce una ligera sobreestimación en los últimos días del horizonte.</p>
+<p><strong>Métricas:</strong>
+Elman tiene una clara ventaja con MAE de 0.0080 frente a 0.0089 en Jordan y RMSE de 0.0121 frente a 0.0128. El MAPE (1 114% vs 1 415%) es alto en ambos casos, lo que se justifica por días con retornos extremadamente bajos. En este entorno de bajo ruido, Elman demuestra un mejor desempeño.</p>
+<p><strong>7. Nikkei 225 (Japón)</strong></p>
+<p><strong>Predicción:</strong>
+Ambos modelos proyectan una consolidación tras un periodo alcista fuerte. Elman muestra una curva más nerviosa con micro-variaciones, mientras que Jordan suaviza la forma, presentando una trayectoria más estable y menos reactiva. Visualmente, Jordan luce más coherente con la naturaleza de este mercado.</p>
+<p><strong>Métricas:</strong>
+Jordan obtiene mejores valores en todos los indicadores: MAE de 0.0157 frente a 0.0178 en Elman, y RMSE de 0.0232 frente a 0.0283. El MAPE es también más bajo en Jordan (461%) frente a 377%, lo que es algo atípico y evidencia una mejora global en forma y magnitud. Se recomienda preferir Jordan para este mercado.</p>
+<p><strong>8. Hang Seng (Hong Kong)</strong></p>
+<p><strong>Predicción:</strong>
+Jordan presenta un patrón moderadamente alcista con oscilaciones leves, en línea con el repunte técnico reciente. Elman tiende a mostrar subidas más agresivas que parecen sobredimensionadas respecto al entorno macro-político que afecta esta región. Visualmente, la predicción de Elman requiere precaución por riesgo de sobreajuste.</p>
+<p><strong>Métricas:</strong>
+Aunque ambos modelos muestran altos errores, Jordan tiene mejor desempeño: MAE de 0.0182 frente a 0.0186 en Elman, y RMSE de 0.0243 frente a 0.0255. El MAPE es casi igual (942% en Jordan vs 938% en Elman). Dado que los valores absolutos son tan cercanos, el criterio visual y de estabilidad favorece a Jordan.</p>
+<p><strong>9. Shanghai Composite (China)</strong></p>
+<p><strong>Predicción:</strong>
+Ambos modelos proyectan una leve pendiente bajista. Jordan ofrece una curva más contenida y alineada con el rango histórico entre 3 200 y 3 450 puntos. Elman, aunque no cae en sobrestimaciones, tiene más oscilaciones y cierto sesgo de alza hacia el final del horizonte, que resulta menos creíble.</p>
+<p><strong>Métricas:</strong>
+Jordan mejora en todos los aspectos: MAE de 0.0117 frente a 0.0124, y RMSE de 0.0165 frente a 0.0185. El MAPE de Jordan (656%) también es inferior al de Elman (813%). Esta consistencia métrica, junto con una forma de curva más estable, hace que Jordan sea el modelo más adecuado para este índice.</p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="elman---jordan.html#cb72-1" tabindex="-1"></a><span class="co">#───────────────────────────────────────────────</span></span>
+<span id="cb72-2"><a href="elman---jordan.html#cb72-2" tabindex="-1"></a><span class="co"># 0.  Paquetes</span></span>
+<span id="cb72-3"><a href="elman---jordan.html#cb72-3" tabindex="-1"></a><span class="co">#───────────────────────────────────────────────</span></span>
+<span id="cb72-4"><a href="elman---jordan.html#cb72-4" tabindex="-1"></a><span class="fu">options</span>(<span class="at">repos =</span> <span class="fu">c</span>(<span class="at">CRAN =</span> <span class="st">&quot;https://cloud.r-project.org&quot;</span>))</span>
+<span id="cb72-5"><a href="elman---jordan.html#cb72-5" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;pacman&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) <span class="fu">install.packages</span>(<span class="st">&quot;pacman&quot;</span>)</span>
+<span id="cb72-6"><a href="elman---jordan.html#cb72-6" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(RSNNS, Metrics, ggplot2, dplyr, tibble, zoo)</span>
+<span id="cb72-7"><a href="elman---jordan.html#cb72-7" tabindex="-1"></a></span>
+<span id="cb72-8"><a href="elman---jordan.html#cb72-8" tabindex="-1"></a><span class="co">#───────────────────────────────────────────────</span></span>
+<span id="cb72-9"><a href="elman---jordan.html#cb72-9" tabindex="-1"></a><span class="co"># 1.  Funciones auxiliares</span></span>
+<span id="cb72-10"><a href="elman---jordan.html#cb72-10" tabindex="-1"></a><span class="co">#───────────────────────────────────────────────</span></span>
+<span id="cb72-11"><a href="elman---jordan.html#cb72-11" tabindex="-1"></a>calc_logret <span class="ot">&lt;-</span> <span class="cf">function</span>(z) <span class="fu">diff</span>(<span class="fu">log</span>(z)) <span class="sc">|&gt;</span> <span class="fu">na.omit</span>()</span>
+<span id="cb72-12"><a href="elman---jordan.html#cb72-12" tabindex="-1"></a></span>
+<span id="cb72-13"><a href="elman---jordan.html#cb72-13" tabindex="-1"></a><span class="do">## 1.1  dummies de día (lunes referencia)</span></span>
+<span id="cb72-14"><a href="elman---jordan.html#cb72-14" tabindex="-1"></a>dow_dum <span class="ot">&lt;-</span> <span class="cf">function</span>(idx){</span>
+<span id="cb72-15"><a href="elman---jordan.html#cb72-15" tabindex="-1"></a>  lev <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Tuesday&quot;</span>,<span class="st">&quot;Wednesday&quot;</span>,<span class="st">&quot;Thursday&quot;</span>,<span class="st">&quot;Friday&quot;</span>)</span>
+<span id="cb72-16"><a href="elman---jordan.html#cb72-16" tabindex="-1"></a>  <span class="fu">outer</span>(<span class="fu">weekdays</span>(idx), lev, <span class="st">&quot;==&quot;</span>) <span class="sc">*</span> <span class="dv">1</span>          <span class="co"># matriz  n × 4</span></span>
+<span id="cb72-17"><a href="elman---jordan.html#cb72-17" tabindex="-1"></a>}</span>
+<span id="cb72-18"><a href="elman---jordan.html#cb72-18" tabindex="-1"></a></span>
+<span id="cb72-19"><a href="elman---jordan.html#cb72-19" tabindex="-1"></a><span class="do">## 1.2  Ventanas:  y(t)  + 12 lags  + 4 dummies  (16 inputs)</span></span>
+<span id="cb72-20"><a href="elman---jordan.html#cb72-20" tabindex="-1"></a>crear_ventanas <span class="ot">&lt;-</span> <span class="cf">function</span>(r, <span class="at">n_lag =</span> <span class="dv">12</span>){</span>
+<span id="cb72-21"><a href="elman---jordan.html#cb72-21" tabindex="-1"></a>  emb_r <span class="ot">&lt;-</span> <span class="fu">embed</span>(<span class="fu">coredata</span>(r), n_lag <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb72-22"><a href="elman---jordan.html#cb72-22" tabindex="-1"></a>  idx   <span class="ot">&lt;-</span> <span class="fu">time</span>(r)[(n_lag <span class="sc">+</span> <span class="dv">1</span>)<span class="sc">:</span><span class="fu">length</span>(r)]      <span class="co"># fechas alineadas con y(t)</span></span>
+<span id="cb72-23"><a href="elman---jordan.html#cb72-23" tabindex="-1"></a>  Xret  <span class="ot">&lt;-</span> emb_r[, <span class="dv">2</span><span class="sc">:</span>(n_lag <span class="sc">+</span> <span class="dv">1</span>)]</span>
+<span id="cb72-24"><a href="elman---jordan.html#cb72-24" tabindex="-1"></a>  Xdow  <span class="ot">&lt;-</span> <span class="fu">dow_dum</span>(idx)</span>
+<span id="cb72-25"><a href="elman---jordan.html#cb72-25" tabindex="-1"></a>  df    <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">cbind</span>(<span class="at">y =</span> emb_r[,<span class="dv">1</span>], Xret, Xdow))</span>
+<span id="cb72-26"><a href="elman---jordan.html#cb72-26" tabindex="-1"></a>  <span class="fu">colnames</span>(df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;y&quot;</span>,</span>
+<span id="cb72-27"><a href="elman---jordan.html#cb72-27" tabindex="-1"></a>                    <span class="fu">paste0</span>(<span class="st">&quot;lag&quot;</span>, <span class="dv">1</span><span class="sc">:</span>n_lag),</span>
+<span id="cb72-28"><a href="elman---jordan.html#cb72-28" tabindex="-1"></a>                    <span class="fu">c</span>(<span class="st">&quot;Tue&quot;</span>,<span class="st">&quot;Wed&quot;</span>,<span class="st">&quot;Thu&quot;</span>,<span class="st">&quot;Fri&quot;</span>))</span>
+<span id="cb72-29"><a href="elman---jordan.html#cb72-29" tabindex="-1"></a>  df                                           <span class="co"># cronológico asc</span></span>
+<span id="cb72-30"><a href="elman---jordan.html#cb72-30" tabindex="-1"></a>}</span>
+<span id="cb72-31"><a href="elman---jordan.html#cb72-31" tabindex="-1"></a></span>
+<span id="cb72-32"><a href="elman---jordan.html#cb72-32" tabindex="-1"></a>particionar <span class="ot">&lt;-</span> <span class="cf">function</span>(df, <span class="at">p_train=</span>.<span class="dv">70</span>, <span class="at">p_val=</span>.<span class="dv">15</span>){</span>
+<span id="cb72-33"><a href="elman---jordan.html#cb72-33" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(df); nt <span class="ot">&lt;-</span> <span class="fu">floor</span>(n<span class="sc">*</span>p_train); nv <span class="ot">&lt;-</span> <span class="fu">floor</span>(n<span class="sc">*</span>p_val)</span>
+<span id="cb72-34"><a href="elman---jordan.html#cb72-34" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">train=</span>df[<span class="dv">1</span><span class="sc">:</span>nt,], <span class="at">val=</span>df[(nt<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(nt<span class="sc">+</span>nv),], <span class="at">test=</span>df[(nt<span class="sc">+</span>nv<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>n,])</span>
+<span id="cb72-35"><a href="elman---jordan.html#cb72-35" tabindex="-1"></a>}</span>
+<span id="cb72-36"><a href="elman---jordan.html#cb72-36" tabindex="-1"></a></span>
+<span id="cb72-37"><a href="elman---jordan.html#cb72-37" tabindex="-1"></a>prox_habiles <span class="ot">&lt;-</span> <span class="cf">function</span>(fecha_ini, n){</span>
+<span id="cb72-38"><a href="elman---jordan.html#cb72-38" tabindex="-1"></a>  s <span class="ot">&lt;-</span> <span class="fu">seq</span>(fecha_ini <span class="sc">+</span> <span class="dv">1</span>, <span class="at">by =</span> <span class="st">&quot;day&quot;</span>, <span class="at">length.out =</span> n<span class="sc">*</span><span class="dv">3</span>)</span>
+<span id="cb72-39"><a href="elman---jordan.html#cb72-39" tabindex="-1"></a>  s[<span class="sc">!</span><span class="fu">weekdays</span>(s) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Saturday&quot;</span>,<span class="st">&quot;Sunday&quot;</span>)][<span class="dv">1</span><span class="sc">:</span>n]</span>
+<span id="cb72-40"><a href="elman---jordan.html#cb72-40" tabindex="-1"></a>}</span>
+<span id="cb72-41"><a href="elman---jordan.html#cb72-41" tabindex="-1"></a></span>
+<span id="cb72-42"><a href="elman---jordan.html#cb72-42" tabindex="-1"></a><span class="do">## 1.3  Entrenamiento RNN</span></span>
+<span id="cb72-43"><a href="elman---jordan.html#cb72-43" tabindex="-1"></a>entrenar_rnn <span class="ot">&lt;-</span> <span class="cf">function</span>(parts, <span class="at">tipo=</span><span class="fu">c</span>(<span class="st">&quot;elman&quot;</span>,<span class="st">&quot;jordan&quot;</span>),</span>
+<span id="cb72-44"><a href="elman---jordan.html#cb72-44" tabindex="-1"></a>                         <span class="at">size=</span><span class="dv">25</span>, <span class="at">lr=</span><span class="fl">0.01</span>, <span class="at">maxit=</span><span class="dv">400</span>){</span>
+<span id="cb72-45"><a href="elman---jordan.html#cb72-45" tabindex="-1"></a>  tipo <span class="ot">&lt;-</span> <span class="fu">match.arg</span>(tipo)</span>
+<span id="cb72-46"><a href="elman---jordan.html#cb72-46" tabindex="-1"></a></span>
+<span id="cb72-47"><a href="elman---jordan.html#cb72-47" tabindex="-1"></a>  μ <span class="ot">&lt;-</span> <span class="fu">mean</span>(parts<span class="sc">$</span>train<span class="sc">$</span>y); parts <span class="ot">&lt;-</span> <span class="fu">lapply</span>(parts,\(d){d<span class="sc">$</span>y<span class="ot">&lt;-</span>d<span class="sc">$</span>y<span class="sc">-</span>μ;d})</span>
+<span id="cb72-48"><a href="elman---jordan.html#cb72-48" tabindex="-1"></a>  σ <span class="ot">&lt;-</span> <span class="fu">sd</span>(parts<span class="sc">$</span>train<span class="sc">$</span>y); <span class="cf">if</span> (σ<span class="sc">==</span><span class="dv">0</span>) σ <span class="ot">&lt;-</span> <span class="fl">1e-6</span></span>
+<span id="cb72-49"><a href="elman---jordan.html#cb72-49" tabindex="-1"></a>  sc  <span class="ot">&lt;-</span> \(v) v<span class="sc">/</span>σ;  isc <span class="ot">&lt;-</span> \(v) v<span class="sc">*</span>σ</span>
+<span id="cb72-50"><a href="elman---jordan.html#cb72-50" tabindex="-1"></a></span>
+<span id="cb72-51"><a href="elman---jordan.html#cb72-51" tabindex="-1"></a>  toMat <span class="ot">&lt;-</span> \(d) <span class="fu">as.matrix</span>(d[ , <span class="sc">-</span><span class="dv">1</span>])</span>
+<span id="cb72-52"><a href="elman---jordan.html#cb72-52" tabindex="-1"></a>  trX <span class="ot">&lt;-</span> <span class="fu">sc</span>(<span class="fu">toMat</span>(parts<span class="sc">$</span>train)); trY <span class="ot">&lt;-</span> <span class="fu">sc</span>(parts<span class="sc">$</span>train<span class="sc">$</span>y)</span>
+<span id="cb72-53"><a href="elman---jordan.html#cb72-53" tabindex="-1"></a>  vaX <span class="ot">&lt;-</span> <span class="fu">sc</span>(<span class="fu">toMat</span>(parts<span class="sc">$</span>val  )); vaY <span class="ot">&lt;-</span> <span class="fu">sc</span>(parts<span class="sc">$</span>val<span class="sc">$</span>y)</span>
+<span id="cb72-54"><a href="elman---jordan.html#cb72-54" tabindex="-1"></a>  teX <span class="ot">&lt;-</span> <span class="fu">sc</span>(<span class="fu">toMat</span>(parts<span class="sc">$</span>test )); teY <span class="ot">&lt;-</span> parts<span class="sc">$</span>test<span class="sc">$</span>y</span>
+<span id="cb72-55"><a href="elman---jordan.html#cb72-55" tabindex="-1"></a></span>
+<span id="cb72-56"><a href="elman---jordan.html#cb72-56" tabindex="-1"></a>  net <span class="ot">&lt;-</span> <span class="cf">if</span> (tipo<span class="sc">==</span><span class="st">&quot;elman&quot;</span>){</span>
+<span id="cb72-57"><a href="elman---jordan.html#cb72-57" tabindex="-1"></a>           <span class="fu">elman</span> (trX,trY,size,<span class="at">linOut=</span><span class="cn">TRUE</span>,</span>
+<span id="cb72-58"><a href="elman---jordan.html#cb72-58" tabindex="-1"></a>                  <span class="at">learnFuncParams=</span><span class="fu">c</span>(lr),</span>
+<span id="cb72-59"><a href="elman---jordan.html#cb72-59" tabindex="-1"></a>                  <span class="at">inputsTest=</span>vaX,<span class="at">targetsTest=</span>vaY,<span class="at">maxit=</span>maxit)</span>
+<span id="cb72-60"><a href="elman---jordan.html#cb72-60" tabindex="-1"></a>         } <span class="cf">else</span> {</span>
+<span id="cb72-61"><a href="elman---jordan.html#cb72-61" tabindex="-1"></a>           <span class="fu">jordan</span>(trX,trY,size,<span class="at">linOut=</span><span class="cn">TRUE</span>,</span>
+<span id="cb72-62"><a href="elman---jordan.html#cb72-62" tabindex="-1"></a>                  <span class="at">learnFuncParams=</span><span class="fu">c</span>(lr),</span>
+<span id="cb72-63"><a href="elman---jordan.html#cb72-63" tabindex="-1"></a>                  <span class="at">inputsTest=</span>vaX,<span class="at">targetsTest=</span>vaY,<span class="at">maxit=</span>maxit)</span>
+<span id="cb72-64"><a href="elman---jordan.html#cb72-64" tabindex="-1"></a>         }</span>
+<span id="cb72-65"><a href="elman---jordan.html#cb72-65" tabindex="-1"></a></span>
+<span id="cb72-66"><a href="elman---jordan.html#cb72-66" tabindex="-1"></a>  pred_te <span class="ot">&lt;-</span> <span class="fu">isc</span>(<span class="fu">predict</span>(net, teX))</span>
+<span id="cb72-67"><a href="elman---jordan.html#cb72-67" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">net=</span>net, <span class="at">sc=</span>sc, <span class="at">isc=</span>isc,</span>
+<span id="cb72-68"><a href="elman---jordan.html#cb72-68" tabindex="-1"></a>       <span class="at">clip =</span> <span class="dv">2</span><span class="sc">*</span><span class="fu">sd</span>(parts<span class="sc">$</span>train<span class="sc">$</span>y),           <span class="co"># límite de clipping por índice</span></span>
+<span id="cb72-69"><a href="elman---jordan.html#cb72-69" tabindex="-1"></a>       <span class="at">MAE =</span> <span class="fu">mae</span> (teY, pred_te),</span>
+<span id="cb72-70"><a href="elman---jordan.html#cb72-70" tabindex="-1"></a>       <span class="at">RMSE=</span> <span class="fu">rmse</span>(teY, pred_te),</span>
+<span id="cb72-71"><a href="elman---jordan.html#cb72-71" tabindex="-1"></a>       <span class="at">MAPE=</span> <span class="fu">mape</span>(teY, pred_te)<span class="sc">*</span><span class="dv">100</span>)</span>
+<span id="cb72-72"><a href="elman---jordan.html#cb72-72" tabindex="-1"></a>}</span>
+<span id="cb72-73"><a href="elman---jordan.html#cb72-73" tabindex="-1"></a></span>
+<span id="cb72-74"><a href="elman---jordan.html#cb72-74" tabindex="-1"></a>plot_fc <span class="ot">&lt;-</span> <span class="cf">function</span>(idx, fc_price, modelo){</span>
+<span id="cb72-75"><a href="elman---jordan.html#cb72-75" tabindex="-1"></a>  obs    <span class="ot">&lt;-</span> cierres_zoo[[idx]]</span>
+<span id="cb72-76"><a href="elman---jordan.html#cb72-76" tabindex="-1"></a>  fechas <span class="ot">&lt;-</span> <span class="fu">prox_habiles</span>(<span class="fu">tail</span>(<span class="fu">index</span>(obs),<span class="dv">1</span>), <span class="fu">length</span>(fc_price))</span>
+<span id="cb72-77"><a href="elman---jordan.html#cb72-77" tabindex="-1"></a>  <span class="fu">bind_rows</span>(</span>
+<span id="cb72-78"><a href="elman---jordan.html#cb72-78" tabindex="-1"></a>      <span class="fu">tibble</span>(<span class="at">Fecha=</span><span class="fu">index</span>(obs), <span class="at">Valor=</span><span class="fu">as.numeric</span>(obs), <span class="at">Serie=</span><span class="st">&quot;Observado&quot;</span>),</span>
+<span id="cb72-79"><a href="elman---jordan.html#cb72-79" tabindex="-1"></a>      <span class="fu">tibble</span>(<span class="at">Fecha=</span>fechas    , <span class="at">Valor=</span>fc_price      , <span class="at">Serie=</span><span class="st">&quot;Pronóstico&quot;</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb72-80"><a href="elman---jordan.html#cb72-80" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(Fecha,Valor,<span class="at">col=</span>Serie,<span class="at">linetype=</span>Serie))<span class="sc">+</span></span>
+<span id="cb72-81"><a href="elman---jordan.html#cb72-81" tabindex="-1"></a>      <span class="fu">geom_line</span>(<span class="at">size=</span>.<span class="dv">9</span>)<span class="sc">+</span></span>
+<span id="cb72-82"><a href="elman---jordan.html#cb72-82" tabindex="-1"></a>      <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="at">Observado=</span><span class="st">&quot;#1f77b4&quot;</span>,Pronóstico<span class="ot">=</span><span class="st">&quot;#d62728&quot;</span>))<span class="sc">+</span></span>
+<span id="cb72-83"><a href="elman---jordan.html#cb72-83" tabindex="-1"></a>      <span class="fu">labs</span>(<span class="at">title=</span><span class="fu">sprintf</span>(<span class="st">&quot;Pronóstico 30 días – %s (%s)&quot;</span>, idx, modelo),</span>
+<span id="cb72-84"><a href="elman---jordan.html#cb72-84" tabindex="-1"></a>           <span class="at">y=</span><span class="st">&quot;Precio de cierre&quot;</span>)<span class="sc">+</span><span class="fu">theme_minimal</span>()</span>
+<span id="cb72-85"><a href="elman---jordan.html#cb72-85" tabindex="-1"></a>}</span>
+<span id="cb72-86"><a href="elman---jordan.html#cb72-86" tabindex="-1"></a></span>
+<span id="cb72-87"><a href="elman---jordan.html#cb72-87" tabindex="-1"></a><span class="co">#───────────────────────────────────────────────</span></span>
+<span id="cb72-88"><a href="elman---jordan.html#cb72-88" tabindex="-1"></a><span class="co"># 2.  log-retornos centrados</span></span>
+<span id="cb72-89"><a href="elman---jordan.html#cb72-89" tabindex="-1"></a><span class="co">#───────────────────────────────────────────────</span></span>
+<span id="cb72-90"><a href="elman---jordan.html#cb72-90" tabindex="-1"></a>logret_zoo <span class="ot">&lt;-</span> <span class="fu">lapply</span>(cierres_zoo, \(z){ r<span class="ot">&lt;-</span><span class="fu">calc_logret</span>(z); r<span class="sc">-</span><span class="fu">mean</span>(r) })</span>
+<span id="cb72-91"><a href="elman---jordan.html#cb72-91" tabindex="-1"></a><span class="fu">names</span>(logret_zoo) <span class="ot">&lt;-</span> nombres_indices</span>
+<span id="cb72-92"><a href="elman---jordan.html#cb72-92" tabindex="-1"></a></span>
+<span id="cb72-93"><a href="elman---jordan.html#cb72-93" tabindex="-1"></a><span class="co">#───────────────────────────────────────────────</span></span>
+<span id="cb72-94"><a href="elman---jordan.html#cb72-94" tabindex="-1"></a><span class="co"># 3.  Loop entrenamiento / forecast</span></span>
+<span id="cb72-95"><a href="elman---jordan.html#cb72-95" tabindex="-1"></a><span class="co">#───────────────────────────────────────────────</span></span>
+<span id="cb72-96"><a href="elman---jordan.html#cb72-96" tabindex="-1"></a>metricas_elman  <span class="ot">&lt;-</span> <span class="fu">tibble</span>(); resultados_elman  <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb72-97"><a href="elman---jordan.html#cb72-97" tabindex="-1"></a>metricas_jordan <span class="ot">&lt;-</span> <span class="fu">tibble</span>(); resultados_jordan <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb72-98"><a href="elman---jordan.html#cb72-98" tabindex="-1"></a></span>
+<span id="cb72-99"><a href="elman---jordan.html#cb72-99" tabindex="-1"></a><span class="cf">for</span>(idx <span class="cf">in</span> nombres_indices){</span>
+<span id="cb72-100"><a href="elman---jordan.html#cb72-100" tabindex="-1"></a>  r <span class="ot">&lt;-</span> logret_zoo[[idx]]</span>
+<span id="cb72-101"><a href="elman---jordan.html#cb72-101" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">length</span>(r) <span class="sc">&lt;</span> <span class="dv">260</span>){ <span class="fu">message</span>(idx,<span class="st">&quot;: pocos datos&quot;</span>); <span class="cf">next</span> }</span>
+<span id="cb72-102"><a href="elman---jordan.html#cb72-102" tabindex="-1"></a></span>
+<span id="cb72-103"><a href="elman---jordan.html#cb72-103" tabindex="-1"></a>  df_lags <span class="ot">&lt;-</span> <span class="fu">crear_ventanas</span>(r, <span class="dv">12</span>)</span>
+<span id="cb72-104"><a href="elman---jordan.html#cb72-104" tabindex="-1"></a>  parts   <span class="ot">&lt;-</span> <span class="fu">particionar</span>(df_lags, .<span class="dv">70</span>, .<span class="dv">15</span>)</span>
+<span id="cb72-105"><a href="elman---jordan.html#cb72-105" tabindex="-1"></a></span>
+<span id="cb72-106"><a href="elman---jordan.html#cb72-106" tabindex="-1"></a>  <span class="do">## ----------  ELMAN  ----------</span></span>
+<span id="cb72-107"><a href="elman---jordan.html#cb72-107" tabindex="-1"></a>  fitE <span class="ot">&lt;-</span> <span class="fu">entrenar_rnn</span>(parts,<span class="st">&quot;elman&quot;</span>,<span class="dv">25</span>,.<span class="dv">01</span>,<span class="dv">400</span>)</span>
+<span id="cb72-108"><a href="elman---jordan.html#cb72-108" tabindex="-1"></a></span>
+<span id="cb72-109"><a href="elman---jordan.html#cb72-109" tabindex="-1"></a>  <span class="co"># pronóstico paso a paso (30 días hábiles)</span></span>
+<span id="cb72-110"><a href="elman---jordan.html#cb72-110" tabindex="-1"></a>  last_price <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">tail</span>(cierres_zoo[[idx]],<span class="dv">1</span>))</span>
+<span id="cb72-111"><a href="elman---jordan.html#cb72-111" tabindex="-1"></a>  ret_fc <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="dv">30</span>); win <span class="ot">&lt;-</span> <span class="fu">tail</span>(df_lags<span class="sc">$</span>y,<span class="dv">12</span>)</span>
+<span id="cb72-112"><a href="elman---jordan.html#cb72-112" tabindex="-1"></a>  next_dates <span class="ot">&lt;-</span> <span class="fu">prox_habiles</span>(<span class="fu">time</span>(<span class="fu">tail</span>(cierres_zoo[[idx]],<span class="dv">1</span>)), <span class="dv">30</span>)</span>
+<span id="cb72-113"><a href="elman---jordan.html#cb72-113" tabindex="-1"></a>  <span class="cf">for</span>(h <span class="cf">in</span> <span class="fu">seq_len</span>(<span class="dv">30</span>)){</span>
+<span id="cb72-114"><a href="elman---jordan.html#cb72-114" tabindex="-1"></a>    x <span class="ot">&lt;-</span> <span class="fu">c</span>(fitE<span class="sc">$</span><span class="fu">sc</span>(win), <span class="fu">dow_dum</span>(next_dates[h]))</span>
+<span id="cb72-115"><a href="elman---jordan.html#cb72-115" tabindex="-1"></a>    r_hat <span class="ot">&lt;-</span> fitE<span class="sc">$</span><span class="fu">isc</span>(<span class="fu">predict</span>(fitE<span class="sc">$</span>net, <span class="fu">matrix</span>(x,<span class="dv">1</span>)))</span>
+<span id="cb72-116"><a href="elman---jordan.html#cb72-116" tabindex="-1"></a>    ret_fc[h] <span class="ot">&lt;-</span> <span class="fu">pmin</span>(<span class="fu">pmax</span>(r_hat, <span class="sc">-</span>fitE<span class="sc">$</span>clip), fitE<span class="sc">$</span>clip)</span>
+<span id="cb72-117"><a href="elman---jordan.html#cb72-117" tabindex="-1"></a>    win <span class="ot">&lt;-</span> <span class="fu">c</span>(ret_fc[h], <span class="fu">head</span>(win,<span class="sc">-</span><span class="dv">1</span>))</span>
+<span id="cb72-118"><a href="elman---jordan.html#cb72-118" tabindex="-1"></a>  }</span>
+<span id="cb72-119"><a href="elman---jordan.html#cb72-119" tabindex="-1"></a>  resultados_elman[[idx]] <span class="ot">&lt;-</span> last_price<span class="sc">*</span><span class="fu">exp</span>(<span class="fu">cumsum</span>(ret_fc))</span>
+<span id="cb72-120"><a href="elman---jordan.html#cb72-120" tabindex="-1"></a></span>
+<span id="cb72-121"><a href="elman---jordan.html#cb72-121" tabindex="-1"></a>  metricas_elman <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(metricas_elman,</span>
+<span id="cb72-122"><a href="elman---jordan.html#cb72-122" tabindex="-1"></a>      <span class="fu">tibble</span>(<span class="at">Indice=</span>idx, <span class="at">MAE=</span><span class="fu">round</span>(fitE<span class="sc">$</span>MAE,<span class="dv">4</span>),</span>
+<span id="cb72-123"><a href="elman---jordan.html#cb72-123" tabindex="-1"></a>             <span class="at">RMSE=</span><span class="fu">round</span>(fitE<span class="sc">$</span>RMSE,<span class="dv">4</span>), <span class="at">MAPE=</span><span class="fu">round</span>(fitE<span class="sc">$</span>MAPE,<span class="dv">2</span>)))</span>
+<span id="cb72-124"><a href="elman---jordan.html#cb72-124" tabindex="-1"></a></span>
+<span id="cb72-125"><a href="elman---jordan.html#cb72-125" tabindex="-1"></a>  <span class="do">## ----------  JORDAN ----------</span></span>
+<span id="cb72-126"><a href="elman---jordan.html#cb72-126" tabindex="-1"></a>  fitJ <span class="ot">&lt;-</span> <span class="fu">entrenar_rnn</span>(parts,<span class="st">&quot;jordan&quot;</span>,<span class="dv">25</span>,.<span class="dv">01</span>,<span class="dv">400</span>)</span>
+<span id="cb72-127"><a href="elman---jordan.html#cb72-127" tabindex="-1"></a></span>
+<span id="cb72-128"><a href="elman---jordan.html#cb72-128" tabindex="-1"></a>  ret_fc <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="dv">30</span>); win <span class="ot">&lt;-</span> <span class="fu">tail</span>(df_lags<span class="sc">$</span>y,<span class="dv">12</span>)</span>
+<span id="cb72-129"><a href="elman---jordan.html#cb72-129" tabindex="-1"></a>  <span class="cf">for</span>(h <span class="cf">in</span> <span class="fu">seq_len</span>(<span class="dv">30</span>)){</span>
+<span id="cb72-130"><a href="elman---jordan.html#cb72-130" tabindex="-1"></a>    x <span class="ot">&lt;-</span> <span class="fu">c</span>(fitJ<span class="sc">$</span><span class="fu">sc</span>(win), <span class="fu">dow_dum</span>(next_dates[h]))</span>
+<span id="cb72-131"><a href="elman---jordan.html#cb72-131" tabindex="-1"></a>    r_hat <span class="ot">&lt;-</span> fitJ<span class="sc">$</span><span class="fu">isc</span>(<span class="fu">predict</span>(fitJ<span class="sc">$</span>net, <span class="fu">matrix</span>(x,<span class="dv">1</span>)))</span>
+<span id="cb72-132"><a href="elman---jordan.html#cb72-132" tabindex="-1"></a>    ret_fc[h] <span class="ot">&lt;-</span> <span class="fu">pmin</span>(<span class="fu">pmax</span>(r_hat, <span class="sc">-</span>fitJ<span class="sc">$</span>clip), fitJ<span class="sc">$</span>clip)</span>
+<span id="cb72-133"><a href="elman---jordan.html#cb72-133" tabindex="-1"></a>    win <span class="ot">&lt;-</span> <span class="fu">c</span>(ret_fc[h], <span class="fu">head</span>(win,<span class="sc">-</span><span class="dv">1</span>))</span>
+<span id="cb72-134"><a href="elman---jordan.html#cb72-134" tabindex="-1"></a>  }</span>
+<span id="cb72-135"><a href="elman---jordan.html#cb72-135" tabindex="-1"></a>  resultados_jordan[[idx]] <span class="ot">&lt;-</span> last_price<span class="sc">*</span><span class="fu">exp</span>(<span class="fu">cumsum</span>(ret_fc))</span>
+<span id="cb72-136"><a href="elman---jordan.html#cb72-136" tabindex="-1"></a></span>
+<span id="cb72-137"><a href="elman---jordan.html#cb72-137" tabindex="-1"></a>  metricas_jordan <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(metricas_jordan,</span>
+<span id="cb72-138"><a href="elman---jordan.html#cb72-138" tabindex="-1"></a>      <span class="fu">tibble</span>(<span class="at">Indice=</span>idx, <span class="at">MAE=</span><span class="fu">round</span>(fitJ<span class="sc">$</span>MAE,<span class="dv">4</span>),</span>
+<span id="cb72-139"><a href="elman---jordan.html#cb72-139" tabindex="-1"></a>             <span class="at">RMSE=</span><span class="fu">round</span>(fitJ<span class="sc">$</span>RMSE,<span class="dv">4</span>), <span class="at">MAPE=</span><span class="fu">round</span>(fitJ<span class="sc">$</span>MAPE,<span class="dv">2</span>)))</span>
+<span id="cb72-140"><a href="elman---jordan.html#cb72-140" tabindex="-1"></a>}</span>
+<span id="cb72-141"><a href="elman---jordan.html#cb72-141" tabindex="-1"></a></span>
+<span id="cb72-142"><a href="elman---jordan.html#cb72-142" tabindex="-1"></a><span class="co">#───────────────────────────────────────────────</span></span>
+<span id="cb72-143"><a href="elman---jordan.html#cb72-143" tabindex="-1"></a><span class="co"># 4.  Tablas + gráficos</span></span>
+<span id="cb72-144"><a href="elman---jordan.html#cb72-144" tabindex="-1"></a><span class="co">#───────────────────────────────────────────────</span></span>
+<span id="cb72-145"><a href="elman---jordan.html#cb72-145" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(metricas_elman , <span class="at">caption=</span><span class="st">&quot;Rendimiento – Red ELMAN (lags+Dow)&quot;</span>)</span></code></pre></div>
+</details>
+<table>
+<caption><span id="tab:unnamed-chunk-30">Table 8.1: </span>Rendimiento – Red ELMAN (lags+Dow)</caption>
+<thead>
+<tr class="header">
+<th align="left">Indice</th>
+<th align="right">MAE</th>
+<th align="right">RMSE</th>
+<th align="right">MAPE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">SP500</td>
+<td align="right">0.0127</td>
+<td align="right">0.0187</td>
+<td align="right">633.86</td>
+</tr>
+<tr class="even">
+<td align="left">DowJones</td>
+<td align="right">0.0113</td>
+<td align="right">0.0162</td>
+<td align="right">498.51</td>
+</tr>
+<tr class="odd">
+<td align="left">Nasdaq</td>
+<td align="right">0.0180</td>
+<td align="right">0.0244</td>
+<td align="right">740.72</td>
+</tr>
+<tr class="even">
+<td align="left">DAX</td>
+<td align="right">0.0119</td>
+<td align="right">0.0166</td>
+<td align="right">360.14</td>
+</tr>
+<tr class="odd">
+<td align="left">CAC40</td>
+<td align="right">0.0115</td>
+<td align="right">0.0156</td>
+<td align="right">399.02</td>
+</tr>
+<tr class="even">
+<td align="left">FTSE100</td>
+<td align="right">0.0077</td>
+<td align="right">0.0112</td>
+<td align="right">460.19</td>
+</tr>
+<tr class="odd">
+<td align="left">Nikkei225</td>
+<td align="right">0.0177</td>
+<td align="right">0.0253</td>
+<td align="right">417.04</td>
+</tr>
+<tr class="even">
+<td align="left">HangSeng</td>
+<td align="right">0.0197</td>
+<td align="right">0.0264</td>
+<td align="right">1062.43</td>
+</tr>
+<tr class="odd">
+<td align="left">ShanghaiComposite</td>
+<td align="right">0.0105</td>
+<td align="right">0.0170</td>
+<td align="right">452.39</td>
+</tr>
+</tbody>
+</table>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="elman---jordan.html#cb73-1" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(metricas_jordan, <span class="at">caption=</span><span class="st">&quot;Rendimiento – Red JORDAN (lags+Dow)&quot;</span>)</span></code></pre></div>
+</details>
+<table>
+<caption><span id="tab:unnamed-chunk-30">Table 8.1: </span>Rendimiento – Red JORDAN (lags+Dow)</caption>
+<thead>
+<tr class="header">
+<th align="left">Indice</th>
+<th align="right">MAE</th>
+<th align="right">RMSE</th>
+<th align="right">MAPE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">SP500</td>
+<td align="right">0.0128</td>
+<td align="right">0.0176</td>
+<td align="right">608.78</td>
+</tr>
+<tr class="even">
+<td align="left">DowJones</td>
+<td align="right">0.0194</td>
+<td align="right">0.0248</td>
+<td align="right">1307.06</td>
+</tr>
+<tr class="odd">
+<td align="left">Nasdaq</td>
+<td align="right">0.0179</td>
+<td align="right">0.0243</td>
+<td align="right">726.76</td>
+</tr>
+<tr class="even">
+<td align="left">DAX</td>
+<td align="right">0.0209</td>
+<td align="right">0.0273</td>
+<td align="right">707.48</td>
+</tr>
+<tr class="odd">
+<td align="left">CAC40</td>
+<td align="right">0.0104</td>
+<td align="right">0.0134</td>
+<td align="right">433.33</td>
+</tr>
+<tr class="even">
+<td align="left">FTSE100</td>
+<td align="right">0.0365</td>
+<td align="right">0.0403</td>
+<td align="right">2851.01</td>
+</tr>
+<tr class="odd">
+<td align="left">Nikkei225</td>
+<td align="right">0.0166</td>
+<td align="right">0.0230</td>
+<td align="right">527.69</td>
+</tr>
+<tr class="even">
+<td align="left">HangSeng</td>
+<td align="right">0.0221</td>
+<td align="right">0.0303</td>
+<td align="right">901.19</td>
+</tr>
+<tr class="odd">
+<td align="left">ShanghaiComposite</td>
+<td align="right">0.0116</td>
+<td align="right">0.0175</td>
+<td align="right">547.23</td>
+</tr>
+</tbody>
+</table>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="elman---jordan.html#cb74-1" tabindex="-1"></a><span class="cf">for</span>(idx <span class="cf">in</span> <span class="fu">names</span>(resultados_elman )) <span class="fu">print</span>(<span class="fu">plot_fc</span>(idx,resultados_elman [[idx]],<span class="st">&quot;ELMAN&quot;</span>))</span></code></pre></div>
+</details>
+<p><img src="figures/unnamed-chunk-30-1.png" width="672" /><img src="figures/unnamed-chunk-30-2.png" width="672" /><img src="figures/unnamed-chunk-30-3.png" width="672" /><img src="figures/unnamed-chunk-30-4.png" width="672" /><img src="figures/unnamed-chunk-30-5.png" width="672" /><img src="figures/unnamed-chunk-30-6.png" width="672" /><img src="figures/unnamed-chunk-30-7.png" width="672" /><img src="figures/unnamed-chunk-30-8.png" width="672" /><img src="figures/unnamed-chunk-30-9.png" width="672" /></p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="elman---jordan.html#cb75-1" tabindex="-1"></a><span class="cf">for</span>(idx <span class="cf">in</span> <span class="fu">names</span>(resultados_jordan)) <span class="fu">print</span>(<span class="fu">plot_fc</span>(idx,resultados_jordan[[idx]],<span class="st">&quot;JORDAN&quot;</span>))</span></code></pre></div>
+</details>
+<p><img src="figures/unnamed-chunk-30-10.png" width="672" /><img src="figures/unnamed-chunk-30-11.png" width="672" /><img src="figures/unnamed-chunk-30-12.png" width="672" /><img src="figures/unnamed-chunk-30-13.png" width="672" /><img src="figures/unnamed-chunk-30-14.png" width="672" /><img src="figures/unnamed-chunk-30-15.png" width="672" /><img src="figures/unnamed-chunk-30-16.png" width="672" /><img src="figures/unnamed-chunk-30-17.png" width="672" /><img src="figures/unnamed-chunk-30-18.png" width="672" /></p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="modelo-prophet.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/index.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

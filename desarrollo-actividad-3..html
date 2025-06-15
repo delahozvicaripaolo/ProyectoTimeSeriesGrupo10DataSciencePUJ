@@ -23,7 +23,7 @@
 <meta name="author" content="Paolo De La Hoz Vicari, Genjis Ossa Gonzales" />
 
 
-<meta name="date" content="2025-05-26" />
+<meta name="date" content="2025-06-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -218,6 +218,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.3" data-path="modelo-prophet.html"><a href="modelo-prophet.html#implementación-a-todas-las-series-de-tiempo-mediante-ciclos-iterativos"><i class="fa fa-check"></i><b>7.3</b> Implementación a todas las series de tiempo mediante ciclos iterativos</a></li>
 <li class="chapter" data-level="7.4" data-path="modelo-prophet.html"><a href="modelo-prophet.html#tabla-de-resumen-1"><i class="fa fa-check"></i><b>7.4</b> Tabla de resumen</a></li>
 </ul></li>
+<li class="chapter" data-level="8" data-path="elman---jordan.html"><a href="elman---jordan.html"><i class="fa fa-check"></i><b>8</b> ELMAN - JORDAN</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="elman---jordan.html"><a href="elman---jordan.html#implementación"><i class="fa fa-check"></i><b>8.1</b> Implementación</a></li>
+<li class="chapter" data-level="8.2" data-path="elman---jordan.html"><a href="elman---jordan.html#resumen-e-interpretación-de-las-gráficas-y-resultados-de-las-funciones.-1"><i class="fa fa-check"></i><b>8.2</b> Resumen e interpretación de las gráficas y resultados de las funciones.</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -404,8 +409,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## ANÁLISIS DE: SP500 
 ## ==================================================</code></pre>
 <p><img src="figures/unnamed-chunk-18-1.png" width="672" /></p>
-<pre><code>## Transformación logarítmica aplicada (CV = 0.226 )
-## p-valor Dickey-Fuller: 0.00785 
+<pre><code>## Transformación logarítmica aplicada (CV = 0.228 )
+## p-valor Dickey-Fuller: 0.00777 
 ## La serie transformada es estacionaria. No se aplica diferenciación.
 ## 
 ## 
@@ -413,8 +418,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## ANÁLISIS DE: DowJones 
 ## ==================================================</code></pre>
 <p><img src="figures/unnamed-chunk-18-2.png" width="672" /></p>
-<pre><code>## No se aplica transformación logarítmica (CV = 0.165 )
-## p-valor Dickey-Fuller: 0.00377 
+<pre><code>## No se aplica transformación logarítmica (CV = 0.166 )
+## p-valor Dickey-Fuller: 0.00365 
 ## La serie transformada es estacionaria. No se aplica diferenciación.
 ## 
 ## 
@@ -422,8 +427,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## ANÁLISIS DE: Nasdaq 
 ## ==================================================</code></pre>
 <p><img src="figures/unnamed-chunk-18-3.png" width="672" /></p>
-<pre><code>## Transformación logarítmica aplicada (CV = 0.265 )
-## p-valor Dickey-Fuller: 0.02283 
+<pre><code>## Transformación logarítmica aplicada (CV = 0.266 )
+## p-valor Dickey-Fuller: 0.02269 
 ## La serie transformada es estacionaria. No se aplica diferenciación.
 ## 
 ## 
@@ -431,8 +436,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## ANÁLISIS DE: DAX 
 ## ==================================================</code></pre>
 <p><img src="figures/unnamed-chunk-18-4.png" width="672" /></p>
-<pre><code>## No se aplica transformación logarítmica (CV = 0.192 )
-## p-valor Dickey-Fuller: 0.1319</code></pre>
+<pre><code>## No se aplica transformación logarítmica (CV = 0.198 )
+## p-valor Dickey-Fuller: 0.10877</code></pre>
 <p><img src="figures/unnamed-chunk-18-5.png" width="672" /></p>
 <pre><code>## Serie NO estacionaria. Se aplica diferenciación de orden: 1 
 ## p-valor Dickey-Fuller tras diferenciación: 0 
@@ -444,7 +449,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## ==================================================</code></pre>
 <p><img src="figures/unnamed-chunk-18-6.png" width="672" /></p>
 <pre><code>## No se aplica transformación logarítmica (CV = 0.156 )
-## p-valor Dickey-Fuller: 0.00235 
+## p-valor Dickey-Fuller: 0.00238 
 ## La serie transformada es estacionaria. No se aplica diferenciación.
 ## 
 ## 
@@ -452,8 +457,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## ANÁLISIS DE: FTSE100 
 ## ==================================================</code></pre>
 <p><img src="figures/unnamed-chunk-18-7.png" width="672" /></p>
-<pre><code>## No se aplica transformación logarítmica (CV = 0.094 )
-## p-valor Dickey-Fuller: 0.00515 
+<pre><code>## No se aplica transformación logarítmica (CV = 0.095 )
+## p-valor Dickey-Fuller: 0.0059 
 ## La serie transformada es estacionaria. No se aplica diferenciación.
 ## 
 ## 
@@ -461,8 +466,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## ANÁLISIS DE: Nikkei225 
 ## ==================================================</code></pre>
 <p><img src="figures/unnamed-chunk-18-8.png" width="672" /></p>
-<pre><code>## Transformación logarítmica aplicada (CV = 0.208 )
-## p-valor Dickey-Fuller: 0.0021 
+<pre><code>## Transformación logarítmica aplicada (CV = 0.209 )
+## p-valor Dickey-Fuller: 0.00195 
 ## La serie transformada es estacionaria. No se aplica diferenciación.
 ## 
 ## 
@@ -470,8 +475,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## ANÁLISIS DE: HangSeng 
 ## ==================================================</code></pre>
 <p><img src="figures/unnamed-chunk-18-9.png" width="672" /></p>
-<pre><code>## No se aplica transformación logarítmica (CV = 0.182 )
-## p-valor Dickey-Fuller: 0.0252 
+<pre><code>## No se aplica transformación logarítmica (CV = 0.181 )
+## p-valor Dickey-Fuller: 0.03218 
 ## La serie transformada es estacionaria. No se aplica diferenciación.
 ## 
 ## 
@@ -479,7 +484,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## ANÁLISIS DE: ShanghaiComposite 
 ## ==================================================</code></pre>
 <p><img src="figures/unnamed-chunk-18-10.png" width="672" /></p>
-<pre><code>## No se aplica transformación logarítmica (CV = 0.078 )
+<pre><code>## No se aplica transformación logarítmica (CV = 0.077 )
 ## p-valor Dickey-Fuller: 0.00048 
 ## La serie transformada es estacionaria. No se aplica diferenciación.</code></pre>
 </div>
@@ -513,63 +518,63 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tbody>
 <tr class="odd">
 <td align="left">SP500</td>
-<td align="right">0.226</td>
+<td align="right">0.228</td>
 <td align="left">Sí</td>
-<td align="right">0.00785</td>
+<td align="right">0.00777</td>
 <td align="left">No</td>
 </tr>
 <tr class="even">
 <td align="left">DowJones</td>
-<td align="right">0.165</td>
+<td align="right">0.166</td>
 <td align="left">No</td>
-<td align="right">0.00377</td>
+<td align="right">0.00365</td>
 <td align="left">No</td>
 </tr>
 <tr class="odd">
 <td align="left">Nasdaq</td>
-<td align="right">0.265</td>
+<td align="right">0.266</td>
 <td align="left">Sí</td>
-<td align="right">0.02283</td>
+<td align="right">0.02269</td>
 <td align="left">No</td>
 </tr>
 <tr class="even">
 <td align="left">DAX</td>
-<td align="right">0.192</td>
+<td align="right">0.198</td>
 <td align="left">No</td>
-<td align="right">0.13190</td>
+<td align="right">0.10877</td>
 <td align="left">Sí, orden 1</td>
 </tr>
 <tr class="odd">
 <td align="left">CAC40</td>
 <td align="right">0.156</td>
 <td align="left">No</td>
-<td align="right">0.00235</td>
+<td align="right">0.00238</td>
 <td align="left">No</td>
 </tr>
 <tr class="even">
 <td align="left">FTSE100</td>
-<td align="right">0.094</td>
+<td align="right">0.095</td>
 <td align="left">No</td>
-<td align="right">0.00515</td>
+<td align="right">0.00590</td>
 <td align="left">No</td>
 </tr>
 <tr class="odd">
 <td align="left">Nikkei225</td>
-<td align="right">0.208</td>
+<td align="right">0.209</td>
 <td align="left">Sí</td>
-<td align="right">0.00210</td>
+<td align="right">0.00195</td>
 <td align="left">No</td>
 </tr>
 <tr class="even">
 <td align="left">HangSeng</td>
-<td align="right">0.182</td>
+<td align="right">0.181</td>
 <td align="left">No</td>
-<td align="right">0.02520</td>
+<td align="right">0.03218</td>
 <td align="left">No</td>
 </tr>
 <tr class="odd">
 <td align="left">ShanghaiComposite</td>
-<td align="right">0.078</td>
+<td align="right">0.077</td>
 <td align="left">No</td>
 <td align="right">0.00048</td>
 <td align="left">No</td>

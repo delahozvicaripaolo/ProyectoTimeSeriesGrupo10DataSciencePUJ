@@ -5,6 +5,7 @@ tab:unnamed-chunk-23
 tab:unnamed-chunk-25
 tab:unnamed-chunk-26
 tab:unnamed-chunk-29
+tab:unnamed-chunk-30
 descripción-del-proceso-y-justificación-del-análisis-de-los-valores-bursátiles-en-los-principales-mercados-globales-estados-unidos-europa-y-asia.
 descripción-del-proyecto.
 justificación-e-importancia-del-análisis.
@@ -56,3 +57,6 @@ análisis-de-modelo-prophet.
 implementación-de-lógicas-y-funciones-para-prophet.
 implementación-a-todas-las-series-de-tiempo-mediante-ciclos-iterativos
 tabla-de-resumen-1
+elman---jordan
+implementación
+resumen-e-interpretación-de-las-gráficas-y-resultados-de-las-funciones.-1

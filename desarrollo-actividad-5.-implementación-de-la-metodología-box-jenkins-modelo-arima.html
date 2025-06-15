@@ -23,7 +23,7 @@
 <meta name="author" content="Paolo De La Hoz Vicari, Genjis Ossa Gonzales" />
 
 
-<meta name="date" content="2025-05-26" />
+<meta name="date" content="2025-06-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -218,6 +218,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.3" data-path="modelo-prophet.html"><a href="modelo-prophet.html#implementación-a-todas-las-series-de-tiempo-mediante-ciclos-iterativos"><i class="fa fa-check"></i><b>7.3</b> Implementación a todas las series de tiempo mediante ciclos iterativos</a></li>
 <li class="chapter" data-level="7.4" data-path="modelo-prophet.html"><a href="modelo-prophet.html#tabla-de-resumen-1"><i class="fa fa-check"></i><b>7.4</b> Tabla de resumen</a></li>
 </ul></li>
+<li class="chapter" data-level="8" data-path="elman---jordan.html"><a href="elman---jordan.html"><i class="fa fa-check"></i><b>8</b> ELMAN - JORDAN</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="elman---jordan.html"><a href="elman---jordan.html#implementación"><i class="fa fa-check"></i><b>8.1</b> Implementación</a></li>
+<li class="chapter" data-level="8.2" data-path="elman---jordan.html"><a href="elman---jordan.html#resumen-e-interpretación-de-las-gráficas-y-resultados-de-las-funciones.-1"><i class="fa fa-check"></i><b>8.2</b> Resumen e interpretación de las gráficas y resultados de las funciones.</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -317,54 +322,54 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><strong>Residuos:</strong> Están bien comportados; Ljung-Box p = 0.6892 indica que no hay autocorrelación residual.</p>
 <p><strong>Pronóstico:</strong> Se proyecta una continuación de la tendencia moderada con baja varianza, aunque limitada capacidad explicativa del modelo.</p>
 <details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-1" tabindex="-1"></a><span class="co"># Inicializar estructuras para almacenar resultados</span></span>
-<span id="cb38-2"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-2" tabindex="-1"></a>resultados_arima <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb38-3"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-3" tabindex="-1"></a>metricas_arima <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb38-4"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-4" tabindex="-1"></a>  <span class="at">Indice =</span> <span class="fu">character</span>(),</span>
-<span id="cb38-5"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-5" tabindex="-1"></a>  <span class="at">MAE =</span> <span class="fu">numeric</span>(),</span>
-<span id="cb38-6"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-6" tabindex="-1"></a>  <span class="at">RMSE =</span> <span class="fu">numeric</span>(),</span>
-<span id="cb38-7"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-7" tabindex="-1"></a>  <span class="at">MAPE =</span> <span class="fu">numeric</span>(),</span>
-<span id="cb38-8"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-8" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
-<span id="cb38-9"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-9" tabindex="-1"></a>)</span>
-<span id="cb38-10"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-10" tabindex="-1"></a></span>
-<span id="cb38-11"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-11" tabindex="-1"></a><span class="co"># Función para ajustar ARIMA, graficar y evaluar</span></span>
-<span id="cb38-12"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-12" tabindex="-1"></a>ajustar_modelo_arima <span class="ot">&lt;-</span> <span class="cf">function</span>(serie_ts, nombre_indice) {</span>
-<span id="cb38-13"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-13" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n\n</span><span class="st">==============================</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb38-14"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-14" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Modelo ARIMA -&quot;</span>, nombre_indice, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb38-15"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-15" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;==============================</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb38-16"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-16" tabindex="-1"></a>  </span>
-<span id="cb38-17"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-17" tabindex="-1"></a>  modelo <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(serie_ts, <span class="at">seasonal =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb38-18"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-18" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">summary</span>(modelo))</span>
-<span id="cb38-19"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-19" tabindex="-1"></a>  </span>
-<span id="cb38-20"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-20" tabindex="-1"></a>  <span class="co"># Diagnóstico de residuos</span></span>
-<span id="cb38-21"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-21" tabindex="-1"></a>  <span class="fu">checkresiduals</span>(modelo)</span>
-<span id="cb38-22"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-22" tabindex="-1"></a>  </span>
-<span id="cb38-23"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-23" tabindex="-1"></a>  <span class="co"># Pronóstico a 30 días</span></span>
-<span id="cb38-24"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-24" tabindex="-1"></a>  forecast_arima <span class="ot">&lt;-</span> <span class="fu">forecast</span>(modelo, <span class="at">h =</span> <span class="dv">30</span>)</span>
-<span id="cb38-25"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-25" tabindex="-1"></a>  <span class="fu">plot</span>(forecast_arima, <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">&quot;Pronóstico ARIMA (30 días) -&quot;</span>, nombre_indice))</span>
-<span id="cb38-26"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-26" tabindex="-1"></a>  </span>
-<span id="cb38-27"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-27" tabindex="-1"></a>  <span class="co"># Guardar resultados</span></span>
-<span id="cb38-28"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-28" tabindex="-1"></a>  resultados_arima[[nombre_indice]] <span class="ot">&lt;&lt;-</span> <span class="fu">list</span>(<span class="at">modelo =</span> modelo, <span class="at">pronostico =</span> forecast_arima)</span>
-<span id="cb38-29"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-29" tabindex="-1"></a>  </span>
-<span id="cb38-30"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-30" tabindex="-1"></a>  <span class="co"># Métricas de ajuste</span></span>
-<span id="cb38-31"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-31" tabindex="-1"></a>  obs <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(serie_ts)</span>
-<span id="cb38-32"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-32" tabindex="-1"></a>  pred <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">fitted</span>(modelo))</span>
-<span id="cb38-33"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-33" tabindex="-1"></a>  mae_val <span class="ot">&lt;-</span> <span class="fu">mae</span>(obs, pred)</span>
-<span id="cb38-34"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-34" tabindex="-1"></a>  rmse_val <span class="ot">&lt;-</span> <span class="fu">rmse</span>(obs, pred)</span>
-<span id="cb38-35"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-35" tabindex="-1"></a>  mape_val <span class="ot">&lt;-</span> <span class="fu">mape</span>(obs, pred) <span class="sc">*</span> <span class="dv">100</span></span>
-<span id="cb38-36"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-36" tabindex="-1"></a>  </span>
-<span id="cb38-37"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-37" tabindex="-1"></a>  metricas_arima <span class="ot">&lt;&lt;-</span> <span class="fu">rbind</span>(metricas_arima, <span class="fu">data.frame</span>(</span>
-<span id="cb38-38"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-38" tabindex="-1"></a>    <span class="at">Indice =</span> nombre_indice,</span>
-<span id="cb38-39"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-39" tabindex="-1"></a>    <span class="at">MAE =</span> <span class="fu">round</span>(mae_val, <span class="dv">2</span>),</span>
-<span id="cb38-40"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-40" tabindex="-1"></a>    <span class="at">RMSE =</span> <span class="fu">round</span>(rmse_val, <span class="dv">2</span>),</span>
-<span id="cb38-41"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-41" tabindex="-1"></a>    <span class="at">MAPE =</span> <span class="fu">round</span>(mape_val, <span class="dv">2</span>)</span>
-<span id="cb38-42"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-42" tabindex="-1"></a>  ))</span>
-<span id="cb38-43"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-43" tabindex="-1"></a>}</span>
-<span id="cb38-44"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-44" tabindex="-1"></a></span>
-<span id="cb38-45"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-45" tabindex="-1"></a><span class="co"># Aplicar modelo a cada índice preparado</span></span>
-<span id="cb38-46"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-46" tabindex="-1"></a><span class="cf">for</span> (indice <span class="cf">in</span> <span class="fu">names</span>(series_preparadas)) {</span>
-<span id="cb38-47"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-47" tabindex="-1"></a>  <span class="fu">ajustar_modelo_arima</span>(series_preparadas[[indice]], indice)</span>
-<span id="cb38-48"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb38-48" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-1" tabindex="-1"></a><span class="co"># Inicializar estructuras para almacenar resultados</span></span>
+<span id="cb37-2"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-2" tabindex="-1"></a>resultados_arima <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb37-3"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-3" tabindex="-1"></a>metricas_arima <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb37-4"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-4" tabindex="-1"></a>  <span class="at">Indice =</span> <span class="fu">character</span>(),</span>
+<span id="cb37-5"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-5" tabindex="-1"></a>  <span class="at">MAE =</span> <span class="fu">numeric</span>(),</span>
+<span id="cb37-6"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-6" tabindex="-1"></a>  <span class="at">RMSE =</span> <span class="fu">numeric</span>(),</span>
+<span id="cb37-7"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-7" tabindex="-1"></a>  <span class="at">MAPE =</span> <span class="fu">numeric</span>(),</span>
+<span id="cb37-8"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-8" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb37-9"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-9" tabindex="-1"></a>)</span>
+<span id="cb37-10"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-10" tabindex="-1"></a></span>
+<span id="cb37-11"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-11" tabindex="-1"></a><span class="co"># Función para ajustar ARIMA, graficar y evaluar</span></span>
+<span id="cb37-12"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-12" tabindex="-1"></a>ajustar_modelo_arima <span class="ot">&lt;-</span> <span class="cf">function</span>(serie_ts, nombre_indice) {</span>
+<span id="cb37-13"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-13" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n\n</span><span class="st">==============================</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb37-14"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-14" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Modelo ARIMA -&quot;</span>, nombre_indice, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb37-15"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-15" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;==============================</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb37-16"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-16" tabindex="-1"></a>  </span>
+<span id="cb37-17"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-17" tabindex="-1"></a>  modelo <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(serie_ts, <span class="at">seasonal =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb37-18"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-18" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">summary</span>(modelo))</span>
+<span id="cb37-19"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-19" tabindex="-1"></a>  </span>
+<span id="cb37-20"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-20" tabindex="-1"></a>  <span class="co"># Diagnóstico de residuos</span></span>
+<span id="cb37-21"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-21" tabindex="-1"></a>  <span class="fu">checkresiduals</span>(modelo)</span>
+<span id="cb37-22"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-22" tabindex="-1"></a>  </span>
+<span id="cb37-23"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-23" tabindex="-1"></a>  <span class="co"># Pronóstico a 30 días</span></span>
+<span id="cb37-24"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-24" tabindex="-1"></a>  forecast_arima <span class="ot">&lt;-</span> <span class="fu">forecast</span>(modelo, <span class="at">h =</span> <span class="dv">30</span>)</span>
+<span id="cb37-25"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-25" tabindex="-1"></a>  <span class="fu">plot</span>(forecast_arima, <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">&quot;Pronóstico ARIMA (30 días) -&quot;</span>, nombre_indice))</span>
+<span id="cb37-26"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-26" tabindex="-1"></a>  </span>
+<span id="cb37-27"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-27" tabindex="-1"></a>  <span class="co"># Guardar resultados</span></span>
+<span id="cb37-28"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-28" tabindex="-1"></a>  resultados_arima[[nombre_indice]] <span class="ot">&lt;&lt;-</span> <span class="fu">list</span>(<span class="at">modelo =</span> modelo, <span class="at">pronostico =</span> forecast_arima)</span>
+<span id="cb37-29"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-29" tabindex="-1"></a>  </span>
+<span id="cb37-30"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-30" tabindex="-1"></a>  <span class="co"># Métricas de ajuste</span></span>
+<span id="cb37-31"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-31" tabindex="-1"></a>  obs <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(serie_ts)</span>
+<span id="cb37-32"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-32" tabindex="-1"></a>  pred <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">fitted</span>(modelo))</span>
+<span id="cb37-33"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-33" tabindex="-1"></a>  mae_val <span class="ot">&lt;-</span> <span class="fu">mae</span>(obs, pred)</span>
+<span id="cb37-34"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-34" tabindex="-1"></a>  rmse_val <span class="ot">&lt;-</span> <span class="fu">rmse</span>(obs, pred)</span>
+<span id="cb37-35"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-35" tabindex="-1"></a>  mape_val <span class="ot">&lt;-</span> <span class="fu">mape</span>(obs, pred) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb37-36"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-36" tabindex="-1"></a>  </span>
+<span id="cb37-37"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-37" tabindex="-1"></a>  metricas_arima <span class="ot">&lt;&lt;-</span> <span class="fu">rbind</span>(metricas_arima, <span class="fu">data.frame</span>(</span>
+<span id="cb37-38"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-38" tabindex="-1"></a>    <span class="at">Indice =</span> nombre_indice,</span>
+<span id="cb37-39"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-39" tabindex="-1"></a>    <span class="at">MAE =</span> <span class="fu">round</span>(mae_val, <span class="dv">2</span>),</span>
+<span id="cb37-40"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-40" tabindex="-1"></a>    <span class="at">RMSE =</span> <span class="fu">round</span>(rmse_val, <span class="dv">2</span>),</span>
+<span id="cb37-41"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-41" tabindex="-1"></a>    <span class="at">MAPE =</span> <span class="fu">round</span>(mape_val, <span class="dv">2</span>)</span>
+<span id="cb37-42"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-42" tabindex="-1"></a>  ))</span>
+<span id="cb37-43"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-43" tabindex="-1"></a>}</span>
+<span id="cb37-44"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-44" tabindex="-1"></a></span>
+<span id="cb37-45"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-45" tabindex="-1"></a><span class="co"># Aplicar modelo a cada índice preparado</span></span>
+<span id="cb37-46"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-46" tabindex="-1"></a><span class="cf">for</span> (indice <span class="cf">in</span> <span class="fu">names</span>(series_preparadas)) {</span>
+<span id="cb37-47"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-47" tabindex="-1"></a>  <span class="fu">ajustar_modelo_arima</span>(series_preparadas[[indice]], indice)</span>
+<span id="cb37-48"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb37-48" tabindex="-1"></a>}</span></code></pre></div>
 </details>
 <pre><code>## 
 ## 
@@ -376,25 +381,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ## Coefficients:
 ##           ar1      ar2     ma1     ma2  drift
-##       -1.7357  -0.8773  1.6129  0.7353  5e-04
-## s.e.   0.0277   0.0268  0.0388  0.0372  3e-04
+##       -1.7347  -0.8778  1.6110  0.7360  5e-04
+## s.e.   0.0276   0.0266  0.0387  0.0369  3e-04
 ## 
-## sigma^2 = 0.0001557:  log likelihood = 4766.99
-## AIC=-9521.99   AICc=-9521.93   BIC=-9489.69
+## sigma^2 = 0.0001549:  log likelihood = 4812.81
+## AIC=-9613.62   AICc=-9613.56   BIC=-9581.27
 ## 
 ## Training set error measures:
-##                        ME       RMSE         MAE           MPE
-## Training set 1.160699e-07 0.01245494 0.008433315 -7.322111e-05
-##                   MAPE       MASE       ACF1
-## Training set 0.1020702 0.04905505 0.01759301</code></pre>
+##                         ME       RMSE         MAE           MPE     MAPE
+## Training set -6.821801e-07 0.01242211 0.008409967 -9.055436e-05 0.101758
+##                    MASE      ACF1
+## Training set 0.04908003 0.0168745</code></pre>
 <p><img src="figures/unnamed-chunk-24-1.png" width="672" /></p>
 <pre><code>## 
 ##  Ljung-Box test
 ## 
 ## data:  Residuals from ARIMA(2,1,2) with drift
-## Q* = 247.2, df = 318, p-value = 0.9987
+## Q* = 246.25, df = 320, p-value = 0.9992
 ## 
-## Model df: 4.   Total lags used: 322</code></pre>
+## Model df: 4.   Total lags used: 324</code></pre>
 <p><img src="figures/unnamed-chunk-24-2.png" width="672" /></p>
 <pre><code>## 
 ## 
@@ -405,29 +410,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## ARIMA(5,1,3) with drift 
 ## 
 ## Coefficients:
-##           ar1     ar2     ar3      ar4      ar5     ma1      ma2
-##       -0.6682  0.8699  0.7781  -0.0786  -0.0132  0.6138  -0.8354
-## s.e.   0.1184  0.0590  0.1039   0.0323   0.0405  0.1142   0.0490
-##           ma3    drift
-##       -0.7105  11.7218
-## s.e.   0.0812   5.4611
+##           ar1     ar2     ar3      ar4     ar5     ma1      ma2      ma3    drift
+##       -0.6572  0.8702  0.7710  -0.0778  -0.011  0.6007  -0.8350  -0.7046  11.3388
+## s.e.   0.0993  0.0486  0.1006   0.0321   0.037  0.0959   0.0395   0.0785   5.2315
 ## 
-## sigma^2 = 127372:  log likelihood = -11720.93
-## AIC=23461.86   AICc=23461.99   BIC=23515.68
+## sigma^2 = 127214:  log likelihood = -11822.06
+## AIC=23664.13   AICc=23664.26   BIC=23718.04
 ## 
 ## Training set error measures:
-##                     ME     RMSE      MAE         MPE      MAPE
-## Training set -0.362897 355.7811 245.1916 -0.01050424 0.7729665
-##                   MASE        ACF1
-## Training set 0.0607783 0.001339742</code></pre>
+##                     ME     RMSE      MAE          MPE      MAPE       MASE
+## Training set 0.5655935 355.5691 244.9101 -0.007971009 0.7706186 0.06076178
+##                      ACF1
+## Training set 0.0004500097</code></pre>
 <p><img src="figures/unnamed-chunk-24-3.png" width="672" /></p>
 <pre><code>## 
 ##  Ljung-Box test
 ## 
 ## data:  Residuals from ARIMA(5,1,3) with drift
-## Q* = 219.72, df = 314, p-value = 1
+## Q* = 216.85, df = 316, p-value = 1
 ## 
-## Model df: 8.   Total lags used: 322</code></pre>
+## Model df: 8.   Total lags used: 324</code></pre>
 <p><img src="figures/unnamed-chunk-24-4.png" width="672" /></p>
 <pre><code>## 
 ## 
@@ -438,29 +440,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## ARIMA(4,1,3) with drift 
 ## 
 ## Coefficients:
-##           ar1     ar2     ar3      ar4     ma1      ma2      ma3
-##       -1.1946  0.0340  0.4179  -0.0282  1.0919  -0.1039  -0.3951
-## s.e.   0.4196  0.7294  0.3735   0.0313  0.4193   0.6853   0.3225
-##       drift
-##       6e-04
-## s.e.  3e-04
+##           ar1     ar2     ar3      ar4     ma1      ma2      ma3  drift
+##       -1.2112  0.0031  0.4041  -0.0275  1.1070  -0.0759  -0.3841  7e-04
+## s.e.   0.4456  0.7735  0.3949   0.0310  0.4454   0.7269   0.3423  3e-04
 ## 
-## sigma^2 = 0.0002332:  log likelihood = 4444.08
-## AIC=-8870.16   AICc=-8870.05   BIC=-8821.73
+## sigma^2 = 0.0002319:  log likelihood = 4487.09
+## AIC=-8956.18   AICc=-8956.07   BIC=-8907.66
 ## 
 ## Training set error measures:
-##                        ME       RMSE        MAE           MPE
-## Training set 5.373885e-06 0.01522703 0.01083473 -3.413912e-07
-##                   MAPE      MASE          ACF1
-## Training set 0.1152638 0.0444589 -0.0005252495</code></pre>
+##                         ME       RMSE        MAE           MPE      MAPE      MASE
+## Training set -1.720076e-07 0.01518684 0.01080185 -6.758288e-05 0.1148814 0.0445298
+##                       ACF1
+## Training set -0.0005196274</code></pre>
 <p><img src="figures/unnamed-chunk-24-5.png" width="672" /></p>
 <pre><code>## 
 ##  Ljung-Box test
 ## 
 ## data:  Residuals from ARIMA(4,1,3) with drift
-## Q* = 256.33, df = 315, p-value = 0.9933
+## Q* = 256.89, df = 317, p-value = 0.9943
 ## 
-## Model df: 7.   Total lags used: 322</code></pre>
+## Model df: 7.   Total lags used: 324</code></pre>
 <p><img src="figures/unnamed-chunk-24-6.png" width="672" /></p>
 <pre><code>## 
 ## 
@@ -471,29 +470,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## ARIMA(4,0,3) with non-zero mean 
 ## 
 ## Coefficients:
-##           ar1     ar2     ar3      ar4     ma1      ma2      ma3
-##       -0.6242  0.7729  0.7935  -0.0703  0.6184  -0.7213  -0.7908
-## s.e.   0.0683  0.0653  0.0620   0.0275  0.0647   0.0645   0.0609
-##         mean
-##       7.8348
-## s.e.  3.6191
+##           ar1     ar2     ar3      ar4     ma1      ma2      ma3    mean
+##       -0.6198  0.7680  0.7944  -0.0686  0.6139  -0.7171  -0.7932  7.5458
+## s.e.   0.0641  0.0613  0.0588   0.0269  0.0605   0.0616   0.0579  3.5619
 ## 
-## sigma^2 = 30626:  log likelihood = -10688.07
-## AIC=21394.15   AICc=21394.26   BIC=21442.68
+## sigma^2 = 30655:  log likelihood = -10787.59
+## AIC=21593.18   AICc=21593.29   BIC=21641.8
 ## 
 ## Training set error measures:
-##                      ME     RMSE      MAE      MPE     MAPE
-## Training set 0.08913166 174.5724 121.7647 93.70655 143.9246
-##                   MASE        ACF1
-## Training set 0.6769129 0.002188519</code></pre>
+##                    ME     RMSE     MAE      MPE     MAPE      MASE       ACF1
+## Training set 0.366812 174.6578 122.058 95.65569 140.1899 0.6801567 0.00237603</code></pre>
 <p><img src="figures/unnamed-chunk-24-7.png" width="672" /></p>
 <pre><code>## 
 ##  Ljung-Box test
 ## 
 ## data:  Residuals from ARIMA(4,0,3) with non-zero mean
-## Q* = 298.63, df = 318, p-value = 0.7757
+## Q* = 301.24, df = 321, p-value = 0.7794
 ## 
-## Model df: 7.   Total lags used: 325</code></pre>
+## Model df: 7.   Total lags used: 328</code></pre>
 <p><img src="figures/unnamed-chunk-24-8.png" width="672" /></p>
 <pre><code>## 
 ## 
@@ -503,22 +497,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Series: serie_ts 
 ## ARIMA(0,1,0) 
 ## 
-## sigma^2 = 5284:  log likelihood = -9333.69
-## AIC=18669.38   AICc=18669.38   BIC=18674.78
+## sigma^2 = 5250:  log likelihood = -9413.82
+## AIC=18829.64   AICc=18829.64   BIC=18835.05
 ## 
 ## Training set error measures:
-##                    ME     RMSE      MAE        MPE      MAPE
-## Training set 1.862981 72.67126 51.40427 0.02297677 0.8271764
-##                    MASE        ACF1
-## Training set 0.06643355 -0.01113451</code></pre>
+##                    ME     RMSE      MAE        MPE      MAPE       MASE
+## Training set 1.815968 72.43207 51.19603 0.02236678 0.8229913 0.06673023
+##                     ACF1
+## Training set -0.01233301</code></pre>
 <p><img src="figures/unnamed-chunk-24-9.png" width="672" /></p>
 <pre><code>## 
 ##  Ljung-Box test
 ## 
 ## data:  Residuals from ARIMA(0,1,0)
-## Q* = 371.37, df = 327, p-value = 0.0457
+## Q* = 371.98, df = 330, p-value = 0.05532
 ## 
-## Model df: 0.   Total lags used: 327</code></pre>
+## Model df: 0.   Total lags used: 330</code></pre>
 <p><img src="figures/unnamed-chunk-24-10.png" width="672" /></p>
 <pre><code>## 
 ## 
@@ -528,22 +522,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Series: serie_ts 
 ## ARIMA(0,1,0) 
 ## 
-## sigma^2 = 5007:  log likelihood = -9153.3
-## AIC=18308.61   AICc=18308.61   BIC=18313.99
+## sigma^2 = 4972:  log likelihood = -9227.07
+## AIC=18456.14   AICc=18456.14   BIC=18461.53
 ## 
 ## Training set error measures:
-##                    ME   RMSE      MAE        MPE      MAPE
-## Training set 1.234057 70.738 48.38533 0.01053363 0.6843031
-##                    MASE        ACF1
-## Training set 0.07140168 0.002389209</code></pre>
+##                    ME     RMSE      MAE        MPE      MAPE       MASE
+## Training set 1.304938 70.48934 48.17525 0.01136564 0.6807597 0.07119222
+##                     ACF1
+## Training set 0.001819773</code></pre>
 <p><img src="figures/unnamed-chunk-24-11.png" width="672" /></p>
 <pre><code>## 
 ##  Ljung-Box test
 ## 
 ## data:  Residuals from ARIMA(0,1,0)
-## Q* = 355.28, df = 323, p-value = 0.1045
+## Q* = 357.27, df = 325, p-value = 0.1053
 ## 
-## Model df: 0.   Total lags used: 323</code></pre>
+## Model df: 0.   Total lags used: 325</code></pre>
 <p><img src="figures/unnamed-chunk-24-12.png" width="672" /></p>
 <pre><code>## 
 ## 
@@ -555,25 +549,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ## Coefficients:
 ##           ar1     ma1     ma2
-##       -0.6076  0.5709  0.0591
-## s.e.   0.1370  0.1377  0.0290
+##       -0.6127  0.5761  0.0578
+## s.e.   0.1356  0.1363  0.0288
 ## 
-## sigma^2 = 0.0001789:  log likelihood = 4507.08
-## AIC=-9006.15   AICc=-9006.13   BIC=-8984.75
+## sigma^2 = 0.000178:  log likelihood = 4551.55
+## AIC=-9095.1   AICc=-9095.07   BIC=-9073.66
 ## 
 ## Training set error measures:
-##                        ME       RMSE         MAE         MPE
-## Training set 0.0004194296 0.01335759 0.009292395 0.004028521
-##                    MAPE       MASE         ACF1
-## Training set 0.09075154 0.06242095 -0.000787494</code></pre>
+##                        ME       RMSE         MAE         MPE       MAPE       MASE
+## Training set 0.0004203256 0.01332431 0.009274524 0.004036315 0.09055867 0.06286404
+##                       ACF1
+## Training set -0.0008281176</code></pre>
 <p><img src="figures/unnamed-chunk-24-13.png" width="672" /></p>
 <pre><code>## 
 ##  Ljung-Box test
 ## 
 ## data:  Residuals from ARIMA(1,1,2)
-## Q* = 282.54, df = 308, p-value = 0.8481
+## Q* = 287.69, df = 311, p-value = 0.8244
 ## 
-## Model df: 3.   Total lags used: 311</code></pre>
+## Model df: 3.   Total lags used: 314</code></pre>
 <p><img src="figures/unnamed-chunk-24-14.png" width="672" /></p>
 <pre><code>## 
 ## 
@@ -583,22 +577,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Series: serie_ts 
 ## ARIMA(0,1,0) 
 ## 
-## sigma^2 = 114096:  log likelihood = -11361.65
-## AIC=22725.3   AICc=22725.31   BIC=22730.66
+## sigma^2 = 113565:  log likelihood = -11466.58
+## AIC=22935.16   AICc=22935.16   BIC=22940.52
 ## 
 ## Training set error measures:
-##                     ME    RMSE     MAE         MPE     MAPE
-## Training set -0.957936 337.673 244.732 -0.01582723 1.102294
-##                   MASE         ACF1
-## Training set 0.0714409 0.0008340219</code></pre>
+##                      ME     RMSE      MAE         MPE    MAPE       MASE
+## Training set -0.7650844 336.8874 244.4488 -0.01495239 1.10044 0.07103812
+##                       ACF1
+## Training set -0.0003821324</code></pre>
 <p><img src="figures/unnamed-chunk-24-15.png" width="672" /></p>
 <pre><code>## 
 ##  Ljung-Box test
 ## 
 ## data:  Residuals from ARIMA(0,1,0)
-## Q* = 282.08, df = 314, p-value = 0.902
+## Q* = 288.66, df = 317, p-value = 0.8717
 ## 
-## Model df: 0.   Total lags used: 314</code></pre>
+## Model df: 0.   Total lags used: 317</code></pre>
 <p><img src="figures/unnamed-chunk-24-16.png" width="672" /></p>
 <pre><code>## 
 ## 
@@ -608,30 +602,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Series: serie_ts 
 ## ARIMA(0,1,0) 
 ## 
-## sigma^2 = 1194:  log likelihood = -7665.28
-## AIC=15332.56   AICc=15332.57   BIC=15337.91
+## sigma^2 = 1185:  log likelihood = -7728.86
+## AIC=15459.72   AICc=15459.72   BIC=15465.07
 ## 
 ## Training set error measures:
-##                     ME     RMSE      MAE        MPE      MAPE
-## Training set 0.5727984 34.53893 23.87942 0.01385491 0.7542129
-##                    MASE       ACF1
-## Training set 0.07916167 0.02872624</code></pre>
+##                     ME     RMSE      MAE        MPE      MAPE       MASE
+## Training set 0.5860066 34.40895 23.76682 0.01426858 0.7504581 0.07896708
+##                    ACF1
+## Training set 0.02829431</code></pre>
 <p><img src="figures/unnamed-chunk-24-17.png" width="672" /></p>
 <pre><code>## 
 ##  Ljung-Box test
 ## 
 ## data:  Residuals from ARIMA(0,1,0)
-## Q* = 298.75, df = 309, p-value = 0.6518
+## Q* = 304.04, df = 312, p-value = 0.6158
 ## 
-## Model df: 0.   Total lags used: 309</code></pre>
+## Model df: 0.   Total lags used: 312</code></pre>
 <p><img src="figures/unnamed-chunk-24-18.png" width="672" /></p>
 <details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb57-1" tabindex="-1"></a><span class="co"># Tabla de pronóstico a 30 días</span></span>
-<span id="cb57-2"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb57-2" tabindex="-1"></a>tabla_forecast_arima <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Dia =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>)</span>
-<span id="cb57-3"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb57-3" tabindex="-1"></a><span class="cf">for</span> (indice <span class="cf">in</span> <span class="fu">names</span>(resultados_arima)) {</span>
-<span id="cb57-4"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb57-4" tabindex="-1"></a>  pred <span class="ot">&lt;-</span> resultados_arima[[indice]]<span class="sc">$</span>pronostico</span>
-<span id="cb57-5"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb57-5" tabindex="-1"></a>  tabla_forecast_arima[[indice]] <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">as.numeric</span>(pred<span class="sc">$</span>mean), <span class="dv">2</span>)</span>
-<span id="cb57-6"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb57-6" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb56-1" tabindex="-1"></a><span class="co"># Tabla de pronóstico a 30 días</span></span>
+<span id="cb56-2"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb56-2" tabindex="-1"></a>tabla_forecast_arima <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Dia =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>)</span>
+<span id="cb56-3"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb56-3" tabindex="-1"></a><span class="cf">for</span> (indice <span class="cf">in</span> <span class="fu">names</span>(resultados_arima)) {</span>
+<span id="cb56-4"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb56-4" tabindex="-1"></a>  pred <span class="ot">&lt;-</span> resultados_arima[[indice]]<span class="sc">$</span>pronostico</span>
+<span id="cb56-5"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb56-5" tabindex="-1"></a>  tabla_forecast_arima[[indice]] <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">as.numeric</span>(pred<span class="sc">$</span>mean), <span class="dv">2</span>)</span>
+<span id="cb56-6"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb56-6" tabindex="-1"></a>}</span></code></pre></div>
 </details>
 </div>
 <div id="tabla-con-predicciones-de-30-días." class="section level2 hasAnchor" number="6.4">
@@ -671,24 +665,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><strong>Valor proyectado:</strong> 3,367.46 (constante).</p>
 <p><strong>Observación relevante:</strong> Sin cambios proyectados, el modelo se limita a la prolongación inercial del valor actual.</p>
 <details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb58-1" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
-<span id="cb58-2"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb58-2" tabindex="-1"></a>  tabla_forecast_arima,</span>
-<span id="cb58-3"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb58-3" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">&quot;Predicción de los próximos 30 días por índice bursátil usando modelo ARIMA&quot;</span></span>
-<span id="cb58-4"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb58-4" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb57-1" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb57-2"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb57-2" tabindex="-1"></a>  tabla_forecast_arima,</span>
+<span id="cb57-3"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb57-3" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">&quot;Predicción de los próximos 30 días por índice bursátil usando modelo ARIMA&quot;</span></span>
+<span id="cb57-4"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb57-4" tabindex="-1"></a>)</span></code></pre></div>
 </details>
 <table>
 <caption><span id="tab:unnamed-chunk-25">Table 6.1: </span>Predicción de los próximos 30 días por índice bursátil usando modelo ARIMA</caption>
 <colgroup>
 <col width="4%" />
-<col width="7%" />
+<col width="6%" />
 <col width="10%" />
-<col width="8%" />
 <col width="8%" />
 <col width="8%" />
 <col width="9%" />
+<col width="9%" />
 <col width="11%" />
 <col width="10%" />
-<col width="21%" />
+<col width="20%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -707,363 +701,363 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tbody>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">8.67</td>
-<td align="right">41608.33</td>
-<td align="right">9.84</td>
-<td align="right">6.20</td>
-<td align="right">7734.4</td>
-<td align="right">8718</td>
-<td align="right">10.53</td>
-<td align="right">23601.26</td>
-<td align="right">3348.37</td>
+<td align="right">8.70</td>
+<td align="right">42250.46</td>
+<td align="right">9.87</td>
+<td align="right">-14.01</td>
+<td align="right">7684.68</td>
+<td align="right">8850.6</td>
+<td align="right">10.54</td>
+<td align="right">23892.56</td>
+<td align="right">3377</td>
 </tr>
 <tr class="even">
 <td align="right">2</td>
-<td align="right">8.67</td>
-<td align="right">41645.84</td>
-<td align="right">9.84</td>
-<td align="right">-36.94</td>
-<td align="right">7734.4</td>
-<td align="right">8718</td>
-<td align="right">10.53</td>
-<td align="right">23601.26</td>
-<td align="right">3348.37</td>
+<td align="right">8.70</td>
+<td align="right">42210.61</td>
+<td align="right">9.88</td>
+<td align="right">-2.72</td>
+<td align="right">7684.68</td>
+<td align="right">8850.6</td>
+<td align="right">10.54</td>
+<td align="right">23892.56</td>
+<td align="right">3377</td>
 </tr>
 <tr class="odd">
 <td align="right">3</td>
-<td align="right">8.67</td>
-<td align="right">41630.25</td>
-<td align="right">9.84</td>
-<td align="right">29.80</td>
-<td align="right">7734.4</td>
-<td align="right">8718</td>
-<td align="right">10.53</td>
-<td align="right">23601.26</td>
-<td align="right">3348.37</td>
+<td align="right">8.70</td>
+<td align="right">42223.89</td>
+<td align="right">9.88</td>
+<td align="right">15.93</td>
+<td align="right">7684.68</td>
+<td align="right">8850.6</td>
+<td align="right">10.54</td>
+<td align="right">23892.56</td>
+<td align="right">3377</td>
 </tr>
 <tr class="even">
 <td align="right">4</td>
-<td align="right">8.67</td>
-<td align="right">41698.83</td>
-<td align="right">9.84</td>
-<td align="right">-15.26</td>
-<td align="right">7734.4</td>
-<td align="right">8718</td>
-<td align="right">10.53</td>
-<td align="right">23601.26</td>
-<td align="right">3348.37</td>
+<td align="right">8.70</td>
+<td align="right">42281.05</td>
+<td align="right">9.88</td>
+<td align="right">-4.64</td>
+<td align="right">7684.68</td>
+<td align="right">8850.6</td>
+<td align="right">10.54</td>
+<td align="right">23892.56</td>
+<td align="right">3377</td>
 </tr>
 <tr class="odd">
 <td align="right">5</td>
-<td align="right">8.67</td>
-<td align="right">41672.90</td>
-<td align="right">9.84</td>
-<td align="right">3.81</td>
-<td align="right">7734.4</td>
-<td align="right">8718</td>
-<td align="right">10.53</td>
-<td align="right">23601.26</td>
-<td align="right">3348.37</td>
+<td align="right">8.70</td>
+<td align="right">42229.88</td>
+<td align="right">9.88</td>
+<td align="right">14.86</td>
+<td align="right">7684.68</td>
+<td align="right">8850.6</td>
+<td align="right">10.54</td>
+<td align="right">23892.56</td>
+<td align="right">3377</td>
 </tr>
 <tr class="even">
 <td align="right">6</td>
-<td align="right">8.67</td>
-<td align="right">41736.05</td>
-<td align="right">9.84</td>
-<td align="right">13.08</td>
-<td align="right">7734.4</td>
-<td align="right">8718</td>
-<td align="right">10.53</td>
-<td align="right">23601.26</td>
-<td align="right">3348.37</td>
+<td align="right">8.70</td>
+<td align="right">42327.20</td>
+<td align="right">9.88</td>
+<td align="right">1.02</td>
+<td align="right">7684.68</td>
+<td align="right">8850.6</td>
+<td align="right">10.54</td>
+<td align="right">23892.56</td>
+<td align="right">3377</td>
 </tr>
 <tr class="odd">
 <td align="right">7</td>
-<td align="right">8.67</td>
-<td align="right">41726.70</td>
-<td align="right">9.84</td>
-<td align="right">-18.42</td>
-<td align="right">7734.4</td>
-<td align="right">8718</td>
-<td align="right">10.53</td>
-<td align="right">23601.26</td>
-<td align="right">3348.37</td>
+<td align="right">8.70</td>
+<td align="right">42263.38</td>
+<td align="right">9.88</td>
+<td align="right">6.95</td>
+<td align="right">7684.68</td>
+<td align="right">8850.6</td>
+<td align="right">10.54</td>
+<td align="right">23892.56</td>
+<td align="right">3377</td>
 </tr>
 <tr class="even">
 <td align="right">8</td>
-<td align="right">8.67</td>
-<td align="right">41763.84</td>
-<td align="right">9.84</td>
-<td align="right">26.70</td>
-<td align="right">7734.4</td>
-<td align="right">8718</td>
-<td align="right">10.53</td>
-<td align="right">23601.26</td>
-<td align="right">3348.37</td>
+<td align="right">8.70</td>
+<td align="right">42347.15</td>
+<td align="right">9.88</td>
+<td align="right">9.55</td>
+<td align="right">7684.68</td>
+<td align="right">8850.6</td>
+<td align="right">10.54</td>
+<td align="right">23892.56</td>
+<td align="right">3377</td>
 </tr>
 <tr class="odd">
 <td align="right">9</td>
-<td align="right">8.67</td>
-<td align="right">41782.48</td>
-<td align="right">9.84</td>
-<td align="right">-19.79</td>
-<td align="right">7734.4</td>
-<td align="right">8718</td>
-<td align="right">10.53</td>
-<td align="right">23601.26</td>
-<td align="right">3348.37</td>
+<td align="right">8.70</td>
+<td align="right">42316.13</td>
+<td align="right">9.88</td>
+<td align="right">0.16</td>
+<td align="right">7684.68</td>
+<td align="right">8850.6</td>
+<td align="right">10.54</td>
+<td align="right">23892.56</td>
+<td align="right">3377</td>
 </tr>
 <tr class="even">
 <td align="right">10</td>
-<td align="right">8.67</td>
-<td align="right">41791.74</td>
-<td align="right">9.85</td>
-<td align="right">18.46</td>
-<td align="right">7734.4</td>
-<td align="right">8718</td>
-<td align="right">10.53</td>
-<td align="right">23601.26</td>
-<td align="right">3348.37</td>
+<td align="right">8.70</td>
+<td align="right">42354.40</td>
+<td align="right">9.88</td>
+<td align="right">13.64</td>
+<td align="right">7684.68</td>
+<td align="right">8850.6</td>
+<td align="right">10.54</td>
+<td align="right">23892.56</td>
+<td align="right">3377</td>
 </tr>
 <tr class="odd">
 <td align="right">11</td>
-<td align="right">8.67</td>
-<td align="right">41831.88</td>
-<td align="right">9.85</td>
-<td align="right">-3.33</td>
-<td align="right">7734.4</td>
-<td align="right">8718</td>
-<td align="right">10.53</td>
-<td align="right">23601.26</td>
-<td align="right">3348.37</td>
+<td align="right">8.70</td>
+<td align="right">42371.92</td>
+<td align="right">9.88</td>
+<td align="right">-0.26</td>
+<td align="right">7684.68</td>
+<td align="right">8850.6</td>
+<td align="right">10.54</td>
+<td align="right">23892.56</td>
+<td align="right">3377</td>
 </tr>
 <tr class="even">
 <td align="right">12</td>
-<td align="right">8.67</td>
-<td align="right">41826.14</td>
-<td align="right">9.85</td>
-<td align="right">-0.23</td>
-<td align="right">7734.4</td>
-<td align="right">8718</td>
-<td align="right">10.53</td>
-<td align="right">23601.26</td>
-<td align="right">3348.37</td>
+<td align="right">8.70</td>
+<td align="right">42365.16</td>
+<td align="right">9.88</td>
+<td align="right">11.06</td>
+<td align="right">7684.68</td>
+<td align="right">8850.6</td>
+<td align="right">10.54</td>
+<td align="right">23892.56</td>
+<td align="right">3377</td>
 </tr>
 <tr class="odd">
 <td align="right">13</td>
-<td align="right">8.67</td>
-<td align="right">41871.45</td>
-<td align="right">9.85</td>
-<td align="right">14.61</td>
-<td align="right">7734.4</td>
-<td align="right">8718</td>
-<td align="right">10.53</td>
-<td align="right">23601.26</td>
-<td align="right">3348.37</td>
+<td align="right">8.70</td>
+<td align="right">42417.03</td>
+<td align="right">9.88</td>
+<td align="right">4.71</td>
+<td align="right">7684.68</td>
+<td align="right">8850.6</td>
+<td align="right">10.54</td>
+<td align="right">23892.56</td>
+<td align="right">3377</td>
 </tr>
 <tr class="even">
 <td align="right">14</td>
-<td align="right">8.67</td>
-<td align="right">41867.75</td>
-<td align="right">9.85</td>
-<td align="right">-12.23</td>
-<td align="right">7734.4</td>
-<td align="right">8718</td>
-<td align="right">10.53</td>
-<td align="right">23601.26</td>
-<td align="right">3348.37</td>
+<td align="right">8.70</td>
+<td align="right">42389.12</td>
+<td align="right">9.88</td>
+<td align="right">5.38</td>
+<td align="right">7684.68</td>
+<td align="right">8850.6</td>
+<td align="right">10.54</td>
+<td align="right">23892.56</td>
+<td align="right">3377</td>
 </tr>
 <tr class="odd">
 <td align="right">15</td>
-<td align="right">8.67</td>
-<td align="right">41903.22</td>
-<td align="right">9.85</td>
-<td align="right">19.98</td>
-<td align="right">7734.4</td>
-<td align="right">8718</td>
-<td align="right">10.53</td>
-<td align="right">23601.26</td>
-<td align="right">3348.37</td>
+<td align="right">8.71</td>
+<td align="right">42446.80</td>
+<td align="right">9.88</td>
+<td align="right">10.04</td>
+<td align="right">7684.68</td>
+<td align="right">8850.6</td>
+<td align="right">10.54</td>
+<td align="right">23892.56</td>
+<td align="right">3377</td>
 </tr>
 <tr class="even">
 <td align="right">16</td>
-<td align="right">8.67</td>
-<td align="right">41912.79</td>
-<td align="right">9.85</td>
-<td align="right">-9.31</td>
-<td align="right">7734.4</td>
-<td align="right">8718</td>
-<td align="right">10.53</td>
-<td align="right">23601.26</td>
-<td align="right">3348.37</td>
+<td align="right">8.70</td>
+<td align="right">42426.12</td>
+<td align="right">9.88</td>
+<td align="right">1.84</td>
+<td align="right">7684.68</td>
+<td align="right">8850.6</td>
+<td align="right">10.54</td>
+<td align="right">23892.56</td>
+<td align="right">3377</td>
 </tr>
 <tr class="odd">
 <td align="right">17</td>
-<td align="right">8.68</td>
-<td align="right">41932.19</td>
-<td align="right">9.85</td>
-<td align="right">11.53</td>
-<td align="right">7734.4</td>
-<td align="right">8718</td>
-<td align="right">10.53</td>
-<td align="right">23601.26</td>
-<td align="right">3348.37</td>
+<td align="right">8.71</td>
+<td align="right">42465.61</td>
+<td align="right">9.89</td>
+<td align="right">11.47</td>
+<td align="right">7684.68</td>
+<td align="right">8850.6</td>
+<td align="right">10.54</td>
+<td align="right">23892.56</td>
+<td align="right">3377</td>
 </tr>
 <tr class="even">
 <td align="right">18</td>
-<td align="right">8.68</td>
-<td align="right">41956.15</td>
-<td align="right">9.85</td>
-<td align="right">3.33</td>
-<td align="right">7734.4</td>
-<td align="right">8718</td>
-<td align="right">10.53</td>
-<td align="right">23601.26</td>
-<td align="right">3348.37</td>
+<td align="right">8.71</td>
+<td align="right">42468.92</td>
+<td align="right">9.89</td>
+<td align="right">2.86</td>
+<td align="right">7684.68</td>
+<td align="right">8850.6</td>
+<td align="right">10.54</td>
+<td align="right">23892.56</td>
+<td align="right">3377</td>
 </tr>
 <tr class="odd">
 <td align="right">19</td>
-<td align="right">8.68</td>
-<td align="right">41963.04</td>
-<td align="right">9.85</td>
-<td align="right">-0.96</td>
-<td align="right">7734.4</td>
-<td align="right">8718</td>
-<td align="right">10.53</td>
-<td align="right">23601.26</td>
-<td align="right">3348.37</td>
+<td align="right">8.71</td>
+<td align="right">42482.17</td>
+<td align="right">9.89</td>
+<td align="right">8.76</td>
+<td align="right">7684.68</td>
+<td align="right">8850.6</td>
+<td align="right">10.54</td>
+<td align="right">23892.56</td>
+<td align="right">3377</td>
 </tr>
 <tr class="even">
 <td align="right">20</td>
-<td align="right">8.68</td>
-<td align="right">41994.48</td>
-<td align="right">9.85</td>
-<td align="right">13.98</td>
-<td align="right">7734.4</td>
-<td align="right">8718</td>
-<td align="right">10.53</td>
-<td align="right">23601.26</td>
-<td align="right">3348.37</td>
+<td align="right">8.71</td>
+<td align="right">42508.95</td>
+<td align="right">9.89</td>
+<td align="right">6.71</td>
+<td align="right">7684.68</td>
+<td align="right">8850.6</td>
+<td align="right">10.54</td>
+<td align="right">23892.56</td>
+<td align="right">3377</td>
 </tr>
 <tr class="odd">
 <td align="right">21</td>
-<td align="right">8.68</td>
-<td align="right">41997.77</td>
-<td align="right">9.85</td>
-<td align="right">-6.63</td>
-<td align="right">7734.4</td>
-<td align="right">8718</td>
-<td align="right">10.53</td>
-<td align="right">23601.26</td>
-<td align="right">3348.37</td>
+<td align="right">8.71</td>
+<td align="right">42503.78</td>
+<td align="right">9.89</td>
+<td align="right">5.01</td>
+<td align="right">7684.68</td>
+<td align="right">8850.6</td>
+<td align="right">10.54</td>
+<td align="right">23892.56</td>
+<td align="right">3377</td>
 </tr>
 <tr class="even">
 <td align="right">22</td>
-<td align="right">8.68</td>
-<td align="right">42027.45</td>
-<td align="right">9.85</td>
-<td align="right">14.95</td>
-<td align="right">7734.4</td>
-<td align="right">8718</td>
-<td align="right">10.53</td>
-<td align="right">23601.26</td>
-<td align="right">3348.37</td>
+<td align="right">8.71</td>
+<td align="right">42541.20</td>
+<td align="right">9.89</td>
+<td align="right">9.76</td>
+<td align="right">7684.68</td>
+<td align="right">8850.6</td>
+<td align="right">10.54</td>
+<td align="right">23892.56</td>
+<td align="right">3377</td>
 </tr>
 <tr class="odd">
 <td align="right">23</td>
-<td align="right">8.68</td>
-<td align="right">42035.39</td>
-<td align="right">9.85</td>
-<td align="right">-2.29</td>
-<td align="right">7734.4</td>
-<td align="right">8718</td>
-<td align="right">10.53</td>
-<td align="right">23601.26</td>
-<td align="right">3348.37</td>
+<td align="right">8.71</td>
+<td align="right">42532.88</td>
+<td align="right">9.89</td>
+<td align="right">3.48</td>
+<td align="right">7684.68</td>
+<td align="right">8850.6</td>
+<td align="right">10.54</td>
+<td align="right">23892.56</td>
+<td align="right">3377</td>
 </tr>
 <tr class="even">
 <td align="right">24</td>
-<td align="right">8.68</td>
-<td align="right">42057.21</td>
-<td align="right">9.85</td>
-<td align="right">7.74</td>
-<td align="right">7734.4</td>
-<td align="right">8718</td>
-<td align="right">10.53</td>
-<td align="right">23601.26</td>
-<td align="right">3348.37</td>
+<td align="right">8.71</td>
+<td align="right">42565.88</td>
+<td align="right">9.89</td>
+<td align="right">9.81</td>
+<td align="right">7684.68</td>
+<td align="right">8850.6</td>
+<td align="right">10.54</td>
+<td align="right">23892.56</td>
+<td align="right">3377</td>
 </tr>
 <tr class="odd">
 <td align="right">25</td>
-<td align="right">8.68</td>
-<td align="right">42073.28</td>
-<td align="right">9.86</td>
-<td align="right">6.72</td>
-<td align="right">7734.4</td>
-<td align="right">8718</td>
-<td align="right">10.53</td>
-<td align="right">23601.26</td>
-<td align="right">3348.37</td>
+<td align="right">8.71</td>
+<td align="right">42567.09</td>
+<td align="right">9.89</td>
+<td align="right">4.95</td>
+<td align="right">7684.68</td>
+<td align="right">8850.6</td>
+<td align="right">10.54</td>
+<td align="right">23892.56</td>
+<td align="right">3377</td>
 </tr>
 <tr class="even">
 <td align="right">26</td>
-<td align="right">8.68</td>
-<td align="right">42086.64</td>
-<td align="right">9.86</td>
-<td align="right">-0.08</td>
-<td align="right">7734.4</td>
-<td align="right">8718</td>
-<td align="right">10.53</td>
-<td align="right">23601.26</td>
-<td align="right">3348.37</td>
+<td align="right">8.71</td>
+<td align="right">42586.93</td>
+<td align="right">9.89</td>
+<td align="right">7.51</td>
+<td align="right">7684.68</td>
+<td align="right">8850.6</td>
+<td align="right">10.54</td>
+<td align="right">23892.56</td>
+<td align="right">3377</td>
 </tr>
 <tr class="odd">
 <td align="right">27</td>
-<td align="right">8.68</td>
-<td align="right">42108.96</td>
-<td align="right">9.86</td>
-<td align="right">12.56</td>
-<td align="right">7734.4</td>
-<td align="right">8718</td>
-<td align="right">10.53</td>
-<td align="right">23601.26</td>
-<td align="right">3348.37</td>
+<td align="right">8.71</td>
+<td align="right">42601.82</td>
+<td align="right">9.89</td>
+<td align="right">7.65</td>
+<td align="right">7684.68</td>
+<td align="right">8850.6</td>
+<td align="right">10.54</td>
+<td align="right">23892.56</td>
+<td align="right">3377</td>
 </tr>
 <tr class="even">
 <td align="right">28</td>
-<td align="right">8.68</td>
-<td align="right">42117.67</td>
-<td align="right">9.86</td>
-<td align="right">-2.10</td>
-<td align="right">7734.4</td>
-<td align="right">8718</td>
-<td align="right">10.53</td>
-<td align="right">23601.26</td>
-<td align="right">3348.37</td>
+<td align="right">8.71</td>
+<td align="right">42608.95</td>
+<td align="right">9.89</td>
+<td align="right">5.24</td>
+<td align="right">7684.68</td>
+<td align="right">8850.6</td>
+<td align="right">10.54</td>
+<td align="right">23892.56</td>
+<td align="right">3377</td>
 </tr>
 <tr class="odd">
 <td align="right">29</td>
-<td align="right">8.68</td>
-<td align="right">42141.43</td>
-<td align="right">9.86</td>
-<td align="right">11.49</td>
-<td align="right">7734.4</td>
-<td align="right">8718</td>
-<td align="right">10.53</td>
-<td align="right">23601.26</td>
-<td align="right">3348.37</td>
+<td align="right">8.71</td>
+<td align="right">42633.24</td>
+<td align="right">9.89</td>
+<td align="right">9.21</td>
+<td align="right">7684.68</td>
+<td align="right">8850.6</td>
+<td align="right">10.54</td>
+<td align="right">23892.56</td>
+<td align="right">3377</td>
 </tr>
 <tr class="even">
 <td align="right">30</td>
-<td align="right">8.68</td>
-<td align="right">42150.54</td>
-<td align="right">9.86</td>
-<td align="right">2.18</td>
-<td align="right">7734.4</td>
-<td align="right">8718</td>
-<td align="right">10.53</td>
-<td align="right">23601.26</td>
-<td align="right">3348.37</td>
+<td align="right">8.71</td>
+<td align="right">42634.59</td>
+<td align="right">9.89</td>
+<td align="right">4.83</td>
+<td align="right">7684.68</td>
+<td align="right">8850.6</td>
+<td align="right">10.54</td>
+<td align="right">23892.56</td>
+<td align="right">3377</td>
 </tr>
 </tbody>
 </table>
@@ -1076,11 +1070,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>MAPE (Mean Absolute Percentage Error): Error porcentual medio absoluto.</p>
 <p>Estas métricas permiten evaluar tanto la precisión absoluta (MAE, RMSE) como la proporcionalidad del error en relación con los niveles reales de los índices (MAPE).</p>
 <details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb59-1" tabindex="-1"></a><span class="co"># Tabla de evaluación del modelo ARIMA</span></span>
-<span id="cb59-2"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb59-2" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
-<span id="cb59-3"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb59-3" tabindex="-1"></a>  metricas_arima,</span>
-<span id="cb59-4"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb59-4" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">&quot;Evaluación del modelo ARIMA por índice bursátil (basado en el ajuste histórico)&quot;</span></span>
-<span id="cb59-5"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb59-5" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb58-1" tabindex="-1"></a><span class="co"># Tabla de evaluación del modelo ARIMA</span></span>
+<span id="cb58-2"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb58-2" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb58-3"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb58-3" tabindex="-1"></a>  metricas_arima,</span>
+<span id="cb58-4"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb58-4" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">&quot;Evaluación del modelo ARIMA por índice bursátil (basado en el ajuste histórico)&quot;</span></span>
+<span id="cb58-5"><a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html#cb58-5" tabindex="-1"></a>)</span></code></pre></div>
 </details>
 <table>
 <caption><span id="tab:unnamed-chunk-26">Table 6.2: </span>Evaluación del modelo ARIMA por índice bursátil (basado en el ajuste histórico)</caption>
@@ -1101,32 +1095,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 <tr class="even">
 <td align="left">DowJones</td>
-<td align="right">245.19</td>
-<td align="right">355.78</td>
+<td align="right">244.91</td>
+<td align="right">355.57</td>
 <td align="right">0.77</td>
 </tr>
 <tr class="odd">
 <td align="left">Nasdaq</td>
 <td align="right">0.01</td>
 <td align="right">0.02</td>
-<td align="right">0.12</td>
+<td align="right">0.11</td>
 </tr>
 <tr class="even">
 <td align="left">DAX</td>
-<td align="right">121.76</td>
-<td align="right">174.57</td>
-<td align="right">143.92</td>
+<td align="right">122.06</td>
+<td align="right">174.66</td>
+<td align="right">140.19</td>
 </tr>
 <tr class="odd">
 <td align="left">CAC40</td>
-<td align="right">51.40</td>
-<td align="right">72.67</td>
-<td align="right">0.83</td>
+<td align="right">51.20</td>
+<td align="right">72.43</td>
+<td align="right">0.82</td>
 </tr>
 <tr class="even">
 <td align="left">FTSE100</td>
-<td align="right">48.39</td>
-<td align="right">70.74</td>
+<td align="right">48.18</td>
+<td align="right">70.49</td>
 <td align="right">0.68</td>
 </tr>
 <tr class="odd">
@@ -1137,14 +1131,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 <tr class="even">
 <td align="left">HangSeng</td>
-<td align="right">244.73</td>
-<td align="right">337.67</td>
+<td align="right">244.45</td>
+<td align="right">336.89</td>
 <td align="right">1.10</td>
 </tr>
 <tr class="odd">
 <td align="left">ShanghaiComposite</td>
-<td align="right">23.88</td>
-<td align="right">34.54</td>
+<td align="right">23.77</td>
+<td align="right">34.41</td>
 <td align="right">0.75</td>
 </tr>
 </tbody>

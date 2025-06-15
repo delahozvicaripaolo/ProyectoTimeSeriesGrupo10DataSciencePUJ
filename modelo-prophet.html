@@ -23,7 +23,7 @@
 <meta name="author" content="Paolo De La Hoz Vicari, Genjis Ossa Gonzales" />
 
 
-<meta name="date" content="2025-05-26" />
+<meta name="date" content="2025-06-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html"/>
-
+<link rel="next" href="elman---jordan.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -218,6 +218,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.3" data-path="modelo-prophet.html"><a href="modelo-prophet.html#implementación-a-todas-las-series-de-tiempo-mediante-ciclos-iterativos"><i class="fa fa-check"></i><b>7.3</b> Implementación a todas las series de tiempo mediante ciclos iterativos</a></li>
 <li class="chapter" data-level="7.4" data-path="modelo-prophet.html"><a href="modelo-prophet.html#tabla-de-resumen-1"><i class="fa fa-check"></i><b>7.4</b> Tabla de resumen</a></li>
 </ul></li>
+<li class="chapter" data-level="8" data-path="elman---jordan.html"><a href="elman---jordan.html"><i class="fa fa-check"></i><b>8</b> ELMAN - JORDAN</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="elman---jordan.html"><a href="elman---jordan.html#implementación"><i class="fa fa-check"></i><b>8.1</b> Implementación</a></li>
+<li class="chapter" data-level="8.2" data-path="elman---jordan.html"><a href="elman---jordan.html#resumen-e-interpretación-de-las-gráficas-y-resultados-de-las-funciones.-1"><i class="fa fa-check"></i><b>8.2</b> Resumen e interpretación de las gráficas y resultados de las funciones.</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -343,136 +348,136 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="implementación-de-lógicas-y-funciones-para-prophet." class="section level2 hasAnchor" number="7.2">
 <h2><span class="header-section-number">7.2</span> Implementación de lógicas y funciones para Prophet.<a href="modelo-prophet.html#implementación-de-lógicas-y-funciones-para-prophet." class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="modelo-prophet.html#cb60-1" tabindex="-1"></a><span class="co"># Inicializamos estructuras</span></span>
-<span id="cb60-2"><a href="modelo-prophet.html#cb60-2" tabindex="-1"></a>resultados_prophet <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb60-3"><a href="modelo-prophet.html#cb60-3" tabindex="-1"></a>graficos_prophet <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb60-4"><a href="modelo-prophet.html#cb60-4" tabindex="-1"></a>metricas_prophet <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb60-5"><a href="modelo-prophet.html#cb60-5" tabindex="-1"></a>  <span class="at">Indice =</span> <span class="fu">character</span>(),</span>
-<span id="cb60-6"><a href="modelo-prophet.html#cb60-6" tabindex="-1"></a>  <span class="at">MAE =</span> <span class="fu">numeric</span>(),</span>
-<span id="cb60-7"><a href="modelo-prophet.html#cb60-7" tabindex="-1"></a>  <span class="at">RMSE =</span> <span class="fu">numeric</span>(),</span>
-<span id="cb60-8"><a href="modelo-prophet.html#cb60-8" tabindex="-1"></a>  <span class="at">MAPE =</span> <span class="fu">numeric</span>(),</span>
-<span id="cb60-9"><a href="modelo-prophet.html#cb60-9" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
-<span id="cb60-10"><a href="modelo-prophet.html#cb60-10" tabindex="-1"></a>)</span>
-<span id="cb60-11"><a href="modelo-prophet.html#cb60-11" tabindex="-1"></a></span>
-<span id="cb60-12"><a href="modelo-prophet.html#cb60-12" tabindex="-1"></a><span class="co"># Función para ajustar Prophet y graficar</span></span>
-<span id="cb60-13"><a href="modelo-prophet.html#cb60-13" tabindex="-1"></a>ajustar_prophet <span class="ot">&lt;-</span> <span class="cf">function</span>(serie_zoo, nombre_indice) {</span>
-<span id="cb60-14"><a href="modelo-prophet.html#cb60-14" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n\n</span><span class="st">=========== PROPHET -&quot;</span>, nombre_indice, <span class="st">&quot;===========</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb60-15"><a href="modelo-prophet.html#cb60-15" tabindex="-1"></a>  </span>
-<span id="cb60-16"><a href="modelo-prophet.html#cb60-16" tabindex="-1"></a>  <span class="co"># Paso 1: convertir a data.frame</span></span>
-<span id="cb60-17"><a href="modelo-prophet.html#cb60-17" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb60-18"><a href="modelo-prophet.html#cb60-18" tabindex="-1"></a>    <span class="at">ds =</span> <span class="fu">index</span>(serie_zoo),</span>
-<span id="cb60-19"><a href="modelo-prophet.html#cb60-19" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">as.numeric</span>(serie_zoo)</span>
-<span id="cb60-20"><a href="modelo-prophet.html#cb60-20" tabindex="-1"></a>  )</span>
-<span id="cb60-21"><a href="modelo-prophet.html#cb60-21" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(df)</span>
-<span id="cb60-22"><a href="modelo-prophet.html#cb60-22" tabindex="-1"></a>  </span>
-<span id="cb60-23"><a href="modelo-prophet.html#cb60-23" tabindex="-1"></a>  <span class="co"># Paso 2: ajustar modelo</span></span>
-<span id="cb60-24"><a href="modelo-prophet.html#cb60-24" tabindex="-1"></a>  modelo <span class="ot">&lt;-</span> <span class="fu">prophet</span>(df)</span>
-<span id="cb60-25"><a href="modelo-prophet.html#cb60-25" tabindex="-1"></a>  </span>
-<span id="cb60-26"><a href="modelo-prophet.html#cb60-26" tabindex="-1"></a>  <span class="co"># Paso 3: crear marco de fechas futuras y predecir</span></span>
-<span id="cb60-27"><a href="modelo-prophet.html#cb60-27" tabindex="-1"></a>  futuro <span class="ot">&lt;-</span> <span class="fu">make_future_dataframe</span>(modelo, <span class="at">periods =</span> <span class="dv">30</span>)</span>
-<span id="cb60-28"><a href="modelo-prophet.html#cb60-28" tabindex="-1"></a>  pronostico <span class="ot">&lt;-</span> <span class="fu">predict</span>(modelo, futuro)</span>
-<span id="cb60-29"><a href="modelo-prophet.html#cb60-29" tabindex="-1"></a>  </span>
-<span id="cb60-30"><a href="modelo-prophet.html#cb60-30" tabindex="-1"></a>  <span class="co"># Paso 4: guardar gráfico principal de predicción</span></span>
-<span id="cb60-31"><a href="modelo-prophet.html#cb60-31" tabindex="-1"></a>  grafico_prediccion <span class="ot">&lt;-</span> <span class="fu">plot</span>(modelo, pronostico) <span class="sc">+</span></span>
-<span id="cb60-32"><a href="modelo-prophet.html#cb60-32" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="fu">paste</span>(<span class="st">&quot;Pronóstico Prophet -&quot;</span>, nombre_indice))</span>
-<span id="cb60-33"><a href="modelo-prophet.html#cb60-33" tabindex="-1"></a>  <span class="fu">print</span>(grafico_prediccion)  <span class="co"># Mostrar el gráfico en RMarkdown</span></span>
-<span id="cb60-34"><a href="modelo-prophet.html#cb60-34" tabindex="-1"></a>  </span>
-<span id="cb60-35"><a href="modelo-prophet.html#cb60-35" tabindex="-1"></a>  <span class="co"># Paso 5: mostrar componentes (estacionalidad, tendencia)</span></span>
-<span id="cb60-36"><a href="modelo-prophet.html#cb60-36" tabindex="-1"></a>  <span class="fu">prophet_plot_components</span>(modelo, pronostico)</span>
-<span id="cb60-37"><a href="modelo-prophet.html#cb60-37" tabindex="-1"></a>  </span>
-<span id="cb60-38"><a href="modelo-prophet.html#cb60-38" tabindex="-1"></a>  <span class="co"># Paso 6: calcular métricas de ajuste</span></span>
-<span id="cb60-39"><a href="modelo-prophet.html#cb60-39" tabindex="-1"></a>  obs <span class="ot">&lt;-</span> df<span class="sc">$</span>y</span>
-<span id="cb60-40"><a href="modelo-prophet.html#cb60-40" tabindex="-1"></a>  pred <span class="ot">&lt;-</span> <span class="fu">tail</span>(pronostico<span class="sc">$</span>yhat, <span class="fu">length</span>(obs))</span>
-<span id="cb60-41"><a href="modelo-prophet.html#cb60-41" tabindex="-1"></a>  mae_val <span class="ot">&lt;-</span> <span class="fu">mae</span>(obs, pred)</span>
-<span id="cb60-42"><a href="modelo-prophet.html#cb60-42" tabindex="-1"></a>  rmse_val <span class="ot">&lt;-</span> <span class="fu">rmse</span>(obs, pred)</span>
-<span id="cb60-43"><a href="modelo-prophet.html#cb60-43" tabindex="-1"></a>  mape_val <span class="ot">&lt;-</span> <span class="fu">mape</span>(obs, pred) <span class="sc">*</span> <span class="dv">100</span></span>
-<span id="cb60-44"><a href="modelo-prophet.html#cb60-44" tabindex="-1"></a>  </span>
-<span id="cb60-45"><a href="modelo-prophet.html#cb60-45" tabindex="-1"></a>  <span class="co"># Imprimir métricas</span></span>
-<span id="cb60-46"><a href="modelo-prophet.html#cb60-46" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;MAE:&quot;</span>, <span class="fu">round</span>(mae_val, <span class="dv">3</span>),</span>
-<span id="cb60-47"><a href="modelo-prophet.html#cb60-47" tabindex="-1"></a>      <span class="st">&quot;- RMSE:&quot;</span>, <span class="fu">round</span>(rmse_val, <span class="dv">3</span>),</span>
-<span id="cb60-48"><a href="modelo-prophet.html#cb60-48" tabindex="-1"></a>      <span class="st">&quot;- MAPE:&quot;</span>, <span class="fu">round</span>(mape_val, <span class="dv">3</span>), <span class="st">&quot;%</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb60-49"><a href="modelo-prophet.html#cb60-49" tabindex="-1"></a>  </span>
-<span id="cb60-50"><a href="modelo-prophet.html#cb60-50" tabindex="-1"></a>  <span class="co"># Paso 7: guardar resultados</span></span>
-<span id="cb60-51"><a href="modelo-prophet.html#cb60-51" tabindex="-1"></a>  resultados_prophet[[nombre_indice]] <span class="ot">&lt;&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb60-52"><a href="modelo-prophet.html#cb60-52" tabindex="-1"></a>    <span class="at">modelo =</span> modelo,</span>
-<span id="cb60-53"><a href="modelo-prophet.html#cb60-53" tabindex="-1"></a>    <span class="at">forecast =</span> pronostico,</span>
-<span id="cb60-54"><a href="modelo-prophet.html#cb60-54" tabindex="-1"></a>    <span class="at">grafico =</span> grafico_prediccion,</span>
-<span id="cb60-55"><a href="modelo-prophet.html#cb60-55" tabindex="-1"></a>    <span class="at">metrics =</span> <span class="fu">c</span>(<span class="at">MAE =</span> mae_val, <span class="at">RMSE =</span> rmse_val, <span class="at">MAPE =</span> mape_val)</span>
-<span id="cb60-56"><a href="modelo-prophet.html#cb60-56" tabindex="-1"></a>  )</span>
-<span id="cb60-57"><a href="modelo-prophet.html#cb60-57" tabindex="-1"></a>  </span>
-<span id="cb60-58"><a href="modelo-prophet.html#cb60-58" tabindex="-1"></a>  graficos_prophet[[nombre_indice]] <span class="ot">&lt;&lt;-</span> grafico_prediccion</span>
-<span id="cb60-59"><a href="modelo-prophet.html#cb60-59" tabindex="-1"></a>  </span>
-<span id="cb60-60"><a href="modelo-prophet.html#cb60-60" tabindex="-1"></a>  metricas_prophet <span class="ot">&lt;&lt;-</span> <span class="fu">rbind</span>(metricas_prophet, <span class="fu">data.frame</span>(</span>
-<span id="cb60-61"><a href="modelo-prophet.html#cb60-61" tabindex="-1"></a>    <span class="at">Indice =</span> nombre_indice,</span>
-<span id="cb60-62"><a href="modelo-prophet.html#cb60-62" tabindex="-1"></a>    <span class="at">MAE =</span> <span class="fu">round</span>(mae_val, <span class="dv">3</span>),</span>
-<span id="cb60-63"><a href="modelo-prophet.html#cb60-63" tabindex="-1"></a>    <span class="at">RMSE =</span> <span class="fu">round</span>(rmse_val, <span class="dv">3</span>),</span>
-<span id="cb60-64"><a href="modelo-prophet.html#cb60-64" tabindex="-1"></a>    <span class="at">MAPE =</span> <span class="fu">round</span>(mape_val, <span class="dv">3</span>)</span>
-<span id="cb60-65"><a href="modelo-prophet.html#cb60-65" tabindex="-1"></a>  ))</span>
-<span id="cb60-66"><a href="modelo-prophet.html#cb60-66" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="modelo-prophet.html#cb59-1" tabindex="-1"></a><span class="co"># Inicializamos estructuras</span></span>
+<span id="cb59-2"><a href="modelo-prophet.html#cb59-2" tabindex="-1"></a>resultados_prophet <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb59-3"><a href="modelo-prophet.html#cb59-3" tabindex="-1"></a>graficos_prophet <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb59-4"><a href="modelo-prophet.html#cb59-4" tabindex="-1"></a>metricas_prophet <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb59-5"><a href="modelo-prophet.html#cb59-5" tabindex="-1"></a>  <span class="at">Indice =</span> <span class="fu">character</span>(),</span>
+<span id="cb59-6"><a href="modelo-prophet.html#cb59-6" tabindex="-1"></a>  <span class="at">MAE =</span> <span class="fu">numeric</span>(),</span>
+<span id="cb59-7"><a href="modelo-prophet.html#cb59-7" tabindex="-1"></a>  <span class="at">RMSE =</span> <span class="fu">numeric</span>(),</span>
+<span id="cb59-8"><a href="modelo-prophet.html#cb59-8" tabindex="-1"></a>  <span class="at">MAPE =</span> <span class="fu">numeric</span>(),</span>
+<span id="cb59-9"><a href="modelo-prophet.html#cb59-9" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb59-10"><a href="modelo-prophet.html#cb59-10" tabindex="-1"></a>)</span>
+<span id="cb59-11"><a href="modelo-prophet.html#cb59-11" tabindex="-1"></a></span>
+<span id="cb59-12"><a href="modelo-prophet.html#cb59-12" tabindex="-1"></a><span class="co"># Función para ajustar Prophet y graficar</span></span>
+<span id="cb59-13"><a href="modelo-prophet.html#cb59-13" tabindex="-1"></a>ajustar_prophet <span class="ot">&lt;-</span> <span class="cf">function</span>(serie_zoo, nombre_indice) {</span>
+<span id="cb59-14"><a href="modelo-prophet.html#cb59-14" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n\n</span><span class="st">=========== PROPHET -&quot;</span>, nombre_indice, <span class="st">&quot;===========</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb59-15"><a href="modelo-prophet.html#cb59-15" tabindex="-1"></a>  </span>
+<span id="cb59-16"><a href="modelo-prophet.html#cb59-16" tabindex="-1"></a>  <span class="co"># Paso 1: convertir a data.frame</span></span>
+<span id="cb59-17"><a href="modelo-prophet.html#cb59-17" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb59-18"><a href="modelo-prophet.html#cb59-18" tabindex="-1"></a>    <span class="at">ds =</span> <span class="fu">index</span>(serie_zoo),</span>
+<span id="cb59-19"><a href="modelo-prophet.html#cb59-19" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">as.numeric</span>(serie_zoo)</span>
+<span id="cb59-20"><a href="modelo-prophet.html#cb59-20" tabindex="-1"></a>  )</span>
+<span id="cb59-21"><a href="modelo-prophet.html#cb59-21" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(df)</span>
+<span id="cb59-22"><a href="modelo-prophet.html#cb59-22" tabindex="-1"></a>  </span>
+<span id="cb59-23"><a href="modelo-prophet.html#cb59-23" tabindex="-1"></a>  <span class="co"># Paso 2: ajustar modelo</span></span>
+<span id="cb59-24"><a href="modelo-prophet.html#cb59-24" tabindex="-1"></a>  modelo <span class="ot">&lt;-</span> <span class="fu">prophet</span>(df)</span>
+<span id="cb59-25"><a href="modelo-prophet.html#cb59-25" tabindex="-1"></a>  </span>
+<span id="cb59-26"><a href="modelo-prophet.html#cb59-26" tabindex="-1"></a>  <span class="co"># Paso 3: crear marco de fechas futuras y predecir</span></span>
+<span id="cb59-27"><a href="modelo-prophet.html#cb59-27" tabindex="-1"></a>  futuro <span class="ot">&lt;-</span> <span class="fu">make_future_dataframe</span>(modelo, <span class="at">periods =</span> <span class="dv">30</span>)</span>
+<span id="cb59-28"><a href="modelo-prophet.html#cb59-28" tabindex="-1"></a>  pronostico <span class="ot">&lt;-</span> <span class="fu">predict</span>(modelo, futuro)</span>
+<span id="cb59-29"><a href="modelo-prophet.html#cb59-29" tabindex="-1"></a>  </span>
+<span id="cb59-30"><a href="modelo-prophet.html#cb59-30" tabindex="-1"></a>  <span class="co"># Paso 4: guardar gráfico principal de predicción</span></span>
+<span id="cb59-31"><a href="modelo-prophet.html#cb59-31" tabindex="-1"></a>  grafico_prediccion <span class="ot">&lt;-</span> <span class="fu">plot</span>(modelo, pronostico) <span class="sc">+</span></span>
+<span id="cb59-32"><a href="modelo-prophet.html#cb59-32" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="fu">paste</span>(<span class="st">&quot;Pronóstico Prophet -&quot;</span>, nombre_indice))</span>
+<span id="cb59-33"><a href="modelo-prophet.html#cb59-33" tabindex="-1"></a>  <span class="fu">print</span>(grafico_prediccion)  <span class="co"># Mostrar el gráfico en RMarkdown</span></span>
+<span id="cb59-34"><a href="modelo-prophet.html#cb59-34" tabindex="-1"></a>  </span>
+<span id="cb59-35"><a href="modelo-prophet.html#cb59-35" tabindex="-1"></a>  <span class="co"># Paso 5: mostrar componentes (estacionalidad, tendencia)</span></span>
+<span id="cb59-36"><a href="modelo-prophet.html#cb59-36" tabindex="-1"></a>  <span class="fu">prophet_plot_components</span>(modelo, pronostico)</span>
+<span id="cb59-37"><a href="modelo-prophet.html#cb59-37" tabindex="-1"></a>  </span>
+<span id="cb59-38"><a href="modelo-prophet.html#cb59-38" tabindex="-1"></a>  <span class="co"># Paso 6: calcular métricas de ajuste</span></span>
+<span id="cb59-39"><a href="modelo-prophet.html#cb59-39" tabindex="-1"></a>  obs <span class="ot">&lt;-</span> df<span class="sc">$</span>y</span>
+<span id="cb59-40"><a href="modelo-prophet.html#cb59-40" tabindex="-1"></a>  pred <span class="ot">&lt;-</span> <span class="fu">tail</span>(pronostico<span class="sc">$</span>yhat, <span class="fu">length</span>(obs))</span>
+<span id="cb59-41"><a href="modelo-prophet.html#cb59-41" tabindex="-1"></a>  mae_val <span class="ot">&lt;-</span> <span class="fu">mae</span>(obs, pred)</span>
+<span id="cb59-42"><a href="modelo-prophet.html#cb59-42" tabindex="-1"></a>  rmse_val <span class="ot">&lt;-</span> <span class="fu">rmse</span>(obs, pred)</span>
+<span id="cb59-43"><a href="modelo-prophet.html#cb59-43" tabindex="-1"></a>  mape_val <span class="ot">&lt;-</span> <span class="fu">mape</span>(obs, pred) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb59-44"><a href="modelo-prophet.html#cb59-44" tabindex="-1"></a>  </span>
+<span id="cb59-45"><a href="modelo-prophet.html#cb59-45" tabindex="-1"></a>  <span class="co"># Imprimir métricas</span></span>
+<span id="cb59-46"><a href="modelo-prophet.html#cb59-46" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;MAE:&quot;</span>, <span class="fu">round</span>(mae_val, <span class="dv">3</span>),</span>
+<span id="cb59-47"><a href="modelo-prophet.html#cb59-47" tabindex="-1"></a>      <span class="st">&quot;- RMSE:&quot;</span>, <span class="fu">round</span>(rmse_val, <span class="dv">3</span>),</span>
+<span id="cb59-48"><a href="modelo-prophet.html#cb59-48" tabindex="-1"></a>      <span class="st">&quot;- MAPE:&quot;</span>, <span class="fu">round</span>(mape_val, <span class="dv">3</span>), <span class="st">&quot;%</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb59-49"><a href="modelo-prophet.html#cb59-49" tabindex="-1"></a>  </span>
+<span id="cb59-50"><a href="modelo-prophet.html#cb59-50" tabindex="-1"></a>  <span class="co"># Paso 7: guardar resultados</span></span>
+<span id="cb59-51"><a href="modelo-prophet.html#cb59-51" tabindex="-1"></a>  resultados_prophet[[nombre_indice]] <span class="ot">&lt;&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb59-52"><a href="modelo-prophet.html#cb59-52" tabindex="-1"></a>    <span class="at">modelo =</span> modelo,</span>
+<span id="cb59-53"><a href="modelo-prophet.html#cb59-53" tabindex="-1"></a>    <span class="at">forecast =</span> pronostico,</span>
+<span id="cb59-54"><a href="modelo-prophet.html#cb59-54" tabindex="-1"></a>    <span class="at">grafico =</span> grafico_prediccion,</span>
+<span id="cb59-55"><a href="modelo-prophet.html#cb59-55" tabindex="-1"></a>    <span class="at">metrics =</span> <span class="fu">c</span>(<span class="at">MAE =</span> mae_val, <span class="at">RMSE =</span> rmse_val, <span class="at">MAPE =</span> mape_val)</span>
+<span id="cb59-56"><a href="modelo-prophet.html#cb59-56" tabindex="-1"></a>  )</span>
+<span id="cb59-57"><a href="modelo-prophet.html#cb59-57" tabindex="-1"></a>  </span>
+<span id="cb59-58"><a href="modelo-prophet.html#cb59-58" tabindex="-1"></a>  graficos_prophet[[nombre_indice]] <span class="ot">&lt;&lt;-</span> grafico_prediccion</span>
+<span id="cb59-59"><a href="modelo-prophet.html#cb59-59" tabindex="-1"></a>  </span>
+<span id="cb59-60"><a href="modelo-prophet.html#cb59-60" tabindex="-1"></a>  metricas_prophet <span class="ot">&lt;&lt;-</span> <span class="fu">rbind</span>(metricas_prophet, <span class="fu">data.frame</span>(</span>
+<span id="cb59-61"><a href="modelo-prophet.html#cb59-61" tabindex="-1"></a>    <span class="at">Indice =</span> nombre_indice,</span>
+<span id="cb59-62"><a href="modelo-prophet.html#cb59-62" tabindex="-1"></a>    <span class="at">MAE =</span> <span class="fu">round</span>(mae_val, <span class="dv">3</span>),</span>
+<span id="cb59-63"><a href="modelo-prophet.html#cb59-63" tabindex="-1"></a>    <span class="at">RMSE =</span> <span class="fu">round</span>(rmse_val, <span class="dv">3</span>),</span>
+<span id="cb59-64"><a href="modelo-prophet.html#cb59-64" tabindex="-1"></a>    <span class="at">MAPE =</span> <span class="fu">round</span>(mape_val, <span class="dv">3</span>)</span>
+<span id="cb59-65"><a href="modelo-prophet.html#cb59-65" tabindex="-1"></a>  ))</span>
+<span id="cb59-66"><a href="modelo-prophet.html#cb59-66" tabindex="-1"></a>}</span></code></pre></div>
 </details>
 </div>
 <div id="implementación-a-todas-las-series-de-tiempo-mediante-ciclos-iterativos" class="section level2 hasAnchor" number="7.3">
 <h2><span class="header-section-number">7.3</span> Implementación a todas las series de tiempo mediante ciclos iterativos<a href="modelo-prophet.html#implementación-a-todas-las-series-de-tiempo-mediante-ciclos-iterativos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="modelo-prophet.html#cb61-1" tabindex="-1"></a><span class="co"># Aplicar modelo Prophet a cada índice bursátil</span></span>
-<span id="cb61-2"><a href="modelo-prophet.html#cb61-2" tabindex="-1"></a><span class="cf">for</span> (indice <span class="cf">in</span> nombres_indices) {</span>
-<span id="cb61-3"><a href="modelo-prophet.html#cb61-3" tabindex="-1"></a>  <span class="fu">ajustar_prophet</span>(cierres_zoo[[indice]], indice)</span>
-<span id="cb61-4"><a href="modelo-prophet.html#cb61-4" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="modelo-prophet.html#cb60-1" tabindex="-1"></a><span class="co"># Aplicar modelo Prophet a cada índice bursátil</span></span>
+<span id="cb60-2"><a href="modelo-prophet.html#cb60-2" tabindex="-1"></a><span class="cf">for</span> (indice <span class="cf">in</span> nombres_indices) {</span>
+<span id="cb60-3"><a href="modelo-prophet.html#cb60-3" tabindex="-1"></a>  <span class="fu">ajustar_prophet</span>(cierres_zoo[[indice]], indice)</span>
+<span id="cb60-4"><a href="modelo-prophet.html#cb60-4" tabindex="-1"></a>}</span></code></pre></div>
 </details>
 <pre><code>## 
 ## 
 ## =========== PROPHET - SP500 ===========</code></pre>
 <p><img src="figures/unnamed-chunk-28-1.png" width="672" /><img src="figures/unnamed-chunk-28-2.png" width="672" /></p>
-<pre><code>## MAE: 157.295 - RMSE: 205.788 - MAPE: 3.986 %
+<pre><code>## MAE: 156.767 - RMSE: 203.487 - MAPE: 3.963 %
 ## 
 ## 
 ## =========== PROPHET - DowJones ===========</code></pre>
 <p><img src="figures/unnamed-chunk-28-3.png" width="672" /><img src="figures/unnamed-chunk-28-4.png" width="672" /></p>
-<pre><code>## MAE: 1096.486 - RMSE: 1484.498 - MAPE: 3.483 %
+<pre><code>## MAE: 1090.407 - RMSE: 1473.167 - MAPE: 3.456 %
 ## 
 ## 
 ## =========== PROPHET - Nasdaq ===========</code></pre>
 <p><img src="figures/unnamed-chunk-28-5.png" width="672" /><img src="figures/unnamed-chunk-28-6.png" width="672" /></p>
-<pre><code>## MAE: 648.857 - RMSE: 836.626 - MAPE: 5.293 %
+<pre><code>## MAE: 642.979 - RMSE: 827.079 - MAPE: 5.232 %
 ## 
 ## 
 ## =========== PROPHET - DAX ===========</code></pre>
 <p><img src="figures/unnamed-chunk-28-7.png" width="672" /><img src="figures/unnamed-chunk-28-8.png" width="672" /></p>
-<pre><code>## MAE: 582.431 - RMSE: 799.083 - MAPE: 4.073 %
+<pre><code>## MAE: 581.149 - RMSE: 800.236 - MAPE: 4.027 %
 ## 
 ## 
 ## =========== PROPHET - CAC40 ===========</code></pre>
 <p><img src="figures/unnamed-chunk-28-9.png" width="672" /><img src="figures/unnamed-chunk-28-10.png" width="672" /></p>
-<pre><code>## MAE: 245.381 - RMSE: 325.669 - MAPE: 3.958 %
+<pre><code>## MAE: 242.641 - RMSE: 321.738 - MAPE: 3.903 %
 ## 
 ## 
 ## =========== PROPHET - FTSE100 ===========</code></pre>
 <p><img src="figures/unnamed-chunk-28-11.png" width="672" /><img src="figures/unnamed-chunk-28-12.png" width="672" /></p>
-<pre><code>## MAE: 204.775 - RMSE: 302.852 - MAPE: 2.839 %
+<pre><code>## MAE: 202.55 - RMSE: 302.802 - MAPE: 2.809 %
 ## 
 ## 
 ## =========== PROPHET - Nikkei225 ===========</code></pre>
 <p><img src="figures/unnamed-chunk-28-13.png" width="672" /><img src="figures/unnamed-chunk-28-14.png" width="672" /></p>
-<pre><code>## MAE: 1176.789 - RMSE: 1558.612 - MAPE: 4.219 %
+<pre><code>## MAE: 1137.064 - RMSE: 1502.778 - MAPE: 4.094 %
 ## 
 ## 
 ## =========== PROPHET - HangSeng ===========</code></pre>
 <p><img src="figures/unnamed-chunk-28-15.png" width="672" /><img src="figures/unnamed-chunk-28-16.png" width="672" /></p>
-<pre><code>## MAE: 1057.952 - RMSE: 1313.872 - MAPE: 4.771 %
+<pre><code>## MAE: 1073.443 - RMSE: 1331.549 - MAPE: 4.853 %
 ## 
 ## 
 ## =========== PROPHET - ShanghaiComposite ===========</code></pre>
 <p><img src="figures/unnamed-chunk-28-17.png" width="672" /><img src="figures/unnamed-chunk-28-18.png" width="672" /></p>
-<pre><code>## MAE: 100.208 - RMSE: 132.263 - MAPE: 3.257 %</code></pre>
+<pre><code>## MAE: 100.057 - RMSE: 131.857 - MAPE: 3.248 %</code></pre>
 </div>
 <div id="tabla-de-resumen-1" class="section level2 hasAnchor" number="7.4">
 <h2><span class="header-section-number">7.4</span> Tabla de resumen<a href="modelo-prophet.html#tabla-de-resumen-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="modelo-prophet.html#cb72-1" tabindex="-1"></a><span class="co"># Mostrar tabla con las métricas de Prophet por índice</span></span>
-<span id="cb72-2"><a href="modelo-prophet.html#cb72-2" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
-<span id="cb72-3"><a href="modelo-prophet.html#cb72-3" tabindex="-1"></a>  metricas_prophet,</span>
-<span id="cb72-4"><a href="modelo-prophet.html#cb72-4" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">&quot;Evaluación del modelo Prophet por índice bursátil (basado en el ajuste histórico)&quot;</span></span>
-<span id="cb72-5"><a href="modelo-prophet.html#cb72-5" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="modelo-prophet.html#cb71-1" tabindex="-1"></a><span class="co"># Mostrar tabla con las métricas de Prophet por índice</span></span>
+<span id="cb71-2"><a href="modelo-prophet.html#cb71-2" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb71-3"><a href="modelo-prophet.html#cb71-3" tabindex="-1"></a>  metricas_prophet,</span>
+<span id="cb71-4"><a href="modelo-prophet.html#cb71-4" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">&quot;Evaluación del modelo Prophet por índice bursátil (basado en el ajuste histórico)&quot;</span></span>
+<span id="cb71-5"><a href="modelo-prophet.html#cb71-5" tabindex="-1"></a>)</span></code></pre></div>
 </details>
 <table>
 <caption><span id="tab:unnamed-chunk-29">Table 7.1: </span>Evaluación del modelo Prophet por índice bursátil (basado en el ajuste histórico)</caption>
@@ -487,61 +492,60 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <tbody>
 <tr class="odd">
 <td align="left">SP500</td>
-<td align="right">157.295</td>
-<td align="right">205.788</td>
-<td align="right">3.986</td>
+<td align="right">156.767</td>
+<td align="right">203.487</td>
+<td align="right">3.963</td>
 </tr>
 <tr class="even">
 <td align="left">DowJones</td>
-<td align="right">1096.486</td>
-<td align="right">1484.498</td>
-<td align="right">3.483</td>
+<td align="right">1090.407</td>
+<td align="right">1473.167</td>
+<td align="right">3.456</td>
 </tr>
 <tr class="odd">
 <td align="left">Nasdaq</td>
-<td align="right">648.857</td>
-<td align="right">836.626</td>
-<td align="right">5.293</td>
+<td align="right">642.979</td>
+<td align="right">827.079</td>
+<td align="right">5.232</td>
 </tr>
 <tr class="even">
 <td align="left">DAX</td>
-<td align="right">582.431</td>
-<td align="right">799.083</td>
-<td align="right">4.073</td>
+<td align="right">581.149</td>
+<td align="right">800.236</td>
+<td align="right">4.027</td>
 </tr>
 <tr class="odd">
 <td align="left">CAC40</td>
-<td align="right">245.381</td>
-<td align="right">325.669</td>
-<td align="right">3.958</td>
+<td align="right">242.641</td>
+<td align="right">321.738</td>
+<td align="right">3.903</td>
 </tr>
 <tr class="even">
 <td align="left">FTSE100</td>
-<td align="right">204.775</td>
-<td align="right">302.852</td>
-<td align="right">2.839</td>
+<td align="right">202.550</td>
+<td align="right">302.802</td>
+<td align="right">2.809</td>
 </tr>
 <tr class="odd">
 <td align="left">Nikkei225</td>
-<td align="right">1176.789</td>
-<td align="right">1558.612</td>
-<td align="right">4.219</td>
+<td align="right">1137.064</td>
+<td align="right">1502.778</td>
+<td align="right">4.094</td>
 </tr>
 <tr class="even">
 <td align="left">HangSeng</td>
-<td align="right">1057.952</td>
-<td align="right">1313.872</td>
-<td align="right">4.771</td>
+<td align="right">1073.443</td>
+<td align="right">1331.549</td>
+<td align="right">4.853</td>
 </tr>
 <tr class="odd">
 <td align="left">ShanghaiComposite</td>
-<td align="right">100.208</td>
-<td align="right">132.263</td>
-<td align="right">3.257</td>
+<td align="right">100.057</td>
+<td align="right">131.857</td>
+<td align="right">3.248</td>
 </tr>
 </tbody>
 </table>
-
 </div>
 </div>
             </section>
@@ -549,8 +553,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="desarrollo-actividad-5.-implementación-de-la-metodología-box-jenkins-modelo-arima.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="elman---jordan.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
